@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     minLength: 6,
     select: false,
   },
+  bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
 });
 userSchema.pre("save", async function (next) {
   console.log("hashpassword");

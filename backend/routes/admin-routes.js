@@ -1,10 +1,15 @@
 const express = require("express");
 const adminRouter = express.Router();
-const { adminSignin,adminLogin } = require("./../controllers/admin-controller");
+const {
+  adminSignup,
+  adminLogin,
+  getAdmins,
+} = require("./../controllers/admin-controller");
 
 // adminRouter.route("/alluser").get(getAllusers);
-adminRouter.route("/signin").post(adminSignin);
+adminRouter.route("/signup").post(adminSignup);
 adminRouter.route("/login").post(adminLogin);
+adminRouter.route("/").get(getAdmins);
 // adminRouter.route("/login").post(login);
 
 // adminRouter.route("/:id").put(updateprofile).delete(deleteprofile);

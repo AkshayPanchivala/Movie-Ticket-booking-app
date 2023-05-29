@@ -1,6 +1,9 @@
-const User = require("../models/User");
 const asynchandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+
+const User = require("../models/User");
+const AppError = require("./../arrorhandler/Apperror");
+
 const getAllusers = asynchandler(async (req, res, next) => {
   const user = await User.find();
   res.status(200).json({
@@ -10,6 +13,21 @@ const getAllusers = asynchandler(async (req, res, next) => {
 
 const signup = asynchandler(async (req, res, next) => {
   const { name, email, password } = req.body;
+
+  let missingValues = [];
+  console.log(typeof name == "String");
+  if (!name || typeof name == "String") missingValues.push("Name ");
+  if (!email || typeof email == "String") missingValues.push("Email ");
+  if (!password) missingValues.push("password ");
+  console.log(missingValues);
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
   const existinguser = await User.findOne({ email: email });
 
   if (existinguser) {
@@ -26,6 +44,9 @@ const signup = asynchandler(async (req, res, next) => {
 
 const updateprofile = asynchandler(async (req, res, next) => {
   const id = req.params.id;
+  if (!req.params.id || req.params.id.length !== 24) {
+    return next(new AppError(`Wrong id`, 400));
+  }
   const user = await User.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
@@ -37,14 +58,32 @@ const updateprofile = asynchandler(async (req, res, next) => {
 
 const deleteprofile = asynchandler(async (req, res, next) => {
   const id = req.params.id;
+  if (!req.params.id || req.params.id.length !== 24) {
+    return next(new AppError(`Wrong id`, 400));
+  }
+
   const user = await User.findByIdAndDelete(id);
   res.status(200).json({
     user: user,
     message: "Account is deleted",
   });
 });
+
 const login = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
+  let missingValues = [];
+
+  if (!email || typeof email == "String") missingValues.push("Email ");
+  if (!password) missingValues.push("password ");
+
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
   const existinguser = await User.findOne({ email: email }).select("+password");
   console.log(existinguser);
   const verifypassword = await bcrypt.compare(
