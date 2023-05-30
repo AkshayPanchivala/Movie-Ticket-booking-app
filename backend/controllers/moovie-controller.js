@@ -4,25 +4,21 @@ const Admin = require("../models/Admin");
 const Movie = require("../models/Movie");
 
 const addMovies = asynchandler(async (req, res, next) => {
-  
   const { title, description, releaseDate, posterUrl, featured, actors } =
     req.body;
 
-    let missingValues = [];
+  let missingValues = [];
 
-    if (!title || typeof(title)=='String') missingValues.push("Name ");
-    if (!email || typeof(email)=='String') missingValues.push("Email ");
-    if (!password) missingValues.push("password ");
-  
-  
-    if (missingValues.length > 0) {
-      return next(
-        new AppError(
-          `required missing values : ${missingValues} is neccessary to be filled`,
-          400
-        )
-      );
-    }
+  if (!title || typeof title == "String") missingValues.push("Name ");
+
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
   let movie = new Movie({
     description,
     releaseDate: new Date(`${releaseDate}`),

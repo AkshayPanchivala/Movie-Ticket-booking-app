@@ -203,7 +203,7 @@ const getBookingById = async (req, res, next) => {
   }
   return res.status(200).json({ booking });
 };
-
+//deletebooking  baki che   
 const deleteBooking = async (req, res, next) => {
   const id = req.params.id;
   let booking;

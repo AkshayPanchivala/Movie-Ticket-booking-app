@@ -18,7 +18,7 @@ const adminSchema = new mongoose.Schema({
   adedMovies: [
     {
       type: mongoose.Types.ObjectId,
-      ref:"Movie"
+      ref: "Movie",
     },
   ],
 });

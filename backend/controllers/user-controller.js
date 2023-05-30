@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const User = require("../models/User");
 const AppError = require("./../arrorhandler/Apperror");
+const Booking = require("../models/Booking");
 
 const getAllusers = asynchandler(async (req, res, next) => {
   const user = await User.find();
@@ -101,10 +102,23 @@ const login = asynchandler(async (req, res, next) => {
     });
   }
 });
+
+const getBookingsOfUser = asynchandler(async (req, res, next) => {
+  const id = req.params.id;
+  let bookings;
+
+  bookings = await Booking.find({ user: id });
+
+  if (!bookings) {
+    return res.status(200).json({ message: "unable to get Bookings" });
+  }
+  return res.status(200).json({ bookings });
+});
 module.exports = {
   getAllusers,
   signup,
   updateprofile,
   deleteprofile,
   login,
+  getBookingsOfUser,
 };

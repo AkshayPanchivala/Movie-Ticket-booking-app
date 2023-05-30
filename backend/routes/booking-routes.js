@@ -3,6 +3,7 @@ const {
   newBooking,
   getBookingById,
   deleteBooking,
+ 
 } = require("../controllers/booking_controller");
 
 const BookingRouter = express.Router();
