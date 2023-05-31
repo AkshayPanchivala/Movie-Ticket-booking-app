@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { getAllMovies } from "../api-helpers/api-helper";
 import ControlledCarousel from "./Movies/ControlledCarousel";
 import MoviesItem from "./Movies/MoviesItem";
+import ImageSlider from "./ImageSlider";
 
 function Homepage() {
   const [movies, setMovies] = useState([]);
@@ -14,15 +15,32 @@ function Homepage() {
       .catch((err) => console.log(err));
   }, []);
   console.log(movies);
+  const slides = [
+    {
+      url: "https://geographical.co.uk/wp-content/uploads/Photographing-mountains-in-spring-1200x800.jpg",
+      title: "klk",
+    },
+    {
+      url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW5zfGVufDB8fDB8fHww&w=1000&q=80",
+      title: "klk",
+    },
+    {
+      url: "https://thumbs.dreamstime.com/z/beautiful-exterior-home-pictures-new-home-design-images-modern-best-house-design-images-best-house-images-images-latest-172194515.jpg",
+      title: "klk",
+    },
+    {
+      url: "https://media.gettyimages.com/id/157482029/photo/stack-of-books.jpg?s=612x612&w=gi&k=20&c=_Yaofm8sZLZkKs1eMkv-zhk8K4k5u0g0fJuQrReWfdQ=",
+      title: "klk",
+    },
+  ];
+
   return (
     <Box width={"100%"} height="100%" margin="auto" marginTop={2}>
+      {/* <div style={containerstyles}>
+        
+      </div> */}
       <Box margin={"auto"} width="90%" height={"40vh"} padding={2}>
-        <img
-          src="https://m.media-amazon.com/images/M/MV5BNTkyOGVjMGEtNmQzZi00NzFlLTlhOWQtODYyMDc2ZGJmYzFhXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"
-          alt="3idiots"
-          width={"100%"}
-          height={"100%"}
-        />
+        <ImageSlider slides={slides} />
       </Box>
       <Box padding={5} margin="auto">
         <Typography variant="h4" textAlign={"center"}>
