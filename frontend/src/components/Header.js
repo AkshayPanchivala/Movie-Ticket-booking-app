@@ -11,8 +11,13 @@ import MovieIcon from "@mui/icons-material/Movie";
 import { Box } from "@mui/system";
 import { getAllMovies } from "../api-helpers/api-helper";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { adminActions, userActions } from "../store";
 
 function Header() {
+  const dispatch=useDispatch()
+  const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const [value, setvalue] = useState(0);
   const [movies, setMovies] = useState([]);
   useEffect(() => {
@@ -20,6 +25,9 @@ function Header() {
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
   }, []);
+  const logout=(isAdmin)=>{
+    dispatch(isAdmin ? adminActions.logout():userActions.logout())
+  };
   return (
     <AppBar position="sticky" sx={{ bgcolor: "#2b2d42" }}>
       <Toolbar>
@@ -47,9 +55,26 @@ function Header() {
             value={value}
             onChange={(e, val) => setvalue(val)}
           >
-            <Tab LinkComponent={Link} to="/admin" label="Admin" />
-            <Tab LinkComponent={Link} to="/Auth" label="Auth" />
             <Tab LinkComponent={Link} to="/movies" label="Movies" />
+            {!isadminLoggedIn && !isuserLoggedIn && (
+              <>
+                <Tab LinkComponent={Link} to="/admin" label="Admin" />
+                <Tab LinkComponent={Link} to="/Auth" label="Auth" />
+              </>
+            )}
+            {isuserLoggedIn&&(
+              <>
+              <Tab LinkComponent={Link} to="/user" label="Profile" />
+                <Tab onClick={()=> logout(false)} LinkComponent={Link} to="/" label="Logout" />
+              </>
+            )}
+            {isadminLoggedIn&&(
+              <>
+              <Tab LinkComponent={Link} to="/add" label="Add movie" />
+              <Tab LinkComponent={Link} to="/admin" label="Profile" />
+                <Tab onClick={()=> logout(true)} LinkComponent={Link} to="/" label="Logout" />
+              </>
+            )}
           </Tabs>
         </Box>
       </Toolbar>

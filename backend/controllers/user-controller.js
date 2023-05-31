@@ -94,6 +94,7 @@ const login = asynchandler(async (req, res, next) => {
   console.log(verifypassword);
   if (verifypassword) {
     return res.status(200).json({
+      user: existinguser,
       message: "Account is login",
     });
   } else {

@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 
-
 ///admin signup
 const adminSignup = asynchandler(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -21,7 +20,6 @@ const adminSignup = asynchandler(async (req, res, next) => {
     message: "Account is created",
   });
 });
-
 
 const adminLogin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -41,6 +39,7 @@ const adminLogin = asynchandler(async (req, res, next) => {
       }
     );
     return res.status(200).json({
+      admin: existingadmin,
       token: token,
       message: "Account is login",
     });
@@ -50,7 +49,6 @@ const adminLogin = asynchandler(async (req, res, next) => {
     });
   }
 });
-
 
 const getAdmins = asynchandler(async (req, res, next) => {
   let admins;

@@ -10,6 +10,7 @@ function Movies() {
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <Box margin={"auto"} marginTop={4}>
       <Typography
@@ -35,8 +36,8 @@ function Movies() {
           movies.map((movie, index) => (
             <MoviesItem
               key={index}
-              id={movie.id}
-              posterurl={movie.posterurl}
+              id={movie._id}
+              posterurl={movie.posterUrl}
               releaseDate={movie.releaseDate}
               title={movie.title}
             />

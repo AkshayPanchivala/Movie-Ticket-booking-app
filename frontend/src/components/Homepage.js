@@ -41,7 +41,7 @@ function Homepage() {
             .slice(0, 4)
             .map((movie, index) => (
               <MoviesItem
-                id={movie.id}
+                id={movie._id}
                 title={movie.title}
                 posterUrl={movie.posterUrl}
                 releaseDate={movie.releaseDate}
