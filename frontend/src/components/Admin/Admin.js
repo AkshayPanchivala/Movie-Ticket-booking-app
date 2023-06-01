@@ -1,10 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { sendAdminAuthRequest } from "../../api-helpers/api-helper";
 import { adminActions } from "../../store";
 import AuthForm from "../Auth/AuthForm";
 
 function Admin() {
+  const navigate=useNavigate();
+
   const dispatch = useDispatch();
   const onResReceived = (data) => {
     console.log(data.admin._id);
@@ -13,6 +16,7 @@ function Admin() {
     dispatch(adminActions.login());
     localStorage.setItem("adminId", data.admin._id);
     localStorage.setItem("token", data.token);
+    navigate("/")
   };
   const getData = (data) => {
     sendAdminAuthRequest(data.inputs, data.signup)

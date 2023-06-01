@@ -38,9 +38,13 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
       </CardContent>
       <CardActions>
         <Button
+          variant="contained"
+          fullWidth
           LinkComponent={Link}
           to={`/booking/${id}`}
-          sx={{ margin: "auto" }}
+          sx={{ margin: "auto",bgcolor:"#2b2d42",":hover":{
+            bgcolor:"#121217",
+          } }}
           size="small"
         >
           Book

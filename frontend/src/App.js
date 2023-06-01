@@ -6,9 +6,12 @@ import Auth from "./components/Auth/Auth";
 import Booking from "./components/Bookings/Booking";
 import Header from "./components/Header";
 import Homepage from "./components/Homepage";
+import AddMovies from "./components/Movies/AddMovies";
 import Movies from "./components/Movies/Movies";
+import UserProfile from "./profile/UserProfile";
 import { adminActions, userActions } from "./store";
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import AdminProfile from "./profile/AdminProfile";
 function App() {
   const dispatch = useDispatch();
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
@@ -20,7 +23,7 @@ function App() {
     } else if (localStorage.getItem("adminId")) {
       dispatch(adminActions.login());
     }
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
@@ -29,10 +32,24 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
-          <Route path="/admin" element={<Admin />} />
+          {!isuserLoggedIn && !isadminLoggedIn && (
+            <Route path="/admin" element={<Admin />} />
+          )}
           <Route path="/auth" element={<Auth />} />
-          <Route path="booking/:id" element={<Booking />} />
 
+          {!isadminLoggedIn && isuserLoggedIn && (
+            <Route path="/user" element={<UserProfile />} />
+          )}
+          {isadminLoggedIn && !isuserLoggedIn && (
+            <Route path="/add" element={<AddMovies />} />
+          )}
+          {isadminLoggedIn && !isuserLoggedIn && (
+            <Route path="/user-admin" element={<AdminProfile />} />
+          )}
+
+          {!isadminLoggedIn && isuserLoggedIn && (
+            <Route path="booking/:id" element={<Booking />} />
+          )}
         </Routes>
       </section>
     </div>

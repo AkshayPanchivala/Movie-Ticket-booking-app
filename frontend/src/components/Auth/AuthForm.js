@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { Link } from "react-router-dom";
 
 const labelStyle = { mt: 1, mb: 1 };
 function AuthForm({ onSubmit, isAdmin }) {
@@ -31,7 +32,7 @@ function AuthForm({ onSubmit, isAdmin }) {
   return (
     <Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>
       <Box sx={{ ml: "auto", padding: 1 }}>
-        <IconButton>
+        <IconButton LinkComponent={Link} to="/">
           <CloseRoundedIcon />
         </IconButton>
       </Box>

@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllMovies } from "../api-helpers/api-helper";
-import ControlledCarousel from "./Movies/ControlledCarousel";
+
 import MoviesItem from "./Movies/MoviesItem";
 import ImageSlider from "./ImageSlider";
 

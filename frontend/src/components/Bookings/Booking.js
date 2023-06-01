@@ -2,18 +2,23 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getMovieDetails } from "../../api-helpers/api-helper";
+import { getAlladmin, getMovieDetails } from "../../api-helpers/api-helper";
+import BookingCard from "../../profile/BookingCard";
 
 function Booking() {
   const [movie, setMovie] = useState();
+  const [Theatre, setTheatre] = useState();
   const id = useParams().id;
   console.log(id);
   useEffect(() => {
     getMovieDetails(id)
       .then((res) => setMovie(res.movie))
       .catch((err) => console.log(err));
+    getAlladmin()
+      .then((res) => setTheatre(res.data))
+      .catch((err) => console.log(err));
   }, [id]);
-  //   console.log(movie);
+  console.log(Theatre);
   return (
     <div>
       {movie && (
@@ -53,7 +58,10 @@ function Booking() {
               </Box>
             </Box>
             <Box width={"50%"} paddingTop={3}>
-              form
+              {Theatre.length > 0 &&
+                Theatre.map((Theatre, index) => (
+                  <BookingCard key={Theatre._id} name={Theatre.name} />
+                ))}
             </Box>
           </Box>
         </>

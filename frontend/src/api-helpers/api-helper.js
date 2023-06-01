@@ -25,7 +25,17 @@ export const sendUserAuthRequest = async (data, signup) => {
   const resData = await res.data;
   return resData;
 };
-
+export const getAlladmin = async () => {
+  const res = await axios
+    .get(`http://localhost:5000/admin`)
+    .catch((err) => console.log(err));
+  if (res.status !== 200 && res.status !== 201) {
+    console.log("unexpexted error occured");
+  }
+  const resData = await res.data;
+  console.log(resData);
+  return resData;
+};
 export const sendAdminAuthRequest = async (data, signup) => {
   const res = await axios
     .post(`http://localhost:5000/admin/${signup ? "signup" : "login"}`, {
@@ -51,7 +61,69 @@ export const getMovieDetails = async (id) => {
   const resData = await res.data;
   return resData;
 };
+//booking baki che
 
-export const newBooking=async(data)=>{
-  
-}
+// export const newBooking=async(data)=>{
+//   axios.post("http://localhost:5000/booking",{
+//   movie:data.movie,
+//   seatNumber:data
+//   })
+// }
+
+export const getUserBooking = async () => {
+  const id = localStorage.getItem("userId");
+  console.log(id);
+  const res = await axios
+    .get(`http://localhost:5000/user/bookings/${id}`)
+    .catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("unexpected Error");
+  }
+  const resData = await res.data;
+
+  return resData;
+};
+
+export const addMovie = async (data) => {
+  const res = await axios
+    .post(
+      "http://localhost:5000/movie",
+      {
+        title: data.title,
+        description: data.description,
+        releaseDate: data.releaseDate,
+        posterUrl: data.posterUrl,
+        fetaured: data.fetaured,
+        actors: data.actors,
+        admin: localStorage.getItem("adminId"),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .catch((err) => console.log(err));
+
+  if (res.status !== 201) {
+    return console.log("Unexpected Error Occurred");
+  }
+
+  const resData = await res.data;
+  return resData;
+};
+export const getAdminById = async () => {
+  const adminId = localStorage.getItem("adminId");
+  console.log(adminId);
+  const res = await axios
+    .get(`http://localhost:5000/admin/${adminId}`)
+    .catch((err) => console.log(err));
+  console.log(res.data);
+  if (res.status !== 200) {
+    return console.log("Unexpected Error Occurred");
+  }
+
+  const resData = await res.data;
+  return resData;
+};
