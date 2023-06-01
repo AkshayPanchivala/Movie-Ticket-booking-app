@@ -60,4 +60,15 @@ const getAdmins = asynchandler(async (req, res, next) => {
   return res.status(200).json({ data: admins });
 });
 
-module.exports = { adminSignup, adminLogin, getAdmins };
+const getadminById = asynchandler(async (req, res, next) => {
+  const id = req.params.id;
+  const admin = await Admin.findById(id);
+
+  if (!Admin) {
+    return res.status(404).json({
+      message: "Invalid Movie ID",
+    });
+  }
+  return res.status(200).json({ admin: admin });
+});
+module.exports = { adminSignup, adminLogin, getAdmins, getadminById };

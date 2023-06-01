@@ -72,6 +72,7 @@ const deleteprofile = asynchandler(async (req, res, next) => {
 
 const login = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(req.body)
   let missingValues = [];
 
   if (!email || typeof email == "String") missingValues.push("Email ");
@@ -86,7 +87,7 @@ const login = asynchandler(async (req, res, next) => {
     );
   }
   const existinguser = await User.findOne({ email: email }).select("+password");
-  console.log(existinguser);
+  console.log("kk"+ existinguser);
   const verifypassword = await bcrypt.compare(
     req.body.password,
     existinguser.password
