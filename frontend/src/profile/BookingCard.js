@@ -4,13 +4,19 @@ import Link from "@mui/joy/Link";
 import Card from "@mui/joy/Card";
 import Chip from "@mui/joy/Chip";
 import Typography from "@mui/joy/Typography";
+import { useParams } from "react-router-dom";
+import Index from "../SeatBooking/Index";
 
 export default function BookingCard(props) {
-  const BookingHandler=()=>{
-    console.log("click")
-  }
+  const id = useParams();
+  const movieid = id.id;
+  console.log(movieid);
+  const BookingHandler = () => {
+    console.log("click");
+  };
   return (
-    <Card onClick={BookingHandler}
+    <Card
+      onClick={BookingHandler}
       variant="outlined"
       orientation="horizontal"
       sx={{
@@ -50,9 +56,10 @@ export default function BookingCard(props) {
           <Link
             overlay
             underline="none"
-           
+            href={`seatbooking/${movieid}/${props.id}`}
             sx={{ color: "text.tertiary" }}
           >
+          {/* <Index/> */}
             California, USA
           </Link>
         </Typography>

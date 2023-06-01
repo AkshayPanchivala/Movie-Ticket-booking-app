@@ -1,0 +1,7 @@
+const TAB_OPTIONS = {
+    SEAT_TYPE: "SEAT_TYPE",
+    SEAT_SELECTION: "SEAT_SELECTION",
+    CONFIRMATION: "CONFIRMATION"
+  };
+  export default TAB_OPTIONS;
+  

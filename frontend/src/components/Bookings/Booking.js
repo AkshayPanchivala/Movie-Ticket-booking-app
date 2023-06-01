@@ -9,16 +9,19 @@ function Booking() {
   const [movie, setMovie] = useState();
   const [Theatre, setTheatre] = useState();
   const id = useParams().id;
-  console.log(id);
+
   useEffect(() => {
     getMovieDetails(id)
       .then((res) => setMovie(res.movie))
       .catch((err) => console.log(err));
     getAlladmin()
-      .then((res) => setTheatre(res.data))
+      .then((res) => {
+        console.log(res.data);
+        setTheatre(res.data);
+      })
       .catch((err) => console.log(err));
   }, [id]);
-  console.log(Theatre);
+  console.log("uju", Theatre);
   return (
     <div>
       {movie && (
@@ -58,10 +61,13 @@ function Booking() {
               </Box>
             </Box>
             <Box width={"50%"} paddingTop={3}>
-              {Theatre.length > 0 &&
-                Theatre.map((Theatre, index) => (
-                  <BookingCard key={Theatre._id} name={Theatre.name} />
-                ))}
+              {Theatre && Theatre.map((Theatre, index) => (
+                <BookingCard
+                  key={Theatre._id}
+                  name={Theatre.name}
+                  id={Theatre._id}
+                />
+              ))}
             </Box>
           </Box>
         </>

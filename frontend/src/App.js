@@ -12,6 +12,8 @@ import UserProfile from "./profile/UserProfile";
 import { adminActions, userActions } from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AdminProfile from "./profile/AdminProfile";
+// import SeatBooking from "./SeatBooking/Index";
+import Index from "./SeatBooking/Index";
 function App() {
   const dispatch = useDispatch();
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
@@ -48,7 +50,13 @@ function App() {
           )}
 
           {!isadminLoggedIn && isuserLoggedIn && (
-            <Route path="booking/:id" element={<Booking />} />
+            <>
+              <Route
+                path="/booking/seatbooking/:movieid/:theatreId"
+                element={<Index />}
+              />
+              <Route path="booking/:id" element={<Booking />} />
+            </>
           )}
         </Routes>
       </section>
