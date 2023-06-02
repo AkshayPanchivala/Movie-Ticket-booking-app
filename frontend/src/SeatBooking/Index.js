@@ -16,13 +16,11 @@ export default function Index() {
     setSeatSelection(seatSelection);
   }
   return (
-
     <Container>
-      <Row>
-   
-      </Row>
+      <Row></Row>
       {tab === TAB_OPTIONS.SEAT_TYPE ? (
         <SelectSeatType onNext={handleTabChange} />
+        // <SelectSeatType />
       ) : null}
       {tab === TAB_OPTIONS.SEAT_SELECTION ? (
         <SeatBooking onNext={handleTabChange} seatSelection={seatSelection} />
@@ -33,4 +31,3 @@ export default function Index() {
     </Container>
   );
 }
-

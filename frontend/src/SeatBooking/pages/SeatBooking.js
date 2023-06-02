@@ -9,9 +9,26 @@ const notAvailableSeat = ["F2", "I4", "I9", "K2"]; // booking seat update ahiya 
 export default function SeatBooking({ onNext, seatSelection }) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
+  const [type, setType] = useState(seatSelection.seatType);
+  const a = [];
+  console.log(typeof seatSelection.seatType);
 
+  // if (seatSelection.seatType != "PREMUIM_ECONOMY") {
+  //   for (let i = 70; i < 74; i++) {
+  //     for (
+  //       let j = 0;
+  //       j < SEATS.SEAT_STRUCTURE.PREMUIM_ECONOMY.totalPlaces;
+  //       j++
+  //     ) {
+  //       const b = a.push(String.fromCharCode(i)(j + 1));
+  //       console.log(b);
+  //     }
+  //   }
+  //   console.log("asasa" + a);
+  // }
+  console.log("fgfg" + a);
+  console.log("klklkl" + seatSelection.seatType);
   function handleUpdateSelection(seatKey) {
-    console.log("kjkkj");
     // console.log(seatSelection.seatCount, selectedSeats.length);
     if (seatSelection.seatCount <= selectedSeats.length) {
       const ssss = [...selectedSeats, seatKey];
@@ -34,6 +51,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
           selected={selectedSeats.includes(`${structure.row}${i}`)}
           updateSelected={handleUpdateSelection}
           available={availableSeats.includes(`${structure.row}${i}`)}
+          seatType={seatSelection.seatType}
         />
       );
     }
@@ -43,6 +61,9 @@ export default function SeatBooking({ onNext, seatSelection }) {
     const availableSeats = [];
     SEATS.SEAT_TYPE.map((itemType) => {
       SEATS.SEAT_STRUCTURE[itemType.type].map((rowItem) => {
+        // SEATS.SEAT_STRUCTURE[type].map((rowItem) => {
+        //type ahiya change
+
         rowItem.seats.map((seatItem) =>
           !notAvailableSeat.includes(`${rowItem.row}${seatItem}`)
             ? availableSeats.push(`${rowItem.row}${seatItem}`)
