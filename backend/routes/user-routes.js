@@ -7,13 +7,18 @@ const {
   deleteprofile,
   login,
   getBookingsOfUser,
+  getuserbyid
 } = require("./../controllers/user-controller");
+const { uploadUserPhoto } = require("../utill/usermulter");
 
 userRouter.route("/alluser").get(getAllusers);
-userRouter.route("/signup").post(signup);
+userRouter.route("/signup").post(uploadUserPhoto, signup);
 userRouter.route("/login").post(login);
 userRouter.route("/bookings/:id").get(getBookingsOfUser);
 
-userRouter.route("/:id").put(updateprofile).delete(deleteprofile);
+userRouter
+  .route("/:id").get(getuserbyid)
+  .put(uploadUserPhoto, updateprofile)
+  .delete(deleteprofile);
 
 module.exports = userRouter;

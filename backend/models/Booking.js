@@ -8,7 +8,6 @@ const bookingSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    required: true,
   },
   seatNumber: {
     type: Number,
@@ -17,6 +16,11 @@ const bookingSchema = new mongoose.Schema({
   user: {
     type: mongoose.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  admin: {
+    type: mongoose.Types.ObjectId,
+    ref: "Admin",
     required: true,
   },
 });

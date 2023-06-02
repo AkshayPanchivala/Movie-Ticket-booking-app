@@ -1,4 +1,5 @@
 const express = require("express");
+const { uploadAdminPhoto } = require("../utill/adminmulter");
 const adminRouter = express.Router();
 const {
   adminSignup,
@@ -8,7 +9,7 @@ const {
 } = require("./../controllers/admin-controller");
 
 // adminRouter.route("/alluser").get(getAllusers);
-adminRouter.route("/signup").post(adminSignup);
+adminRouter.route("/signup").post(uploadAdminPhoto,adminSignup);
 adminRouter.route("/login").post(adminLogin);
 adminRouter.route("/").get(getAdmins);
 adminRouter.route("/:id").get(getadminById);

@@ -9,6 +9,9 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+  },phonenumber: {
+    type: Number,
+    required: true,
   },
   password: {
     type: String,
@@ -21,6 +24,17 @@ const adminSchema = new mongoose.Schema({
       ref: "Movie",
     },
   ],
+  profilephoto: { type: String,
+    required: [true, "A product must have a image"]},
+    city:{
+      type:String,
+      required:true,
+
+    },state:{
+      type:String,
+      required:true,
+
+    }
 });
 adminSchema.pre("save", async function (next) {
   const hashpassword = await bcrypt.hash(this.password, 10);

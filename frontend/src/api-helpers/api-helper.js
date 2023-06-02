@@ -127,3 +127,19 @@ export const getAdminById = async () => {
   const resData = await res.data;
   return resData;
 };
+
+export const getUserbyid = async (id) => {
+  const userId = localStorage.getItem("userId");
+  console.log("userId", userId);
+  const res = await axios
+    .get(`http://localhost:5000/user/${userId}`)
+    .catch((err) => console.log(err));
+  // console.log(res.data);
+  if (res.status !== 200) {
+    return console.log("Unexpected Error Occurred");
+  }
+
+  const resData = await res.data;
+  // console.log("resdatafromhenldr", resData);
+  return resData;
+};

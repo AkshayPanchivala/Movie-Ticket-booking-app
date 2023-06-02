@@ -13,7 +13,13 @@ const adminSignup = asynchandler(async (req, res, next) => {
       message: "admin already exists",
     });
   }
-  const admin = await Admin.create(req.body);
+  const admin = await Admin.create({
+    name: req.body.name,
+    email: req.body.email,
+    phonenumber: req.body.phonenumber,
+    password: req.body.password,
+    profilephoto: req.file.filename,
+  });
 
   res.status(201).json({
     admin: admin,
@@ -71,4 +77,8 @@ const getadminById = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ admin: admin });
 });
+
+// const adminupdateprofile=asynchandler(async(req,res,next)=>{
+
+// })
 module.exports = { adminSignup, adminLogin, getAdmins, getadminById };

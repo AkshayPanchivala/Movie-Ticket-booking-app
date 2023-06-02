@@ -1,12 +1,14 @@
 const asynchandler = require("express-async-handler");
 const { default: mongoose } = require("mongoose");
+const AppError = require("../arrorhandler/Apperror");
+
 const Admin = require("../models/Admin");
 const Movie = require("../models/Movie");
 
 const addMovies = asynchandler(async (req, res, next) => {
-  const { title, description, releaseDate, posterUrl, featured, actors } =
-    req.body;
-
+  const { title, description, releaseDate, featured, actors } = req.body;
+  console.log(req.body);
+  console.log("KLKL");
   let missingValues = [];
 
   if (!title || typeof title == "String") missingValues.push("Name ");
@@ -24,15 +26,15 @@ const addMovies = asynchandler(async (req, res, next) => {
     releaseDate: new Date(`${releaseDate}`),
     featured,
     actors,
-    admin: req.admin._id,
-    posterUrl,
+    admin: req.body._id,
+    posterUrl: req.file.filename,
     title,
   });
   const session = await mongoose.startSession();
   const adminUser = req.admin;
   session.startTransaction();
   await movie.save({ session });
-
+  console.log(adminUser);
   adminUser.adedMovies.push(movie);
   await adminUser.save({ session });
   await session.commitTransaction();

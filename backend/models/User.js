@@ -10,16 +10,30 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  phonenumber: {
+    type: Number,
+    required: true,
+  },
   password: {
     type: String,
     required: true,
     minLength: 6,
-    select: false,
   },
   bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
+  profilephoto: { type: String,
+    required: [true, "A product must have a image"]},
+    // city:{
+    //   type:String,
+    //   required:true,
+
+    // },state:{
+    //   type:String,
+    //   required:true,
+
+    // }
 });
+
 userSchema.pre("save", async function (next) {
-  console.log("hashpassword");
   const hashpassword = await bcrypt.hash(this.password, 10);
   this.password = hashpassword;
   next();
