@@ -22,7 +22,7 @@ const app = express();
 app.use(express.json());
 app.use(mongosanitize());
 app.use(xss());
-app.use(cors())
+app.use(cors({}))
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 app.use("/movie",movieRouter);

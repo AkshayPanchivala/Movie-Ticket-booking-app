@@ -11,12 +11,52 @@ export const getAllMovies = async () => {
   return data;
 };
 
-export const sendUserAuthRequest = async (data, signup) => {
+export const sendUserAuthRequest = async (data,images) => {
+  // if (data.password === data.confirmpassword) {
+  //   return console.log("password are not match");
+  // }
+  console.log(images);
   const res = await axios
-    .post(`http://localhost:5000/user/${signup ? "signup" : "login"}`, {
-      name: signup ? data.name : "",
+    .post(`http://localhost:5000/user/signup`, {
+      name: data.name,
       email: data.email,
       password: data.password,
+      phonenumber: data.phonenumber,
+      profilephoto: images,
+      state: data.state,
+      city: data.city,
+    })
+    .catch((err) => console.log(err));
+  if (res.status !== 200 && res.status !== 201) {
+    console.log("unexpexted error occured");
+  }
+  const resData = await res.data;
+  return resData;
+};
+
+
+export const sendUserlogin = async (data) => {
+  // if (data.password === data.confirmpassword) {
+  //   return console.log("password are not match");
+  // }
+  var headers = new Headers();
+headers.append("X-CSCAPI-KEY", "API_KEY");
+
+var requestOptions = {
+ method: 'GET',
+ headers: headers,
+ redirect: 'follow'
+};
+
+fetch("https://api.countrystatecity.in/v1/countries/IN/states/MH/cities", requestOptions)
+.then(response => response.text())
+.then(result => console.log(result))
+.catch(error => console.log('error', error));
+
+  console.log(data);
+  const res = await axios
+    .post(`http://localhost:5000/user/login`, {email: data.email,password: data.password,
+     
     })
     .catch((err) => console.log(err));
   if (res.status !== 200 && res.status !== 201) {

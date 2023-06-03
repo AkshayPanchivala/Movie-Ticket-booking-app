@@ -3,7 +3,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { sendAdminAuthRequest } from "../../api-helpers/api-helper";
 import { adminActions } from "../../store";
-import AuthForm from "../Auth/AuthForm";
+
+import Authsignupform from "../Auth/Authsignupform";
+import Adminsignupform from "./Adminsignupform";
 
 function Admin() {
   const navigate=useNavigate();
@@ -25,7 +27,7 @@ function Admin() {
   };
   return (
     <div>
-      <AuthForm onSubmit={getData} isAdmin={true} />
+      <Adminsignupform onSubmit={getData}  />
     </div>
   );
 }

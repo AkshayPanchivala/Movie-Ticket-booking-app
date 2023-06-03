@@ -7,9 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function MoviesItem({ title, releaseDate, posterurl, id }) {
+  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const navigate = useNavigate();
+  // {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
+{isuserLoggedIn && navigate("/Auth")}
   return (
     <Card
       sx={{
@@ -41,7 +46,7 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
           variant="contained"
           fullWidth
           LinkComponent={Link}
-          to={`/booking/${id}`}
+          to={isuserLoggedIn && `/booking/${id}`}
           sx={{ margin: "auto",bgcolor:"#2b2d42",":hover":{
             bgcolor:"#121217",
           } }}

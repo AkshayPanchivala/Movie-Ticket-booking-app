@@ -9,12 +9,21 @@ import {
   ListGroupItem,
   Row,
   Col,
-  Label
+  Label,
 } from "reactstrap";
 import TAB_OPTIONS from "../constants/TabOptions";
+// import Showtime from "../Showtime";
+import ShowTime from "../constants/ShowTime";
 export default function SelectSeatType({ onNext }) {
   const [seatCount, setSeatCount] = useState(0);
   const [seatType, setSeatType] = useState(null);
+  const [Showtime, setShowTime] = useState(null);
+  const [value, setvalue] = useState({
+    SeatCount: "",
+    SeatType: "",
+    showTime: "",
+  });
+
   const [isNextDisable, setNextDisable] = useState(true);
   function RenderSeatCounts() {
     var rows = [];
@@ -28,17 +37,33 @@ export default function SelectSeatType({ onNext }) {
     return rows;
   }
   useEffect(() => {
-    if (seatCount > 0 && seatType) setNextDisable(false);
-  }, [seatCount, seatType]);
+    if (seatCount > 0 && seatType && Showtime) setNextDisable(false);
+  }, [seatCount, seatType, Showtime]);
 
   function handleNext() {
-    onNext(TAB_OPTIONS.SEAT_SELECTION, { seatCount, seatType });
+   
+    setvalue({ seatCount: seatCount, SeatType: seatType, showTime: Showtime });
+    onNext(TAB_OPTIONS.SEAT_SELECTION, { seatCount, seatType }, Showtime);
+  
   }
 
   return (
     <Row>
       <Row>
         <Col>
+          <Label>Select Show Time</Label>
+          <ListGroup horizontal>
+            {ShowTime.Time.map((item) => (
+              <ListGroupItem
+                key={item.Id}
+                active={Showtime === item.Time ? true : false}
+                tag="b"
+                onClick={() => setShowTime(item.Time)}
+              >
+                {item.Time}
+              </ListGroupItem>
+            ))}
+          </ListGroup>
           <Label>Select Seat Type</Label>
           <ListGroup horizontal>
             {SEAT.SEAT_TYPE.map((item) => (

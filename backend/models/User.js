@@ -20,17 +20,19 @@ const userSchema = new mongoose.Schema({
     minLength: 6,
   },
   bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
-  profilephoto: { type: String,
-    required: [true, "A product must have a image"]},
-    // city:{
-    //   type:String,
-    //   required:true,
-
-    // },state:{
-    //   type:String,
-    //   required:true,
-
-    // }
+  profilephoto: {
+    type: String,
+    required: [true, "A product must have a image"],
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  
 });
 
 userSchema.pre("save", async function (next) {

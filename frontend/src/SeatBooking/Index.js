@@ -14,6 +14,7 @@ export default function Index() {
   function handleTabChange(tab, seatSelection) {
     setTab(tab);
     setSeatSelection(seatSelection);
+    // console.log(tab,se)
   }
   return (
     <Container>

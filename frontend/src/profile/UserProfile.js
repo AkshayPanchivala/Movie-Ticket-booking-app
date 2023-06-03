@@ -1,5 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import { CardActionArea, CardMedia, Typography } from "@mui/material";
+import { Avatar, CardActionArea, CardMedia, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { getUserBooking, getUserbyid } from "../api-helpers/api-helper";
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   },
 });
 function UserProfile() {
-  const classes = useStyles();
+ 
   const [Bookings, setBookings] = useState();
   const [User, setUser] = useState();
   const [profile, setProfile] = useState("");
@@ -59,20 +59,12 @@ function UserProfile() {
           >
             {console.log("jhjh" + User.profilephoto)}
 
-            {profile && (
-              <Card className={classes.circularCard}>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.circularImage}
-                    component="img"
-                    alt="User Profile"
-                    height="200"
-                    width="150"
-                    src={`./../../../backend/Photos/user/userProfile/${profile}`}
-                  />
-                </CardActionArea>
-              </Card>
-            )}
+            <Avatar
+              alt="User Profile Photo"
+              src={`${User.profilephoto}`}
+              style={{ borderRadius: "50%", width: 325, height: 300 }}
+            />
+          
             <Typography
               marginTop={2}
               padding={1}
