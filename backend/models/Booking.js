@@ -7,10 +7,21 @@ const bookingSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: Date,
+    type: String,
+    required: true,
   },
-  seatNumber: {
-    type: Number,
+  seatNumber: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  SeatType: {
+    type: String,
+    required: true,
+  },
+  ShowTime: {
+    type: String,
     required: true,
   },
   user: {

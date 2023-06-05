@@ -40,7 +40,8 @@ const signup = asynchandler(async (req, res, next) => {
       req.body.name +
       req.body.email +
       req.body.phonenumber +
-      req.body.password+req.body.profilephoto
+      req.body.password +
+      req.body.profilephoto
   );
   const existinguser = await User.findOne({ email: req.body.email });
 
@@ -121,7 +122,7 @@ const login = asynchandler(async (req, res, next) => {
   //   );
   // }
   const existinguser = await User.findOne({ email: email }).select("+password");
-
+  console.log( existinguser.password);
   const verifypassword = await bcrypt.compare(
     req.body.password,
     existinguser.password

@@ -1,18 +1,46 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getAllMovies } from "../api-helpers/api-helper";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MoviesItem from "./Movies/MoviesItem";
 import ImageSlider from "./ImageSlider";
 
 function Homepage() {
   const [movies, setMovies] = useState([]);
+  const status = useLocation();
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
+    
+      console.log(status);
+    if (status.state === 201) {
+      return toast.success("Account is created", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    if (status.state === 200) {
+      return toast.success("Login Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }, []);
   console.log(movies);
   const slides = [
@@ -67,6 +95,19 @@ function Homepage() {
               />
             ))}
       </Box>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      {console.log("kjkj")}
       <Box display="flex" padding={5} margin="auto">
         <Button
           LinkComponent={Link}

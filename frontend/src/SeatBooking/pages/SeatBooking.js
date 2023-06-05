@@ -4,13 +4,29 @@ import TAB_OPTIONS from "../constants/TabOptions";
 import Button from "../library/Button";
 import { Row, Label, Col, Pagination } from "reactstrap";
 import SingleSeat from "../library/SingleSeat";
+import { newBooking, notAvailable } from "../../api-helpers/api-helper";
+import { useNavigate, useParams } from "react-router-dom";
 
-const notAvailableSeat = ["F2", "I4", "I9", "K2"]; // booking seat update ahiya che
+// const notAvailableSeat = ["F2", "I4", "I9", "K2"]; // booking seat update ahiya che
 export default function SeatBooking({ onNext, seatSelection }) {
+  console.log(seatSelection.ShowDate, seatSelection.Showtime);
+  const params = useParams();
+  const id = localStorage.getItem("userId");
+  console.log(params);
+  console.log(params.movieid);
+  const movieid = params.movieid;
+  const theatreid = params.theatreId;
+  // console.log(params.theatreId);
+
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
-  const [type, setType] = useState(seatSelection.seatType);
-  const a = [];
+  const [notAvailableSeat, setnotAvailableSeat] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const data = { movieid, theatreid,ShowDate:seatSelection.ShowDate,ShowTime:seatSelection.Showtime };
+    notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
+  }, []);
+  console.log(notAvailableSeat);
   console.log(typeof seatSelection.seatType);
 
   // if (seatSelection.seatType != "PREMUIM_ECONOMY") {
@@ -26,7 +42,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
   //   }
   //   console.log("asasa" + a);
   // }
-  console.log("fgfg" + a);
+  // console.log("fgfg" + a);
   console.log("klklkl" + seatSelection.seatType);
   function handleUpdateSelection(seatKey) {
     // console.log(seatSelection.seatCount, selectedSeats.length);
@@ -77,7 +93,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
     const availableSeats = getAvailableSeats();
     setAvailableSeats(availableSeats);
     handleAutoSelection();
-  }, []);
+  }, [notAvailableSeat]);
 
   function handleAutoSelection() {
     const selectedTeam = [];
@@ -96,7 +112,53 @@ export default function SeatBooking({ onNext, seatSelection }) {
     setSelectedSeats(selectedTeam);
     console.log("selected" + selectedTeam); /// seatnumber
   }
-  function handleNext() {}
+
+  const onResReceived = (res) => {
+    const data = res.data;
+    const status = res.status;
+    console.log(status);
+
+    // if (status === 201) {
+    //   console.log("kjkj toster");
+
+    //  return toast.success("Account is created", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   })
+    navigate("/movies", { state: status });
+    // }
+  };
+
+  function handleNext() {
+    const data = {
+      movie: movieid,
+      date: seatSelection.ShowDate,
+      seatNumber: selectedSeats,
+      user: id,
+      admin: theatreid,
+      SeatType: seatSelection.seatType,
+      ShowTime: seatSelection.Showtime,
+    };
+    /////////////////////////////////////////////
+    newBooking(data)
+      .then(onResReceived)
+      .catch((err) => console.log(err));
+    console.log(
+      "seat selection" +
+        seatSelection.seatCount +
+        seatSelection.seatType +
+        seatSelection.Showtime +
+        seatSelection.ShowDate +
+        "ghgh" +
+        selectedSeats
+    );
+  }
   return (
     <Row>
       <Col>

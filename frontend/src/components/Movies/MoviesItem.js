@@ -14,6 +14,7 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const navigate = useNavigate();
   // {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
+  // {const link=isuserLoggedIn && (`/booking/${id}`) : `/Auth` }
 {isuserLoggedIn && navigate("/Auth")}
   return (
     <Card

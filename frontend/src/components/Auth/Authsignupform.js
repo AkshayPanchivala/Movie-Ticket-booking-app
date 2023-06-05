@@ -22,7 +22,7 @@ function Authsignupform({ onSubmit }) {
     name: "",
     email: "",
     phonenumber: "",
-   
+
     password: "",
     confirmpassword: "",
     state: "",
@@ -69,7 +69,7 @@ function Authsignupform({ onSubmit }) {
     setValidated(true);
     if (validated === true) {
       event.preventDefault();
-      onSubmit({ inputs },images);
+      onSubmit({ inputs }, images);
     }
   };
   const loginhandler = () => {
@@ -84,9 +84,9 @@ function Authsignupform({ onSubmit }) {
         open={true}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
-          Signup
+          Register
         </Typography>
-        <Box padding={5}>
+        <Box padding={3}>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group md="4" controlId="validationCustom01">
@@ -219,18 +219,28 @@ function Authsignupform({ onSubmit }) {
             <Col md="6">
               <Form.Group controlId="validationCustom03">
                 <Box marginTop={5}>
-                  <Button type="submit">Submit form</Button>
+                  <Button type="submit">Register</Button>
                 </Box>
               </Form.Group>
             </Col>
-
-            <Col md="6">
-              <Form.Group controlId="validationCustom03">
-                <Box marginTop={5}>
-                  <Button onClick={loginhandler}>Login</Button>
-                </Box>
-              </Form.Group>
-            </Col>
+            <Row className="mb-3">
+              <Col md="6">
+                <Form.Group controlId="validationCustom03">
+                  <Box marginTop={3}>
+                    <Typography alignContent={"center"}>
+                      If you have Account?
+                    </Typography>
+                  </Box>
+                </Form.Group>
+              </Col>
+              <Col md="6">
+                <Form.Group controlId="validationCustom03">
+                  <Box marginTop={2}>
+                    <Button onClick={loginhandler}>Login</Button>
+                  </Box>
+                </Form.Group>
+              </Col>
+            </Row>
           </Form>
         </Box>
       </Dialog>

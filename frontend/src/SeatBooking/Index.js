@@ -12,6 +12,7 @@ export default function Index() {
   const [tab, setTab] = useState(TAB_OPTIONS.SEAT_TYPE);
   const [seatSelection, setSeatSelection] = useState({});
   function handleTabChange(tab, seatSelection) {
+    console.log(seatSelection);
     setTab(tab);
     setSeatSelection(seatSelection);
     // console.log(tab,se)

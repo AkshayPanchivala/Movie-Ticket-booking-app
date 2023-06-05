@@ -1,7 +1,13 @@
+const { default: mongoose } = require("mongoose");
+const Booking = require("../models/Booking");
+const Movie = require("../models/Movie");
+const User = require("../models/User");
 
 const newBooking = async (req, res, next) => {
-  const { movie, date, seatNumber, user,admin } = req.body;
-
+  const { movie, date, seatNumber, SeatType, ShowTime, user, admin } = req.body;
+  console.log(date);
+  const date1 = date.split("T")[0];
+  console.log(date1);
   let existingMovie;
   let existingUser;
   try {
@@ -17,20 +23,22 @@ const newBooking = async (req, res, next) => {
     return res.status(404).json({ message: "User not found with given ID " });
   }
   let booking;
-
+  // const time = ShowTime.toISOString().split("T")[0];
   try {
-    booking = new Bookings({
+    booking = new Booking({
       movie,
-      date: new Date(`${date}`),
+      date: date1,
       seatNumber,
       user,
-      admin
+      admin,
+      SeatType,
+      ShowTime,
     });
     const session = await mongoose.startSession();
     session.startTransaction();
     existingUser.bookings.push(booking._id);
     existingMovie.bookings.push(booking._id);
-    
+
     await User.findByIdAndUpdate(existingUser._id, existingUser, {
       new: true,
       runValidators: true,
@@ -57,7 +65,7 @@ const getBookingById = async (req, res, next) => {
   const id = req.params.id;
   let booking;
   try {
-    booking = await Bookings.findById(id);
+    booking = await Booking.findById(id);
   } catch (err) {
     return console.log(err);
   }
@@ -66,24 +74,23 @@ const getBookingById = async (req, res, next) => {
   }
   return res.status(200).json({ booking });
 };
-//deletebooking  baki che   
+//deletebooking  baki che
 const deleteBooking = async (req, res, next) => {
   const id = req.params.id;
   let booking;
   try {
-    const booking = await Bookings.findById(id).populate("user movie");
+    const booking = await Booking.findById(id).populate("user movie");
 
     const user = await User.find({ bookings: req.params.id });
-   
 
     const session = await mongoose.startSession();
     session.startTransaction();
-    booking = await Bookings.findByIdAndRemove(id).populate("user movie");
-   
+    booking = await Booking.findByIdAndRemove(id).populate("user movie");
+
     await booking.user.bookings.pull(booking);
-  
+
     const bookings = await booking.movie.bookings.pull(booking._id);
-    
+
     // const a = await Movie.findByIdAndUpdate(booking.movie._id, booking.movie, {
     //   new: true,
     //   runValidators: true,
@@ -106,4 +113,37 @@ const deleteBooking = async (req, res, next) => {
   return res.status(200).json({ message: "Successfully Deleted" });
 };
 
-module.exports = { newBooking, getBookingById, deleteBooking };
+const notAvailableSeat = async (req, res, next) => {
+  const movieid = req.params.movieid;
+  const adminid = req.params.theatreid;
+  const showdate = req.body.ShowDate;
+  const date = showdate.split("T")[0];
+  console.log(date);
+  const blocked = [];
+
+  const seat = await Booking.find({
+    movie: movieid,
+    admin: adminid,
+    ShowTime: req.body.ShowTime,
+    date: date,
+  });
+
+  console.log(seat);
+
+  console.log(seat);
+  seat.map((e) => {
+    console.log(e.seatNumber);
+    e.seatNumber.map((e) => {
+      blocked.push(e);
+    });
+  });
+  res.status(200).json({
+    notavailable: blocked,
+  });
+};
+module.exports = {
+  newBooking,
+  getBookingById,
+  deleteBooking,
+  notAvailableSeat,
+};

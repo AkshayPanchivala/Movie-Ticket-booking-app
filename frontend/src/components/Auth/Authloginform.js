@@ -6,8 +6,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
+import { useNavigate } from "react-router-dom";
 
 function Authloginform({ onSubmit }) {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [inputs, setInputs] = useState({ email: "", password: "" });
 
@@ -17,10 +19,9 @@ function Authloginform({ onSubmit }) {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-   
+
     setValidated(true);
     if (validated === true) {
-    
       onSubmit({ inputs });
     }
   };
@@ -31,13 +32,13 @@ function Authloginform({ onSubmit }) {
     }));
   };
   const signuphandler = () => {
-    console.log("click");
+    navigate("/Auth");
   };
   return (
     <>
       <Dialog
         PaperProps={{
-          style: { borderRadius: 15, width: "500px", height: "700px" },
+          style: { borderRadius: 15, width: "500px", height: "430px" },
         }}
         open={true}
       >
@@ -78,18 +79,28 @@ function Authloginform({ onSubmit }) {
             <Col md="6">
               <Form.Group controlId="validationCustom03">
                 <Box marginTop={5}>
-                  <Button type="submit">Submit form</Button>
+                  <Button type="submit">Login</Button>
                 </Box>
               </Form.Group>
             </Col>
-
-            <Col md="6">
-              <Form.Group controlId="validationCustom03">
-                <Box marginTop={5}>
-                  <Button onClick={signuphandler}>SignUp</Button>
-                </Box>
-              </Form.Group>
-            </Col>
+            <Row className="mb-3">
+              <Col md="6">
+                <Form.Group controlId="validationCustom03">
+                  <Box marginTop={3}>
+                    <Typography alignContent={"center"}>
+                      create Account?
+                    </Typography>
+                  </Box>
+                </Form.Group>
+              </Col>
+              <Col md="6">
+                <Form.Group controlId="validationCustom03">
+                  <Box marginTop={2}>
+                    <Button onClick={signuphandler}>SignUp</Button>
+                  </Box>
+                </Form.Group>
+              </Col>
+            </Row>
           </Form>
         </Box>
       </Dialog>

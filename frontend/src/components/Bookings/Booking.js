@@ -26,8 +26,8 @@ function Booking() {
       })
       .catch((err) => console.log(err));
   }, [id]);
-{isuserLoggedIn && navigate(`/booking/${movie._id}`);}
-{isuserLoggedIn && navigate("/Auth")}
+// {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
+// {isuserLoggedIn && navigate("/Auth")}
  
 
   console.log("uju", isuserLoggedIn);
