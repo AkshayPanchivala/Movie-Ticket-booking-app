@@ -29,9 +29,9 @@ const bookingSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  admin: {
+  theater: {
     type: mongoose.Types.ObjectId,
-    ref: "Admin",
+    ref: "Theater",
     required: true,
   },
 });

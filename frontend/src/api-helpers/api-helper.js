@@ -89,7 +89,7 @@ export const sendUserlogin = async (data) => {
 };
 export const getAlladmin = async () => {
   const res = await axios
-    .get(`http://localhost:5000/admin`)
+    .get(`http://localhost:5000/theater`)
     .catch((err) => console.log(err));
   if (res.status !== 200 && res.status !== 201) {
     console.log("unexpexted error occured");
@@ -98,9 +98,15 @@ export const getAlladmin = async () => {
   console.log(resData);
   return resData;
 };
-export const sendAdminAuthRequest = async (data,images, state, city, pincode) => {
+export const sendAdminAuthRequest = async (
+  data,
+  images,
+  state,
+  city,
+  pincode
+) => {
   const res = await axios
-    .post(`http://localhost:5000/admin/signup`, {
+    .post(`http://localhost:5000/theater/signup`, {
       name: data.name,
       email: data.email,
       password: data.password,
@@ -115,6 +121,7 @@ export const sendAdminAuthRequest = async (data,images, state, city, pincode) =>
     console.log("unexpexted error occured");
   }
   const resData = await res;
+  console.log(resData);
   return resData;
 };
 
@@ -136,7 +143,7 @@ export const newBooking = async (data) => {
       date: data.date,
       seatNumber: data.seatNumber,
       user: data.user,
-      admin: data.admin,
+      theater: data.admin,
       SeatType: data.SeatType,
       ShowTime: data.ShowTime,
     })
@@ -191,7 +198,7 @@ export const getAdminById = async () => {
   const adminId = localStorage.getItem("adminId");
   console.log(adminId);
   const res = await axios
-    .get(`http://localhost:5000/admin/${adminId}`)
+    .get(`http://localhost:5000/theater/${adminId}`)
     .catch((err) => console.log(err));
   console.log(res.data);
   if (res.status !== 200) {

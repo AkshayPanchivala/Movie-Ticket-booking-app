@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const AppError = require("./../arrorhandler/Apperror");
 const Booking = require("../models/Booking");
-const Admin = require("../models/Admin");
+const Theater = require("../models/Theater");
 
 const getAllusers = asynchandler(async (req, res, next) => {
   const user = await User.find();
@@ -105,7 +105,7 @@ const getBookingsOfUser = asynchandler(async (req, res, next) => {
 
   bookings = await Booking.find({ user: id })
     .populate("movie", "title")
-    .populate("admin", "name");
+    .populate("theater", "name");
   console.log(bookings);
   // const admin=await Admin.find({})
   if (!bookings) {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const adminSchema = new mongoose.Schema({
+const theaterSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -9,7 +9,8 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-  },phonenumber: {
+  },
+  phonenumber: {
     type: Number,
     required: true,
   },
@@ -28,24 +29,24 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: [true, "A product must have a image"],
   },
-    state: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    pincode:{
-      type:Number,
-      required:true
-    }
+  state: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  pincode: {
+    type: Number,
+    required: true,
+  },
 });
-adminSchema.pre("save", async function (next) {
+theaterSchema.pre("save", async function (next) {
   const hashpassword = await bcrypt.hash(this.password, 10);
   this.password = hashpassword;
   next();
 });
 
-const Admin = mongoose.model("Admin", adminSchema);
-module.exports = Admin;
+const Theater = mongoose.model("Theater", theaterSchema);
+module.exports = Theater;

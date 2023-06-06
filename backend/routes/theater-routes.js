@@ -1,0 +1,20 @@
+const express = require("express");
+
+const theaterRouter = express.Router();
+const {
+  TheaterSignup,
+  TheaterLogin,
+  getTheater,
+  getTheaterById,
+} = require("./../controllers/theater-controller");
+
+// adminRouter.route("/alluser").get(getAllusers);
+theaterRouter.route("/signup").post(TheaterSignup);
+theaterRouter.route("/login").post(TheaterLogin);
+theaterRouter.route("/").get(getTheater);
+theaterRouter.route("/:id").get(getTheaterById);
+// adminRouter.route("/login").post(login);
+
+// adminRouter.route("/:id").put(updateprofile).delete(deleteprofile);
+
+module.exports = theaterRouter;

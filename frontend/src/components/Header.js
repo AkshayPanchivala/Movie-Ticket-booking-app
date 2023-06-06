@@ -75,7 +75,7 @@ function Header() {
             <Tab LinkComponent={Link} to="/movies" label="Movies" />
             {!isadminLoggedIn && !isuserLoggedIn && (
               <>
-                <Tab LinkComponent={Link} to="/admin" label="Admin" />
+                <Tab LinkComponent={Link} to="/admin" label="Theater" />
                 <Tab LinkComponent={Link} to="/Auth" label="Auth" />
               </>
             )}

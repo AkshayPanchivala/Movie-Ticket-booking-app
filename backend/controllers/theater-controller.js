@@ -1,20 +1,20 @@
 const asynchandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Admin = require("../models/Admin");
+const Theater = require("../models/Theater");
 
 ///admin signup
-const adminSignup = asynchandler(async (req, res, next) => {
+const TheaterSignup = asynchandler(async (req, res, next) => {
   const { name, email, password } = req.body;
   console.log("jkjjf");
-  const existingadmin = await Admin.findOne({ email: email });
+  const existingtheater = await Theater.findOne({ email: email });
 
-  if (existingadmin) {
-    return res.status(400).json({
-      message: "admin already exists",
+  if (existingtheater) {
+    return res.status(409).json({
+      message: "Theater already exists",
     });
   }
-  const admin = await Admin.create({
+  const theater = await Theater.create({
     name: req.body.name,
     email: req.body.email,
     phonenumber: req.body.phonenumber,
@@ -24,62 +24,62 @@ const adminSignup = asynchandler(async (req, res, next) => {
     city: req.body.city,
     pincode: req.body.pincode,
   });
-  console.log(admin);
-  const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY, {
+
+  const token = jwt.sign({ id: theater._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
-  console.log("hjh" + token);
+  
   res.status(201).json({
-    admin: admin,
+    theater: theater,
     token: token,
     message: "Account is created",
   });
 });
 
-const adminLogin = asynchandler(async (req, res, next) => {
+const TheaterLogin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
-  const existingadmin = await Admin.findOne({ email: email });
+  const existingtheater = await Theater.findOne({ email: email });
 
   const verifypassword = await bcrypt.compare(
     req.body.password,
-    existingadmin.password
+    existingtheater.password
   );
-  console.log(verifypassword);
+
   if (verifypassword) {
     const token = jwt.sign(
-      { id: existingadmin._id },
+      { id: existingtheater._id },
       process.env.JWT_SECRET_KEY,
       {
         expiresIn: process.env.JWT_EXPIRES,
       }
     );
     return res.status(200).json({
-      admin: existingadmin,
+      theater: existingtheater,
       token: token,
       message: "Account is login",
     });
   } else {
     return res.status(404).json({
-      message: "admin is not found",
+      message: "Theater is not found",
     });
   }
 });
 
-const getAdmins = asynchandler(async (req, res, next) => {
+const getTheater = asynchandler(async (req, res, next) => {
   let admins;
 
-  admins = await Admin.find();
+  admins = await Theater.find();
   if (!admins) {
     return res.status(404).json({ message: "Not found data" });
   }
   return res.status(200).json({ data: admins });
 });
 
-const getadminById = asynchandler(async (req, res, next) => {
+const getTheaterById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
-  const admin = await Admin.findById(id);
+  const admin = await Theater.findById(id);
 
-  if (!Admin) {
+  if (!admin) {
     return res.status(404).json({
       message: "Invalid Movie ID",
     });
@@ -90,4 +90,4 @@ const getadminById = asynchandler(async (req, res, next) => {
 // const adminupdateprofile=asynchandler(async(req,res,next)=>{
 
 // })
-module.exports = { adminSignup, adminLogin, getAdmins, getadminById };
+module.exports = { TheaterSignup,TheaterLogin, getTheater, getTheaterById};

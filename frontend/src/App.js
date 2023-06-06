@@ -17,7 +17,8 @@ import Index from "./SeatBooking/Index";
 import Authlogin from "./components/Auth/Authlogin";
 import Authsignup from "./components/Auth/Authsignup";
 import UpdateProfile from "./profile/UpdateProfile";
-import Adminsignup from "./components/Admin/Adminsignup";
+
+import Theatersignup from "./components/Theater/Theatersignup";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
           {!isuserLoggedIn && !isadminLoggedIn && (
-            <Route path="/admin" element={<Adminsignup/>} />
+            <Route path="/admin" element={<Theatersignup/>} />
           )}
 
           <Route path="/auth" element={<Authsignup />} />

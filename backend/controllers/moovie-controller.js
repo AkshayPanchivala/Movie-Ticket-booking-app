@@ -2,7 +2,7 @@ const asynchandler = require("express-async-handler");
 const { default: mongoose } = require("mongoose");
 const AppError = require("../arrorhandler/Apperror");
 
-const Admin = require("../models/Admin");
+const Theater = require("../models/Theater");
 const Movie = require("../models/Movie");
 
 const addMovies = asynchandler(async (req, res, next) => {
@@ -26,7 +26,7 @@ const addMovies = asynchandler(async (req, res, next) => {
     releaseDate: new Date(`${releaseDate}`),
     featured,
     actors,
-    admin: req.body._id,
+    theater: req.body._id,
     posterUrl: req.file.filename,
     title,
   });

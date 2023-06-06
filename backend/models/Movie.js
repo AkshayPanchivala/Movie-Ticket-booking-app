@@ -18,9 +18,9 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
-  admin: {
+  theater: {
     type: mongoose.Types.ObjectId,
-    ref: "Admin",
+    ref: "Theater",
   },
 });
 

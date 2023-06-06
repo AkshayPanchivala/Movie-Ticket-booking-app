@@ -3,18 +3,17 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { sendAdminAuthRequest } from "../../api-helpers/api-helper";
 import { adminActions } from "../../store";
+import Theatersignupform from "./Theatersignupform";
 
-import Adminsignupform from "./Adminsignupform";
-
-function Adminsignup() {
+function Theatersignup() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const onResReceived = (data) => {
-    console.log(data.data.admin._id);
+    console.log(data.data.theater._id);
 
     dispatch(adminActions.login());
-    localStorage.setItem("adminId", data.data.admin._id);
+    localStorage.setItem("adminId", data.data.theater._id);
     localStorage.setItem("token", data.data.token);
     navigate("/");
   };
@@ -26,9 +25,9 @@ function Adminsignup() {
   };
   return (
     <div>
-      <Adminsignupform onSubmit={getData} />
+      <Theatersignupform onSubmit={getData} />
     </div>
   );
 }
 
-export default Adminsignup;
+export default Theatersignup;

@@ -14,7 +14,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { pincodefetch } from "../../api-helpers/api-helper";
-function Adminsignupform({ onSubmit }) {
+function Theatersignupform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [images, setImages] = useState([]);
@@ -282,4 +282,4 @@ function Adminsignupform({ onSubmit }) {
   );
 }
 
-export default Adminsignupform;
+export default Theatersignupform;

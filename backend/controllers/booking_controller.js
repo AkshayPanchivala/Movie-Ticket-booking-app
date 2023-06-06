@@ -4,7 +4,7 @@ const Movie = require("../models/Movie");
 const User = require("../models/User");
 
 const newBooking = async (req, res, next) => {
-  const { movie, date, seatNumber, SeatType, ShowTime, user, admin } = req.body;
+  const { movie, date, seatNumber, SeatType, ShowTime, user,theater} = req.body;
   console.log(date);
   const date1 = date.split("T")[0];
   console.log(date1);
@@ -30,7 +30,7 @@ const newBooking = async (req, res, next) => {
       date: date1,
       seatNumber,
       user,
-      admin,
+      theater,
       SeatType,
       ShowTime,
     });
@@ -123,7 +123,7 @@ const notAvailableSeat = async (req, res, next) => {
 
   const seat = await Booking.find({
     movie: movieid,
-    admin: adminid,
+    theater: adminid,
     ShowTime: req.body.ShowTime,
     date: date,
   });
