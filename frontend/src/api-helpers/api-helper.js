@@ -13,11 +13,17 @@ export const getAllMovies = async () => {
   return data;
 };
 
-export const sendUserAuthRequest = async (data, images) => {
+export const sendUserAuthRequest = async (
+  data,
+  images,
+  state,
+  city,
+  pincode
+) => {
   // if (data.password === data.confirmpassword) {
   //   return console.log("password are not match");
   // }
-  console.log(images);
+
   const res = await axios
     .post(`http://localhost:5000/user/signup`, {
       name: data.name,
@@ -25,14 +31,20 @@ export const sendUserAuthRequest = async (data, images) => {
       password: data.password,
       phonenumber: data.phonenumber,
       profilephoto: images,
-      state: data.state,
-      city: data.city,
+      state: state,
+      city: city,
+      pincode: pincode,
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return err.response;
+    });
+  console.log(res);
   if (res.status !== 200 && res.status !== 201) {
     console.log("unexpexted error occured");
   }
-
+  if (res.status === 409) {
+    console.log("lklk");
+  }
   const resstatus = await res.status;
 
   console.log(res);
@@ -86,18 +98,23 @@ export const getAlladmin = async () => {
   console.log(resData);
   return resData;
 };
-export const sendAdminAuthRequest = async (data, signup) => {
+export const sendAdminAuthRequest = async (data,images, state, city, pincode) => {
   const res = await axios
-    .post(`http://localhost:5000/admin/${signup ? "signup" : "login"}`, {
-      name: signup ? data.name : "",
+    .post(`http://localhost:5000/admin/signup`, {
+      name: data.name,
       email: data.email,
       password: data.password,
+      phonenumber: data.phonenumber,
+      profilephoto: images,
+      state: state,
+      city: city,
+      pincode: pincode,
     })
     .catch((err) => console.log(err));
   if (res.status !== 200 && res.status !== 201) {
     console.log("unexpexted error occured");
   }
-  const resData = await res.data;
+  const resData = await res;
   return resData;
 };
 
@@ -196,7 +213,8 @@ export const getUserbyid = async (id) => {
     return console.log("Unexpected Error Occurred");
   }
 
-  const resData = await res.data;
+  const resData = await res.data.user;
+  // console.log(res.data.user);
   // console.log("resdatafromhenldr", resData);
   return resData;
 };
@@ -222,4 +240,41 @@ export const notAvailable = async (data) => {
   const resData = await res.data;
   // console.log("resdatafromhenldr", resData);
   return resData;
+};
+export const pincodefetch = async (data) => {
+  const pincode = data;
+  console.log(data);
+  const res = await axios
+    .get(`https://api.postalpincode.in/pincode/${pincode}`)
+    .catch((err) => console.log(err));
+  // console.log(res.data);
+  if (res.status !== 200) {
+    return console.log("Unexpected Error Occurred");
+  }
+
+  const resData = await res.data;
+  // console.log("resdatafromhenldr", resData);
+  return resData;
+};
+
+//////////////////////////
+export const updateprofile = async ({ inputs }, state, city, pincode) => {
+  const userId = localStorage.getItem("userId");
+  console.log(inputs, state, city, pincode);
+  const data = inputs;
+  console.log("userId", userId);
+  const res = await axios
+    .put(`http://localhost:5000/user/${userId}`, {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      phonenumber: data.phonenumber,
+
+      state: state,
+      city: city,
+      pincode: pincode,
+    })
+    .then(console.log("account is updated"))
+    .catch((err) => console.log(err));
+  return res;
 };

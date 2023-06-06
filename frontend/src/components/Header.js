@@ -14,7 +14,7 @@ import { getAllMovies } from "../api-helpers/api-helper";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { adminActions, userActions } from "../store";
-
+import DensitySmallIcon from "@mui/icons-material/DensitySmall";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

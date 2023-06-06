@@ -15,7 +15,9 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
   const navigate = useNavigate();
   // {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
   // {const link=isuserLoggedIn && (`/booking/${id}`) : `/Auth` }
-{isuserLoggedIn && navigate("/Auth")}
+  {
+    !isuserLoggedIn && navigate("/Auth");
+  }
   return (
     <Card
       sx={{
@@ -48,9 +50,13 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
           fullWidth
           LinkComponent={Link}
           to={isuserLoggedIn && `/booking/${id}`}
-          sx={{ margin: "auto",bgcolor:"#2b2d42",":hover":{
-            bgcolor:"#121217",
-          } }}
+          sx={{
+            margin: "auto",
+            bgcolor: "#2b2d42",
+            ":hover": {
+              bgcolor: "#121217",
+            },
+          }}
           size="small"
         >
           Book

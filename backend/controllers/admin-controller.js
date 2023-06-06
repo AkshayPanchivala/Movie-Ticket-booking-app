@@ -6,6 +6,7 @@ const Admin = require("../models/Admin");
 ///admin signup
 const adminSignup = asynchandler(async (req, res, next) => {
   const { name, email, password } = req.body;
+  console.log("jkjjf");
   const existingadmin = await Admin.findOne({ email: email });
 
   if (existingadmin) {
@@ -18,11 +19,19 @@ const adminSignup = asynchandler(async (req, res, next) => {
     email: req.body.email,
     phonenumber: req.body.phonenumber,
     password: req.body.password,
-    profilephoto: req.file.filename,
+    profilephoto: req.body.profilephoto,
+    state: req.body.state,
+    city: req.body.city,
+    pincode: req.body.pincode,
   });
-
+  console.log(admin);
+  const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRES,
+  });
+  console.log("hjh" + token);
   res.status(201).json({
     admin: admin,
+    token: token,
     message: "Account is created",
   });
 });

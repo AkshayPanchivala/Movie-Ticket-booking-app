@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const slideStyles = {
   width: "100%",
@@ -48,7 +48,7 @@ const dotStyle = {
 
 const ImageSlider = ({ slides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentdot, setdot] = useState(0);
+  const [currentdot, setdot] = useState(1);
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
@@ -62,12 +62,15 @@ const ImageSlider = ({ slides }) => {
   };
   const goToSlide = (slideIndex) => {
     setCurrentIndex(slideIndex);
+   
   };
   setTimeout(goToNext, 5000);
   const slideStylesWidthBackground = {
     ...slideStyles,
     backgroundImage: `url(${slides[currentIndex].url})`,
   };
+  
+
 
   return (
     <div style={sliderStyles}>
@@ -84,9 +87,10 @@ const ImageSlider = ({ slides }) => {
         {/* {console.log(slides)} */}
         {slides.map((slide, slideIndex) => (
           <div
-            style={dotStyle}
+            
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
+         
           >
             ●
           </div>

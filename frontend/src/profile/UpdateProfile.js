@@ -6,51 +6,37 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useNavigate } from "react-router-dom";
-import storage from "../../utils/firebase";
-import {
-  ref as addRef,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import { pincodefetch } from "../../api-helpers/api-helper";
-function Adminsignupform({ onSubmit }) {
+import { useLocation, useNavigate } from "react-router-dom";
+
+import { pincodefetch, updateprofile } from "../api-helpers/api-helper";
+
+function UpdateProfile() {
+  const status = useLocation();
+  const User = status.state;
+  console.log(User.pincode);
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
-  const [images, setImages] = useState([]);
-  const [pincode, setpincode] = useState();
+  const [submit, setsubmit] = useState(false);
+  //   const [images, setImages] = useState([User.profilephoto]);
+  const [pincode, setpincode] = useState(User.pincode);
   const [inputs, setInputs] = useState({
-    name: "",
-    email: "",
-    phonenumber: "",
+    name: User.name,
+    email: User.email,
+    phonenumber: User.phonenumber,
     password: "",
     confirmpassword: "",
-    
   });
-  const [state, setstate] = useState("");
-  const [city, setcity] = useState("");
-  const photoupload = (event) => {
-    let file = event.target.files;
-    console.log(file);
-    if (!file) {
-      alert("Please upload an image first!");
-    }
-
-    for (let i = 0; i < file.length; i++) {
-      const storageRef = addRef(storage, `/files/${file[i].name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file[i]);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {},
-        (err) => console.log(err),
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setImages((prevImages) => [...prevImages, url]);
-          });
-        }
-      );
-    }
-  };
+  const [state, setstate] = useState(User.state);
+  const [city, setcity] = useState(User.city);
+  //   const navigate=useNavigate();
+  useEffect(() => {
+    updateprofile({ inputs }, state, city, pincode)
+      .then((res) => {
+        
+        navigate("/user", { state: res.status });
+      })
+      .catch((err) => console.log(err));
+  }, [submit]);
 
   const handleChange = (event) => {
     setInputs((prevState) => ({
@@ -70,7 +56,8 @@ function Adminsignupform({ onSubmit }) {
     setValidated(true);
     if (validated === true) {
       event.preventDefault();
-      onSubmit({ inputs }, images, state, city, pincode);
+      setsubmit(true);
+      //   onSubmit({ inputs }, images,state,city);
     }
   };
   const pincodehandleChange = (event) => {
@@ -91,9 +78,7 @@ function Adminsignupform({ onSubmit }) {
       .catch((err) => console.log(err));
   }, [pincode]);
   console.log(state, city);
-  const loginhandler = () => {
-    navigate("/Auth/login");
-  };
+  
   return (
     <>
       <Dialog
@@ -132,6 +117,7 @@ function Adminsignupform({ onSubmit }) {
                   onChange={handleChange}
                   placeholder="email"
                   name="email"
+                  disabled="disabled"
                 />
                 <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
@@ -144,6 +130,7 @@ function Adminsignupform({ onSubmit }) {
                   required
                   type="text"
                   placeholder="phonenumber"
+                  minLength={10}
                   maxLength={10}
                   width={50}
                   value={inputs.phonenumber}
@@ -154,26 +141,6 @@ function Adminsignupform({ onSubmit }) {
                 <Form.Control.Feedback type="invalid">
                   Please provide A valide PhoneNumber.
                 </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group md="4" controlId="validationCustomUsername">
-                <Form.Label>ProfilePhoto</Form.Label>
-                <InputGroup hasValidation>
-                  <InputGroup.Text id="inputGroupPrepend">
-                    <AccountCircleIcon />
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="file"
-                    placeholder="Profilephoto"
-                    value={inputs.profilephoto}
-                    onChange={photoupload}
-                    name="profilephoto"
-                    aria-describedby="inputGroupPrepend"
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please choose a ProFilePhoto.
-                  </Form.Control.Feedback>
-                </InputGroup>
               </Form.Group>
             </Row>
             <Row className="mb-3">
@@ -186,9 +153,11 @@ function Adminsignupform({ onSubmit }) {
                   onChange={pincodehandleChange}
                   value={inputs.pincode}
                   name="pincode"
+                  minLength={6}
+                  maxLength={6}
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please provide a valid State.
+                  Please provide a valid Pincode.
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group as={Col} md="4" controlId="validationCustom04">
@@ -200,7 +169,8 @@ function Adminsignupform({ onSubmit }) {
                   onChange={handleChange}
                   value={state}
                   name="state"
-                  defaultValue="Otto"
+
+                  //   disabled="disabled"
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid State.
@@ -215,6 +185,7 @@ function Adminsignupform({ onSubmit }) {
                   onChange={handleChange}
                   value={city}
                   name="city"
+                  //   disabled="disabled"
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid City.
@@ -253,28 +224,10 @@ function Adminsignupform({ onSubmit }) {
             <Col md="6">
               <Form.Group controlId="validationCustom03">
                 <Box marginTop={5}>
-                  <Button type="submit">Register</Button>
+                  <Button type="submit">Update Profile</Button>
                 </Box>
               </Form.Group>
             </Col>
-            <Row className="mb-3">
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={3}>
-                    <Typography alignContent={"center"}>
-                      If you have Account?
-                    </Typography>
-                  </Box>
-                </Form.Group>
-              </Col>
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={2}>
-                    <Button onClick={loginhandler}>Login</Button>
-                  </Box>
-                </Form.Group>
-              </Col>
-            </Row>
           </Form>
         </Box>
       </Dialog>
@@ -282,4 +235,4 @@ function Adminsignupform({ onSubmit }) {
   );
 }
 
-export default Adminsignupform;
+export default UpdateProfile;

@@ -14,35 +14,7 @@ const getAllusers = asynchandler(async (req, res, next) => {
 });
 
 const signup = asynchandler(async (req, res, next) => {
-  // const { name, email, password, phonenumber, city, state } = req.body;
-
-  // let missingValues = [];
-
-  // if (!name || typeof name == "String") missingValues.push("Name ");
-  // if (!email || typeof email == "String") missingValues.push("Email ");
-
-  // if (!phonenumber || typeof phonenumber == "Number")
-  //   missingValues.push("Number");
-  // if (!password) missingValues.push("password ");
-
-  // console.log(missingValues);
-  // if (missingValues.length > 0) {
-  //   return next(
-  //     new AppError(
-  //       `required missing values : ${missingValues} is neccessary to be filled`,
-  //       400
-  //     )
-  //   );
-  // }
-  console.log("kjkjk");
-  console.log(
-    "ass" +
-      req.body.name +
-      req.body.email +
-      req.body.phonenumber +
-      req.body.password +
-      req.body.profilephoto
-  );
+  
   const existinguser = await User.findOne({ email: req.body.email });
 
   if (existinguser) {
@@ -59,6 +31,7 @@ const signup = asynchandler(async (req, res, next) => {
     profilephoto: req.body.profilephoto,
     state: req.body.state,
     city: req.body.city,
+    pincode: req.body.pincode,
   });
   console.log(user);
   res.status(201).json({
@@ -72,6 +45,7 @@ const getuserbyid = asynchandler(async (req, res, next) => {
     return next(new AppError(`Wrong id`, 400));
   }
   const user = await User.findById(id);
+  console.log(user);
   res.status(200).json({
     user: user,
   });
@@ -105,24 +79,9 @@ const deleteprofile = asynchandler(async (req, res, next) => {
 
 const login = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log("kjkkj");
-  console.log(req.body);
-  // console.log(req.body);
-  // let missingValues = [];
 
-  // if (!email || typeof email == "String") missingValues.push("Email ");
-  // if (!password) missingValues.push("password ");
-
-  // if (missingValues.length > 0) {
-  //   return next(
-  //     new AppError(
-  //       `required missing values : ${missingValues} is neccessary to be filled`,
-  //       400
-  //     )
-  //   );
-  // }
   const existinguser = await User.findOne({ email: email }).select("+password");
-  console.log( existinguser.password);
+  console.log(existinguser.password);
   const verifypassword = await bcrypt.compare(
     req.body.password,
     existinguser.password
@@ -147,7 +106,7 @@ const getBookingsOfUser = asynchandler(async (req, res, next) => {
   bookings = await Booking.find({ user: id })
     .populate("movie", "title")
     .populate("admin", "name");
-  console.log(bookings.movie.admin);
+  console.log(bookings);
   // const admin=await Admin.find({})
   if (!bookings) {
     return res.status(200).json({ message: "unable to get Bookings" });

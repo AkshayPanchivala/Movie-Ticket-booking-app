@@ -4,32 +4,31 @@ import { useNavigate } from "react-router-dom";
 import { sendAdminAuthRequest } from "../../api-helpers/api-helper";
 import { adminActions } from "../../store";
 
-import Authsignupform from "../Auth/Authsignupform";
 import Adminsignupform from "./Adminsignupform";
 
-function Admin() {
-  const navigate=useNavigate();
+function Adminsignup() {
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const onResReceived = (data) => {
-    console.log(data.admin._id);
-    console.log(data.token);
+    console.log(data.data.admin._id);
 
     dispatch(adminActions.login());
-    localStorage.setItem("adminId", data.admin._id);
-    localStorage.setItem("token", data.token);
-    navigate("/")
+    localStorage.setItem("adminId", data.data.admin._id);
+    localStorage.setItem("token", data.data.token);
+    navigate("/");
   };
-  const getData = (data) => {
-    sendAdminAuthRequest(data.inputs, data.signup)
+  const getData = (data, images, state, city, pincode) => {
+    console.log(data, images, state, city, pincode);
+    sendAdminAuthRequest(data.inputs, images[0], state, city, pincode)
       .then(onResReceived)
       .catch((err) => console.log(err));
   };
   return (
     <div>
-      <Adminsignupform onSubmit={getData}  />
+      <Adminsignupform onSubmit={getData} />
     </div>
   );
 }
 
-export default Admin;
+export default Adminsignup;

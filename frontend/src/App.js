@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import Admin from "./components/Admin/Admin";
+
 
 import Booking from "./components/Bookings/Booking";
 import Header from "./components/Header";
@@ -16,6 +16,9 @@ import AdminProfile from "./profile/AdminProfile";
 import Index from "./SeatBooking/Index";
 import Authlogin from "./components/Auth/Authlogin";
 import Authsignup from "./components/Auth/Authsignup";
+import UpdateProfile from "./profile/UpdateProfile";
+import Adminsignup from "./components/Admin/Adminsignup";
+
 function App() {
   const dispatch = useDispatch();
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
@@ -37,13 +40,17 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
           {!isuserLoggedIn && !isadminLoggedIn && (
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<Adminsignup/>} />
           )}
+
           <Route path="/auth" element={<Authsignup />} />
           <Route path="/auth/login" element={<Authlogin />} />
 
           {!isadminLoggedIn && isuserLoggedIn && (
             <Route path="/user" element={<UserProfile />} />
+          )}
+          {!isadminLoggedIn && isuserLoggedIn && (
+            <Route path="/updateprofile" element={<UpdateProfile />} />
           )}
           {isadminLoggedIn && !isuserLoggedIn && (
             <Route path="/add" element={<AddMovies />} />

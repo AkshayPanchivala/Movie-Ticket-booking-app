@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAlladmin, getMovieDetails } from "../../api-helpers/api-helper";
 import BookingCard from "../../profile/BookingCard";
+import Theatrecard from "./Theatrecard";
 
 function Booking() {
   const [movie, setMovie] = useState();
@@ -26,9 +27,8 @@ function Booking() {
       })
       .catch((err) => console.log(err));
   }, [id]);
-// {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
-// {isuserLoggedIn && navigate("/Auth")}
- 
+  // {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
+  // {isuserLoggedIn && navigate("/Auth")}
 
   console.log("uju", isuserLoggedIn);
   return (
@@ -72,7 +72,7 @@ function Booking() {
             <Box width={"50%"} paddingTop={3}>
               {Theatre &&
                 Theatre.map((Theatre, index) => (
-                  <BookingCard
+                  <Theatrecard
                     key={Theatre._id}
                     name={Theatre.name}
                     id={Theatre._id}

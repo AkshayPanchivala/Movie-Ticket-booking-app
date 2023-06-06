@@ -1,5 +1,5 @@
 import { Box, Dialog, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -13,21 +13,22 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
+import { pincodefetch } from "../../api-helpers/api-helper";
 function Authsignupform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [images, setImages] = useState([]);
-
+  const [pincode, setpincode] = useState();
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
     phonenumber: "",
-
     password: "",
     confirmpassword: "",
-    state: "",
-    city: "",
+   
   });
+  const [state, setstate] = useState("");
+  const [city, setcity] = useState("");
   const photoupload = (event) => {
     let file = event.target.files;
     console.log(file);
@@ -69,9 +70,27 @@ function Authsignupform({ onSubmit }) {
     setValidated(true);
     if (validated === true) {
       event.preventDefault();
-      onSubmit({ inputs }, images);
+      onSubmit({ inputs }, images,state,city,pincode);
     }
   };
+  const pincodehandleChange = (event) => {
+    if (event.target.value.length === 6) {
+      setpincode(event.target.value);
+    } else {
+      setstate("");
+      setcity("");
+    }
+    // if(===6)
+  };
+  useEffect(() => {
+    pincodefetch(pincode)
+      .then((res) => {
+        setcity(res[0].PostOffice[0].Block);
+        setstate(res[0].PostOffice[0].Circle);
+      })
+      .catch((err) => console.log(err));
+  }, [pincode]);
+  console.log(state, city);
   const loginhandler = () => {
     navigate("/Auth/login");
   };
@@ -158,28 +177,43 @@ function Authsignupform({ onSubmit }) {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom04">
+              <Form.Group as={Col} md="3" controlId="validationCustom04">
+                <Form.Label>pincode</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Pincode"
+                  required
+                  onChange={pincodehandleChange}
+                  value={inputs.pincode}
+                  name="pincode"
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid State.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} md="4" controlId="validationCustom04">
                 <Form.Label>State</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="State"
                   required
                   onChange={handleChange}
-                  value={inputs.state}
+                  value={state}
                   name="state"
+                  defaultValue="Otto"
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid State.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
+              <Form.Group as={Col} md="4" controlId="validationCustom03">
                 <Form.Label>City</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="City"
                   required
                   onChange={handleChange}
-                  value={inputs.city}
+                  value={city}
                   name="city"
                 />
                 <Form.Control.Feedback type="invalid">

@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
   profilephoto: {
     type: String,
-    required: [true, "A product must have a image"],
+    required: [true, "user profile picture"],
   },
   state: {
     type: String,
@@ -32,7 +32,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
+  pincode: {
+    type: Number,
+    required: true,
+  },
 });
 
 userSchema.pre("save", async function (next) {

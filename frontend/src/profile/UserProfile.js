@@ -1,14 +1,18 @@
 import { makeStyles } from "@mui/styles";
 import { Avatar, CardActionArea, CardMedia, Typography } from "@mui/material";
-import { Box, Stack } from "@mui/system";
+import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { getUserBooking, getUserbyid } from "../api-helpers/api-helper";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import BookingCard from "./BookingCard";
 import Booking from "../components/Bookings/Booking";
 import { Card } from "reactstrap";
-import { Button } from "@mui/base";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useLocation, useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
   circularCard: {
     maxWidth: 345,
@@ -20,20 +24,23 @@ const useStyles = makeStyles({
   },
 });
 function UserProfile() {
- 
   const [Bookings, setBookings] = useState();
   const [User, setUser] = useState();
   const [profile, setProfile] = useState("");
-
+  const status = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     // getUserBooking()
     //   .then((res) => setBookings(res.bookings))
     //   .catch((err) => console.log(err));
     getUserBooking()
-      .then((res) => setBookings(res.bookings))
+      .then((res) => {
+        console.log(res);
+        setBookings(res.bookings);
+      })
       .catch((err) => console.log(err));
     const user = getUserbyid();
-    user.then((res) => setUser(res.user)).catch((err) => console.log(err));
+    user.then((res) => setUser(res)).catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -41,15 +48,47 @@ function UserProfile() {
       const email = User.profilephoto;
       setProfile(email);
     }
+    if (status.state === 200) {
+      toast.success("Account is updated", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   }, []);
+
   // import avatar from `./../../../backend/Photos/user/userProfile/${email}`;
-  {
-    User && console.log("userfromuser", User);
-  }
+  const updatehandler = () => {
+    navigate("/updateprofile", { state: User });
+  };
+
+  const profilehandler = () => {
+    console.log("clicked");
+  };
+  // {Bookings &&
+  //   Bookings.map((e) => (
+  //     <>
+  //       {console.log("ee" + e.seatNumber)}
+  //       <BookingCard
+  //         key={Bookings._id}
+  //         Title={e.movie.title}
+  //         Date={e.date}
+  //         SeatNumber={e.seatNumber}
+  //         ShowTime={e.ShowTime}
+  //         TheatreName={e.admin.name}
+  //       />
+  //     </>
+  //   ))}
   return (
     <>
       {User && (
         <Box width={"100%"} display="flex">
+          {console.log("hdjfdfjdf", Bookings)}
           <Box
             flexDirection={"column"}
             justifyContent="center"
@@ -64,7 +103,7 @@ function UserProfile() {
               src={`${User.profilephoto}`}
               style={{ borderRadius: "50%", width: 325, height: 300 }}
             />
-          
+
             <Typography
               marginTop={2}
               padding={1}
@@ -73,7 +112,8 @@ function UserProfile() {
               border={"1px solid #ccc"}
               borderRadius={6}
             >
-              Name:{User.name}
+              <strong>Name:</strong>
+              {User.name}
             </Typography>
             <Typography
               mt={1}
@@ -83,7 +123,8 @@ function UserProfile() {
               border={"1px solid #ccc"}
               borderRadius={6}
             >
-              Email:{User.email}
+              <strong> Email:</strong>
+              {User.email}
             </Typography>
             <Typography
               mt={1}
@@ -93,13 +134,60 @@ function UserProfile() {
               border={"1px solid #ccc"}
               borderRadius={6}
             >
-              phoneNumber:{User.phonenumber}
+              <strong> phoneNumber:</strong>
+              {User.phonenumber}{" "}
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
             </Typography>
-            <Stack spacing={2} direction="row" margin={2}>
-              <Button variant="contained" borderRadius={2}>
+            <Typography
+              mt={1}
+              padding={1}
+              width={"auto"}
+              textAlign={"center"}
+              border={"1px solid #ccc"}
+              borderRadius={6}
+            >
+              <strong> State: </strong> {User.state}
+            </Typography>
+            <Typography
+              mt={1}
+              padding={1}
+              width={"auto"}
+              textAlign={"center"}
+              border={"1px solid #ccc"}
+              borderRadius={6}
+            >
+              <strong> City:</strong>
+              {User.city}
+            </Typography>
+            <Stack spacing={4} direction="row" margin={2}>
+              <Button
+                variant="contained"
+                borderRadius={2}
+                onClick={updatehandler}
+              >
                 update profile
               </Button>
-              <Button variant="cantained">Delete Profile</Button>
+              <Button
+                variant="outlined"
+                startIcon={<DeleteIcon />}
+                style={{ color: "black" }}
+                onMouseEnter={(e) => (e.target.style.color = "red")}
+                onMouseLeave={(e) => (e.target.style.color = "black")}
+                onClick={profilehandler}
+              >
+                Delete Profile
+              </Button>
             </Stack>
           </Box>
           <Box width={"70%"} display="flex" flexDirection={"column"}>
@@ -112,10 +200,35 @@ function UserProfile() {
               Bookings
             </Typography>
 
-            {Bookings && Bookings.map(() => <BookingCard key={Bookings._id} />)}
+            {Bookings &&
+              Bookings.map((e) => (
+                <>
+                  {console.log("ee" + e.seatNumber)}
+                  <BookingCard
+                    key={Bookings._id}
+                    Title={e.movie.title}
+                    Date={e.date}
+                    SeatNumber={e.seatNumber}
+                    ShowTime={e.ShowTime}
+                    TheaterName={e.admin.name}
+                  />
+                </>
+              ))}
           </Box>
         </Box>
       )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

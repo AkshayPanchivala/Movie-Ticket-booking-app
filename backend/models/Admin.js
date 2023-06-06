@@ -24,18 +24,20 @@ const adminSchema = new mongoose.Schema({
       ref: "Movie",
     },
   ],
-  profilephoto: { type: String,
-    required: [true, "A product must have a image"]},
-    city:{
-      type:String,
-      required:true,
-
-    },state:{
-      type:String,
-      required:true,
-
-    },adress:{
-      type:String,
+  profilephoto: {
+    type: String,
+    required: [true, "A product must have a image"],
+  },
+    state: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    pincode:{
+      type:Number,
       required:true
     }
 });

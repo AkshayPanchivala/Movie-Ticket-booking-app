@@ -8,6 +8,7 @@ import MoviesItem from "./MoviesItem";
 function Movies() {
   const [movies, setMovies] = useState();
   const status = useLocation();
+  console.log(status);
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
