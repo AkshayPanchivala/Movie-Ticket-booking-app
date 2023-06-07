@@ -9,10 +9,10 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  releaseDate: {
-    type: Date,
-    required: true,
-  },
+  language: [
+    {type:String,
+    required:true}
+  ],
   posterUrl: {
     type: String,
     required: true,

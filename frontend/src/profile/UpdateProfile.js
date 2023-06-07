@@ -32,7 +32,6 @@ function UpdateProfile() {
   useEffect(() => {
     updateprofile({ inputs }, state, city, pincode)
       .then((res) => {
-        
         navigate("/user", { state: res.status });
       })
       .catch((err) => console.log(err));
@@ -78,7 +77,7 @@ function UpdateProfile() {
       .catch((err) => console.log(err));
   }, [pincode]);
   console.log(state, city);
-  
+
   return (
     <>
       <Dialog
@@ -88,7 +87,7 @@ function UpdateProfile() {
         open={true}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
-          Register
+          Update
         </Typography>
         <Box padding={3}>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>

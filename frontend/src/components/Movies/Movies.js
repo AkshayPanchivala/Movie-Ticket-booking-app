@@ -7,14 +7,15 @@ import MoviesItem from "./MoviesItem";
 
 function Movies() {
   const [movies, setMovies] = useState();
-  const status = useLocation();
-  console.log(status);
+  let status = useLocation();
+  console.log(status.state);
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
 
     if (status.state === 201) {
+      status.state = null;
       return toast.success("Successfully book your seat", {
         position: "top-right",
         autoClose: 5000,

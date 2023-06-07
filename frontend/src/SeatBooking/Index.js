@@ -22,7 +22,7 @@ export default function Index() {
       <Row></Row>
       {tab === TAB_OPTIONS.SEAT_TYPE ? (
         <SelectSeatType onNext={handleTabChange} />
-        // <SelectSeatType />
+       
       ) : null}
       {tab === TAB_OPTIONS.SEAT_SELECTION ? (
         <SeatBooking onNext={handleTabChange} seatSelection={seatSelection} />

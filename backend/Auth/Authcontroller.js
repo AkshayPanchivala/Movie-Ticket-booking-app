@@ -24,7 +24,7 @@ const protect = async (req, res, next) => {
       next(new AppError("you are not log in", 401));
     }
     console.log(freshuser);
-    req.Theater = freshuser;
+    req.admin = freshuser;
     console.log("lkllk");
     return next();
   } catch (err) {

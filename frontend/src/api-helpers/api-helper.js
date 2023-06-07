@@ -13,6 +13,18 @@ export const getAllMovies = async () => {
   return data;
 };
 
+export const getMoviesbyid = async (id) => {
+  console.log(id)
+  const res = await axios
+    .get(`http://localhost:5000/movie/${id}`)
+    .catch((err) => console.log(err));
+  if (res.status !== 200) {
+    return console.log("no data");
+  }
+  const data = await res.data;
+  console.log(res);
+  return data;
+};
 export const sendUserAuthRequest = async (
   data,
   images,
@@ -20,10 +32,6 @@ export const sendUserAuthRequest = async (
   city,
   pincode
 ) => {
-  // if (data.password === data.confirmpassword) {
-  //   return console.log("password are not match");
-  // }
-
   const res = await axios
     .post(`http://localhost:5000/user/signup`, {
       name: data.name,
@@ -53,26 +61,6 @@ export const sendUserAuthRequest = async (
 };
 
 export const sendUserlogin = async (data) => {
-  // if (data.password === data.confirmpassword) {
-  //   return console.log("password are not match");
-  // }
-  // var headers = new Headers();
-  // headers.append("X-CSCAPI-KEY", "API_KEY");
-
-  // var requestOptions = {
-  //   method: "GET",
-  //   headers: headers,
-  //   redirect: "follow",
-  // };
-
-  // fetch(
-  //   "https://api.countrystatecity.in/v1/countries/IN/states/MH/cities",
-  //   requestOptions
-  // )
-  //   .then((response) => response.text())
-  //   .then((result) => console.log(result))
-  //   .catch((error) => console.log("error", error));
-
   console.log(data);
   const res = await axios
     .post(`http://localhost:5000/user/login`, {
@@ -166,17 +154,18 @@ export const getUserBooking = async () => {
   return resData;
 };
 
-export const addMovie = async (data) => {
+export const addMovie = async (data, images, language) => {
+  console.log("data" + data);
+  console.log("imahe" + images);
+  console.log("language" + language);
   const res = await axios
     .post(
       "http://localhost:5000/movie",
       {
         title: data.title,
         description: data.description,
-        releaseDate: data.releaseDate,
-        posterUrl: data.posterUrl,
-        fetaured: data.fetaured,
-        actors: data.actors,
+        posterUrl: images,
+        language: language,
         admin: localStorage.getItem("adminId"),
       },
       {
@@ -191,7 +180,7 @@ export const addMovie = async (data) => {
     return console.log("Unexpected Error Occurred");
   }
 
-  const resData = await res.data;
+  const resData = await res;
   return resData;
 };
 export const getAdminById = async () => {
@@ -284,4 +273,19 @@ export const updateprofile = async ({ inputs }, state, city, pincode) => {
     .then(console.log("account is updated"))
     .catch((err) => console.log(err));
   return res;
+};
+export const sendtheaterlogin = async (data) => {
+  console.log(data.password);
+  const res = await axios
+    .post(`http://localhost:5000/theater/login`, {
+      email: data.email,
+      password: data.password,
+    })
+    .catch((err) => console.log(err));
+  // if (res.status !== 200 && res.status !== 201) {
+  //   console.log("unexpexted error occured");
+  // }
+  const resData = await res;
+  console.log(resData);
+  return resData;
 };

@@ -5,7 +5,7 @@ const {
   addMovies,
   getMovies,
   getById,
-} = require("../controllers/moovie-controller");
+} = require("../controllers/movie-controller");
 const { uploadMoviePhoto } = require("../utill/moviemulter");
 const movieRouter = express.Router();
 

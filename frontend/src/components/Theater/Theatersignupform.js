@@ -25,7 +25,6 @@ function Theatersignupform({ onSubmit }) {
     phonenumber: "",
     password: "",
     confirmpassword: "",
-    
   });
   const [state, setstate] = useState("");
   const [city, setcity] = useState("");
@@ -92,7 +91,7 @@ function Theatersignupform({ onSubmit }) {
   }, [pincode]);
   console.log(state, city);
   const loginhandler = () => {
-    navigate("/Auth/login");
+    navigate("/Theater/login");
   };
   return (
     <>

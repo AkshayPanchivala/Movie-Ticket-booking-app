@@ -1,8 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { addMovie } from "../../api-helpers/api-helper";
 import AddmoviesForm from "./AddmoviesForm";
 
 function AddMovies() {
-  return <AddmoviesForm />;
+  const navigate = useNavigate();
+  const onResReceived = (res) => {
+    console.log(res.status);
+    navigate("/user-admin", { state: res.status });
+  };
+  const getData = (data, images, language) => {
+    console.log("Auth", data.inputs);
+    console.log("lklkl", images);
+    console.log("kklkl", language);
+    addMovie(data.inputs, images[0], language)
+      .then((res) => onResReceived(res))
+      .catch((err) => console.log(err));
+  };
+  return <AddmoviesForm onSubmit={getData} />;
 }
 
 export default AddMovies;

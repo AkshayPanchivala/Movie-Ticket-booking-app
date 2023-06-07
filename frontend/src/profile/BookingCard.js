@@ -1,23 +1,12 @@
 import * as React from "react";
-
-
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "reactstrap";
 
-// export default function BookingCard(props) {
-// console.log(props);
-// const id = useParams();
-// const movieid = id.id;
-// console.log(movieid);
-// const BookingHandler = () => {
-//   console.log("click");
-// };
-// return (
+
 
 export default function BookingCard(props) {
-  console.log(props);
-  // const a=[];
-  // a=props.SeatNumber
+
+
   return (
     <div
       style={{

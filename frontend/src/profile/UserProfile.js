@@ -42,7 +42,7 @@ function UserProfile() {
     const user = getUserbyid();
     user.then((res) => setUser(res)).catch((err) => console.log(err));
   }, []);
-
+  console.log(User);
   useEffect(() => {
     if (User) {
       const email = User.profilephoto;
@@ -96,8 +96,6 @@ function UserProfile() {
             width={"35%"}
             padding={3}
           >
-            {console.log("jhjh" + User.profilephoto)}
-
             <Avatar
               alt="User Profile Photo"
               src={`${User.profilephoto}`}
@@ -210,7 +208,7 @@ function UserProfile() {
                     Date={e.date}
                     SeatNumber={e.seatNumber}
                     ShowTime={e.ShowTime}
-                    TheaterName={e.admin.name}
+                    TheaterName={e.theatername}
                   />
                 </>
               ))}

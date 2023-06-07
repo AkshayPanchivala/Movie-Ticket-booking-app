@@ -10,9 +10,9 @@ const addMovies = asynchandler(async (req, res, next) => {
   console.log(req.body);
   console.log("KLKL");
   let missingValues = [];
-
+  console.log("kjkk21j");
   if (!title || typeof title == "String") missingValues.push("Name ");
-
+  console.log("kjkk2241j");
   if (missingValues.length > 0) {
     return next(
       new AppError(
@@ -21,15 +21,23 @@ const addMovies = asynchandler(async (req, res, next) => {
       )
     );
   }
-  let movie = new Movie({
-    description,
-    releaseDate: new Date(`${releaseDate}`),
-    featured,
-    actors,
-    theater: req.body._id,
-    posterUrl: req.file.filename,
-    title,
+  console.log("kjkk2zcz241j");
+  console.log({
+    description: req.body.description,
+    language: req.body.language,
+    theater: req.body.admin,
+    posterUrl: req.body.posterUrl,
+    title: req.body.title,
   });
+  let movie = await Movie.create({
+    description: req.body.description,
+    language: req.body.language,
+    theater: req.body.admin,
+    posterUrl: req.body.posterUrl,
+    title: req.body.title,
+  });
+  console.log("kjkkj");
+  console.log(movie);
   const session = await mongoose.startSession();
   const adminUser = req.admin;
   session.startTransaction();
@@ -37,6 +45,7 @@ const addMovies = asynchandler(async (req, res, next) => {
   console.log(adminUser);
   adminUser.adedMovies.push(movie);
   await adminUser.save({ session });
+
   await session.commitTransaction();
   if (!movie) {
     return res.status(500).json({ message: "Request Failed" });

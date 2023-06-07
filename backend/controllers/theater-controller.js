@@ -28,7 +28,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
   const token = jwt.sign({ id: theater._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
-  
+
   res.status(201).json({
     theater: theater,
     token: token,
@@ -38,6 +38,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
 
 const TheaterLogin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(req.body.email);
   const existingtheater = await Theater.findOne({ email: email });
 
   const verifypassword = await bcrypt.compare(
@@ -90,4 +91,4 @@ const getTheaterById = asynchandler(async (req, res, next) => {
 // const adminupdateprofile=asynchandler(async(req,res,next)=>{
 
 // })
-module.exports = { TheaterSignup,TheaterLogin, getTheater, getTheaterById};
+module.exports = { TheaterSignup, TheaterLogin, getTheater, getTheaterById };
