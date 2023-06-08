@@ -14,7 +14,7 @@ export const getAllMovies = async () => {
 };
 
 export const getMoviesbyid = async (id) => {
-  console.log(id)
+  console.log(id);
   const res = await axios
     .get(`http://localhost:5000/movie/${id}`)
     .catch((err) => console.log(err));
@@ -285,6 +285,22 @@ export const sendtheaterlogin = async (data) => {
   // if (res.status !== 200 && res.status !== 201) {
   //   console.log("unexpexted error occured");
   // }
+  const resData = await res;
+  console.log(resData);
+  return resData;
+};
+
+export const getpdf = async (selectedDate, Showtime) => {
+  const adminId = localStorage.getItem("adminId");
+  console.log({ date: selectedDate, showtime: Showtime, theater: adminId });
+  const res = await axios
+    .post(`http://localhost:5000/booking/download`, {
+      date: selectedDate,
+      showtime: Showtime,
+      theater: adminId,
+    })
+
+    .catch((err) => console.log(err));
   const resData = await res;
   console.log(resData);
   return resData;

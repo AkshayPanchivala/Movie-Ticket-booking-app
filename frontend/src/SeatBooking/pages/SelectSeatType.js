@@ -60,7 +60,8 @@ export default function SelectSeatType({ onNext }) {
       ShowDate,
     });
   }
-
+{  const Time = new Date().toLocaleString().split(",")[1];
+console.log(Time);}
   return (
     <>
       <Typography>Select a Date</Typography>
@@ -72,6 +73,7 @@ export default function SelectSeatType({ onNext }) {
         value={ShowDate}
       />
       {/* {console.log(valu)} */}
+    
       <Row>
         <Row>
           <Col>

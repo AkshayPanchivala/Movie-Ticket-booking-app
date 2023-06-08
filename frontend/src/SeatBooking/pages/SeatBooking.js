@@ -23,7 +23,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
   const [notAvailableSeat, setnotAvailableSeat] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const not = () => {
     const data = {
       movieid,
       theatreid,
@@ -31,7 +31,8 @@ export default function SeatBooking({ onNext, seatSelection }) {
       ShowTime: seatSelection.Showtime,
     };
     notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
-  });
+  };
+  not();
   console.log(notAvailableSeat);
   console.log(typeof seatSelection.seatType);
 
@@ -95,6 +96,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
     });
     return availableSeats;
   }
+
   useEffect(() => {
     const availableSeats = getAvailableSeats();
     setAvailableSeats(availableSeats);

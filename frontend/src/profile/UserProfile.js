@@ -203,7 +203,8 @@ function UserProfile() {
                 <>
                   {console.log("ee" + e.seatNumber)}
                   <BookingCard
-                    key={Bookings._id}
+                    key={e._id}
+                    id={e._id}
                     Title={e.movie.title}
                     Date={e.date}
                     SeatNumber={e.seatNumber}

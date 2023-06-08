@@ -14,9 +14,11 @@ import {
   Col,
   Label,
 } from "reactstrap";
+import jsPDF from "jspdf";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ShowTime from "./../SeatBooking/constants/ShowTime";
+import { getpdf } from "../api-helpers/api-helper";
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,9 +36,65 @@ const style = {
 function Getdatabboking() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [Showtime, setShowTime] = useState(null);
+  const [bookingdata, showbookingdata] = useState([]);
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
+
+  function generatePdf() {
+    var doc = new jsPDF("p", "pt");
+
+    // Set the margin to 20 units
+    // doc.setMargin(20, 20, 20, 20);
+    getpdf(selectedDate, Showtime)
+      .then((res) => showbookingdata(res.data.booking))
+      .catch((err) => console.log(err));
+    {
+      bookingdata &&
+        doc.text(
+          50,
+          50,
+          "Movie: " +
+            bookingdata[0].movie.title +
+            "    " +
+            " Show Time: " +
+            bookingdata[0].ShowTime +
+            "     " +
+            " Date: " +
+            bookingdata[0].date
+        );
+      doc.setFont("courier");
+    }
+
+
+    doc.setFont("courier");
+
+    if (bookingdata) {
+      const x = 40; // X-coordinate for the booking data
+      let y = 100; // Initial Y-coordinate for each row
+      doc.text(x, y, "Name");
+      doc.text(x + 70, y, "Email");
+      doc.text(x + 180, y, "Seat Type");
+      doc.text(x + 340, y, "Seat Number");
+      bookingdata.forEach((booking, index) => {
+        doc.text(x, y + 40, "" + booking.user.name);
+        doc.text(x + 70, y + 40, "" + booking.user.email);
+        doc.text(x + 190, y + 40, "" + booking.SeatType);
+        doc.text(x + 350, y + 40, "" + booking.seatNumber);
+
+        y += 20;
+
+        if (y >= doc.internal.pageSize.height - 20) {
+          doc.addPage();
+          y = 40;
+        }
+      });
+    }
+
+
+    doc.save("generated.pdf");
+    
+  }
   return (
     <div>
       <Modal
@@ -68,7 +126,9 @@ function Getdatabboking() {
           </ListGroup>
 
           <Stack spacing={2} direction="row" margin={2} marginLeft={20}>
-            <Button variant="contained">Get Data</Button>
+            <Button variant="contained" onClick={generatePdf}>
+              Get Data
+            </Button>
           </Stack>
         </Box>
       </Modal>
