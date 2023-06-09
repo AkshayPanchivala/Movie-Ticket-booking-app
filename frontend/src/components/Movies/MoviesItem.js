@@ -13,8 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 function MoviesItem({ title, releaseDate, posterurl, id }) {
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const navigate = useNavigate();
-  // {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
-  // {const link=isuserLoggedIn && (`/booking/${id}`) : `/Auth` }
+
   {
     !isuserLoggedIn && navigate("/Auth");
   }
@@ -32,8 +31,8 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
     >
       <img height={"50%"} width="100%" src={posterurl} alt={title} />
       {/* <CardMedia
-        sx={{ height: 140 }}
-        image="/static/images/cards/contemplative-reptile.jpg"
+        sx={{ height: 140,width:100 }}
+        image={posterurl}
         title="green iguana"
       /> */}
       <CardContent>
@@ -61,7 +60,6 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
         >
           Book
         </Button>
-        {/* <Button size="small">Learn More</Button> */}
       </CardActions>
     </Card>
   );

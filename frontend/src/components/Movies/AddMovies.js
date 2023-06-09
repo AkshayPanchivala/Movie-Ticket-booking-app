@@ -6,13 +6,11 @@ import AddmoviesForm from "./AddmoviesForm";
 function AddMovies() {
   const navigate = useNavigate();
   const onResReceived = (res) => {
-    console.log(res.status);
+ 
     navigate("/user-admin", { state: res.status });
   };
   const getData = (data, images, language) => {
-    console.log("Auth", data.inputs);
-    console.log("lklkl", images);
-    console.log("kklkl", language);
+ 
     addMovie(data.inputs, images[0], language)
       .then((res) => onResReceived(res))
       .catch((err) => console.log(err));

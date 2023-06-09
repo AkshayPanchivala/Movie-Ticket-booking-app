@@ -13,7 +13,7 @@ function Booking() {
   const navigate = useNavigate();
 
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  console.log(isuserLoggedIn);
+
   const id = useParams().id;
 
   useEffect(() => {
@@ -27,10 +27,9 @@ function Booking() {
       })
       .catch((err) => console.log(err));
   }, [id]);
-  // {isuserLoggedIn && navigate(`/booking/${movie._id}`);}
-  // {isuserLoggedIn && navigate("/Auth")}
+ 
 
-  console.log("uju", isuserLoggedIn);
+
   return (
     <div>
       {movie && (

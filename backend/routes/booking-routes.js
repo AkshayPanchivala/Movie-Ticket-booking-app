@@ -8,9 +8,9 @@ const {
 } = require("../controllers/booking_controller");
 
 const BookingRouter = express.Router();
-// BookingRouter.route("/").get(deleteBooking);
+
 BookingRouter.route("/").post(newBooking);
-BookingRouter.route("/download").post(getbookingbyadmin);
+
 BookingRouter.route("/notavailableseat/:movieid/:theatreid").post(
   notAvailableSeat
 );

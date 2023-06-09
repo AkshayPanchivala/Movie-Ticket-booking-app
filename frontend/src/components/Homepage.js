@@ -8,40 +8,78 @@ import "react-toastify/dist/ReactToastify.css";
 import MoviesItem from "./Movies/MoviesItem";
 import ImageSlider from "./ImageSlider";
 
-function Homepage() {
+function Homepage({route,navigation}) {
   const [movies, setMovies] = useState([]);
-  const status = useLocation();
+  const location = useLocation();
+  console.log(location.key);
+  console.log(route)
+  console.log(navigation)
+  const [key,setKey] = useState("")
+  // const key = location.key
+  const [status, setStatus] = useState(location.state);
+
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
-    
-      console.log(status);
-    if (status.state === 201) {
-      return toast.success("Account is created", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-    if (status.state === 200) {
-      return toast.success("Login Successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
+
+    // if (status === 201) {
+
+    //   return toast.success("Account is created", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // }
+    // else if (status.state === 200) {
+    //   return toast.success("Login Successfully", {
+    //     position: "top-right",
+    //     autoClose: 5000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // }
   }, []);
+  useEffect(() => {
+    if (status === 201) {
+      toast.success("Account is created", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else if (status === 200) {
+      toast.success("Login Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+
+    if (status !== "") {
+      console.log("lk");
+      setStatus(undefined);
+      console.log("lklk" + location);
+    }
+  }, [key]);
   console.log(movies);
   const slides = [
     {

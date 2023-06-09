@@ -54,7 +54,7 @@ function AddmoviesForm({ onSubmit }) {
 
   const photoupload = (event) => {
     let file = event.target.files;
-    console.log(file);
+  
     if (!file) {
       alert("Please upload an image first!");
     }
@@ -81,7 +81,7 @@ function AddmoviesForm({ onSubmit }) {
       [event.target.name]: event.target.value,
     }));
   };
-  console.log(inputs);
+  
   let a;
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -116,7 +116,7 @@ function AddmoviesForm({ onSubmit }) {
         }
         language.push("Gujarati");
       }
-      console.log({ inputs }, images, language);
+  
 
       onSubmit({ inputs }, images, language);
     }
@@ -190,24 +190,7 @@ function AddmoviesForm({ onSubmit }) {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              {/* <Form.Group md="4" controlId="validationCustomUsername">
-                <Form.Label>Language</Form.Label>
-                <InputGroup hasValidation>
-                  
-                  <Form.Control
-                    type="file"
-                    placeholder="Profilephoto"
-                    value={inputs.profilephoto}
-                    onChange={photoupload}
-                    name="profilephoto"
-                    aria-describedby="inputGroupPrepend"
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    Please choose a language.
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group> */}
+              
               <Form.Group controlId="validationCustomUsername">
                 <Form.Label>Language</Form.Label>
                 <Form.Check
@@ -216,7 +199,7 @@ function AddmoviesForm({ onSubmit }) {
                   label="Hindi"
                   checked={isHindi}
                   onChange={handleCheckbox1Change}
-                  // Customize the invalid state based on your validation logic
+                 
                 />
 
                 <Form.Check
@@ -225,7 +208,7 @@ function AddmoviesForm({ onSubmit }) {
                   label="English"
                   checked={isEnglish}
                   onChange={handleCheckbox2Change}
-                  // Customize the invalid state based on your validation logic
+               
                 />
 
                 <Form.Check
@@ -234,7 +217,7 @@ function AddmoviesForm({ onSubmit }) {
                   label="Gujarati"
                   checked={isGujarati}
                   onChange={handleCheckbox3Change}
-                  // Customize the invalid state based on your validation logic
+                  
                 />
                 {isError && (
                   <Alert variant="danger" color="red">
@@ -243,12 +226,7 @@ function AddmoviesForm({ onSubmit }) {
                 )}
               </Form.Group>
             </Row>
-            {/* <FormGroup>
-              <FormControlLabel control={<Checkbox />} label="Label" />
-              <FormControlLabel control={<Checkbox />} label="Label" />
-              <FormControlLabel control={<Checkbox />} label="Label" />
-              <FormControlLabel control={<Checkbox />} label="Label" />
-            </FormGroup> */}
+            
             <Col md="6">
               <Form.Group controlId="validationCustom03">
                 <Box marginTop={5}>

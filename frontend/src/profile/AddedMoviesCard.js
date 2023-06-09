@@ -18,7 +18,7 @@ function AddedMoviesCard(props) {
   }, [props.id]);
 
   const handleButtonClick = (id) => {
-    console.log("clicked");
+    
     console.log(id);
   };
 

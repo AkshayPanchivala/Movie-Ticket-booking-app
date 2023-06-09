@@ -7,12 +7,11 @@ const Movie = require("../models/Movie");
 
 const addMovies = asynchandler(async (req, res, next) => {
   const { title, description, releaseDate, featured, actors } = req.body;
-  console.log(req.body);
-  console.log("KLKL");
+
   let missingValues = [];
-  console.log("kjkk21j");
+
   if (!title || typeof title == "String") missingValues.push("Name ");
-  console.log("kjkk2241j");
+
   if (missingValues.length > 0) {
     return next(
       new AppError(
@@ -21,14 +20,7 @@ const addMovies = asynchandler(async (req, res, next) => {
       )
     );
   }
-  console.log("kjkk2zcz241j");
-  console.log({
-    description: req.body.description,
-    language: req.body.language,
-    theater: req.body.admin,
-    posterUrl: req.body.posterUrl,
-    title: req.body.title,
-  });
+  
   let movie = await Movie.create({
     description: req.body.description,
     language: req.body.language,
@@ -36,13 +28,12 @@ const addMovies = asynchandler(async (req, res, next) => {
     posterUrl: req.body.posterUrl,
     title: req.body.title,
   });
-  console.log("kjkkj");
-  console.log(movie);
+
   const session = await mongoose.startSession();
   const adminUser = req.admin;
   session.startTransaction();
   await movie.save({ session });
-  console.log(adminUser);
+
   adminUser.adedMovies.push(movie);
   await adminUser.save({ session });
 

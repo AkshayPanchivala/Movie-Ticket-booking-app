@@ -19,6 +19,7 @@ function Theatersignupform({ onSubmit }) {
   const [validated, setValidated] = useState(false);
   const [images, setImages] = useState([]);
   const [pincode, setpincode] = useState();
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
@@ -93,6 +94,15 @@ function Theatersignupform({ onSubmit }) {
   const loginhandler = () => {
     navigate("/Theater/login");
   };
+  const handleBackdropClick = () => {
+    navigate("/"); 
+  };
+  const handleConfirmPasswordChange = (event) => {
+    let confirmPassword = event.target.value;
+    console.log(confirmPassword);
+    setPasswordMatch(inputs.password === event.target.value);
+    // Check if password and confirm password match
+  };
   return (
     <>
       <Dialog
@@ -100,6 +110,7 @@ function Theatersignupform({ onSubmit }) {
           style: { borderRadius: 15, width: "500px", height: "700px" },
         }}
         open={true}
+        onBackdropClick={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           Register
@@ -225,6 +236,9 @@ function Theatersignupform({ onSubmit }) {
               <Form.Control
                 type="text"
                 placeholder="password"
+                pattern="^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$"
+                minLength={6}
+                maxLength={8}
                 required
                 onChange={handleChange}
                 value={inputs.password}
@@ -239,6 +253,9 @@ function Theatersignupform({ onSubmit }) {
               <Form.Control
                 type="text"
                 placeholder="confirmpassword"
+                minLength={6}
+                maxLength={8}
+                pattern="^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$"
                 required
                 onChange={handleChange}
                 value={inputs.confirmpassword}
@@ -247,6 +264,30 @@ function Theatersignupform({ onSubmit }) {
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Confirm Password.
               </Form.Control.Feedback>
+              <>
+                {inputs.confirmpassword.length > 0 && (
+                  <>
+                    {passwordMatch ? (
+                      <>
+                        <Form.Control.Feedback>
+                          Looks good!
+                        </Form.Control.Feedback>
+                      </>
+                    ) : (
+                      <>
+                        <Form.Control.Feedback type="invalid">
+                          Passwords do not match.
+                        </Form.Control.Feedback>
+                      </>
+                    )}
+                  </>
+                )}
+                <Form.Text muted>
+                  Password must contain at least one numeric character, one
+                  uppercase letter, one lowercase letter, and one special
+                  character.
+                </Form.Text>
+              </>
             </Form.Group>
 
             <Col md="6">

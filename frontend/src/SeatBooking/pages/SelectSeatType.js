@@ -17,17 +17,24 @@ import "react-calendar/dist/Calendar.css";
 // import Showtime from "../Showtime";
 import ShowTime from "../constants/ShowTime";
 import { Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { getMoviesbyid } from "../../api-helpers/api-helper";
 export default function SelectSeatType({ onNext }) {
   const [seatCount, setSeatCount] = useState(0);
   const [seatType, setSeatType] = useState(null);
   const [Showtime, setShowTime] = useState(null);
   const [ShowDate, onChange] = useState(new Date());
+  const [getLanguage, setgetLanguage] = useState([]);
+  const [Language, setLanguage] = useState(null);
   const [value, setvalue] = useState({
     SeatCount: "",
     SeatType: "",
     showTime: "",
     showDate: "",
+    showLanguage: "",
   });
+  const params = useParams();
+  console.log(params);
 
   const [isNextDisable, setNextDisable] = useState(true);
   function RenderSeatCounts() {
@@ -42,26 +49,34 @@ export default function SelectSeatType({ onNext }) {
     return rows;
   }
   useEffect(() => {
-    if (seatCount > 0 && seatType && Showtime && ShowDate)
+    if (seatCount > 0 && seatType && Showtime && ShowDate && Language)
       setNextDisable(false);
-  }, [seatCount, seatType, Showtime, ShowDate]);
-
+  }, [seatCount, seatType, Showtime, ShowDate, Language]);
+  useEffect(() => {
+    getMoviesbyid(params.movieid)
+      .then((res) => setgetLanguage(res.movie.language))
+      .catch((err) => console.log(err));
+  }, []);
   function handleNext() {
     setvalue({
       seatCount: seatCount,
       SeatType: seatType,
       showTime: Showtime,
       showDate: ShowDate,
+      showLanguage: Language,
     });
     onNext(TAB_OPTIONS.SEAT_SELECTION, {
       seatCount,
       seatType,
       Showtime,
       ShowDate,
+      Language,
     });
   }
-{  const Time = new Date().toLocaleString().split(",")[1];
-console.log(Time);}
+  {
+    const Time = new Date().toLocaleString().split(",")[1];
+    console.log(Time);
+  }
   return (
     <>
       <Typography>Select a Date</Typography>
@@ -72,11 +87,26 @@ console.log(Time);}
         onChange={onChange}
         value={ShowDate}
       />
-      {/* {console.log(valu)} */}
-    
+ 
+
       <Row>
         <Row>
           <Col>
+            <Label>Select Language</Label>
+            <ListGroup horizontal>
+              {getLanguage.map((item, index) => (
+                <>
+                  <ListGroupItem
+                    key={index}
+                    active={Language === item ? true : false}
+                    tag="b"
+                    onClick={() => setLanguage(item)}
+                  >
+                    {item}
+                  </ListGroupItem>
+                </>
+              ))}
+            </ListGroup>
             <Label>Select Show Time</Label>
             <ListGroup horizontal>
               {ShowTime.Time.map((item) => (

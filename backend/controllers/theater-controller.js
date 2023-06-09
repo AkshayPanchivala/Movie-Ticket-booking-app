@@ -6,7 +6,7 @@ const Theater = require("../models/Theater");
 ///admin signup
 const TheaterSignup = asynchandler(async (req, res, next) => {
   const { name, email, password } = req.body;
-  console.log("jkjjf");
+
   const existingtheater = await Theater.findOne({ email: email });
 
   if (existingtheater) {
@@ -38,16 +38,15 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
 
 const TheaterLogin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body.email);
+
   const existingtheater = await Theater.findOne({ email: email });
 
-  // const verifypassword = await bcrypt.compare(
-  //   req.body.password,
-  //   existingtheater.password
-  // );
-  const verifypassword = true;
-  console.log(existingtheater.password);
-  console.log(verifypassword);
+  const verifypassword = await bcrypt.compare(
+    req.body.password,
+    existingtheater.password
+  );
+  // const verifypassword = true;
+
   if (verifypassword) {
     const token = jwt.sign(
       { id: existingtheater._id },
@@ -90,7 +89,4 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   return res.status(200).json({ admin: admin });
 });
 
-// const adminupdateprofile=asynchandler(async(req,res,next)=>{
-
-// })
 module.exports = { TheaterSignup, TheaterLogin, getTheater, getTheaterById };

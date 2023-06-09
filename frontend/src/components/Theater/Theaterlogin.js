@@ -14,17 +14,17 @@ function Theaterlogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onResReceived = (res) => {
-    console.log(res.data);
+
     const data = res.data;
-    console.log(data.theater._id);
-    console.log(data.token);
+   
+   
     dispatch(adminActions.login());
     localStorage.setItem("adminId", data.theater._id);
     localStorage.setItem("token", data.token);
     navigate("/", { state: res.status });
   };
   const getData = (data) => {
-    console.log("Auth", data.inputs);
+    
     sendtheaterlogin(data.inputs)
       .then(onResReceived)
 

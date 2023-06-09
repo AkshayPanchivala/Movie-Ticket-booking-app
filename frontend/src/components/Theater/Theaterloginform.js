@@ -34,6 +34,9 @@ function Theaterloginform({ onSubmit }) {
   const signuphandler = () => {
     navigate("/admin");
   };
+  const handleBackdropClick = () => {
+    navigate("/");
+  };
   return (
     <>
       <Dialog
@@ -41,6 +44,7 @@ function Theaterloginform({ onSubmit }) {
           style: { borderRadius: 15, width: "500px", height: "430px" },
         }}
         open={true}
+        onBackdropClick={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           Login
@@ -57,7 +61,7 @@ function Theaterloginform({ onSubmit }) {
                 placeholder="email"
                 name="email"
               />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
               <Form.Control.Feedback type="invalid">
                 Please provide A valide Email.
               </Form.Control.Feedback>

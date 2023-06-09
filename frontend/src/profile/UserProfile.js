@@ -13,6 +13,8 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useLocation, useNavigate } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
+
 const useStyles = makeStyles({
   circularCard: {
     maxWidth: 345,
@@ -27,21 +29,26 @@ function UserProfile() {
   const [Bookings, setBookings] = useState();
   const [User, setUser] = useState();
   const [profile, setProfile] = useState("");
+  const [totalPages, settotalPages] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const status = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
     // getUserBooking()
     //   .then((res) => setBookings(res.bookings))
     //   .catch((err) => console.log(err));
-    getUserBooking()
+    //
+    getUserBooking(currentPage)
       .then((res) => {
         console.log(res);
-        setBookings(res.bookings);
+        console.log(res.data.totalPages);
+        settotalPages(res.data.totalPages);
+        setBookings(res.data.booking);
       })
       .catch((err) => console.log(err));
     const user = getUserbyid();
     user.then((res) => setUser(res)).catch((err) => console.log(err));
-  }, []);
+  }, [currentPage]);
   console.log(User);
   useEffect(() => {
     if (User) {
@@ -69,6 +76,9 @@ function UserProfile() {
 
   const profilehandler = () => {
     console.log("clicked");
+  };
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
   };
   // {Bookings &&
   //   Bookings.map((e) => (
@@ -137,6 +147,7 @@ function UserProfile() {
               <ToastContainer
                 position="top-right"
                 autoClose={5000}
+                page
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -209,10 +220,17 @@ function UserProfile() {
                     Date={e.date}
                     SeatNumber={e.seatNumber}
                     ShowTime={e.ShowTime}
-                    TheaterName={e.theatername}
+                    TheaterName={e.theater.name}
                   />
                 </>
               ))}
+            <Stack spacing={2} marginLeft={50}>
+              <Pagination
+                count={totalPages}
+                color="primary"
+                onChange={handlePageChange}
+              />
+            </Stack>
           </Box>
         </Box>
       )}

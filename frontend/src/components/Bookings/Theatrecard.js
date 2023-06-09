@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
  function Theatrecard(props) {
   const id = useParams();
   const movieid = id.id;
-  console.log(movieid);
+ 
   const BookingHandler = () => {
     console.log("click");
   };

@@ -6,12 +6,12 @@ const {
   getMovies,
   getById,
 } = require("../controllers/movie-controller");
-const { uploadMoviePhoto } = require("../utill/moviemulter");
+
 const movieRouter = express.Router();
 
 movieRouter
   .route("/")
-  .post(protect, uploadMoviePhoto, addMovies)
+  .post(protect, addMovies)
   .get(getMovies);
 movieRouter.route("/:id").get(getById);
 

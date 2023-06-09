@@ -7,27 +7,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Authsignupform from "./Authsignupform";
 
-
 function Authsignup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onResReceived = (res) => {
     const data = res.data;
     const status = res.status;
-    console.log(status);
-    console.log("klkklk");
-    // console.log(data);
-    // console.log(data.user._id);
+
     if (status === 201) {
-      console.log("kjk");
       dispatch(userActions.login());
       localStorage.setItem("userId", data.user._id);
-      navigate("/", { state: status });
+      navigate({ name: "/", state: status, params: "akshay" });
     }
 
     if (status === 409) {
-      console.log("kjkj toster");
-
       return toast.error("Already account is created", {
         position: "top-right",
         autoClose: 5000,
@@ -40,11 +33,8 @@ function Authsignup() {
       });
     }
   };
-  const getData = (data, images, state, city,pincode) => {
-    console.log(state + "state");
-    console.log(city + "city");
-    console.log("Auth", images[0]);
-    sendUserAuthRequest(data.inputs, images[0],state,city,pincode)
+  const getData = (data, images, state, city, pincode) => {
+    sendUserAuthRequest(data.inputs, images[0], state, city, pincode)
       .then(onResReceived)
       .catch((err) => console.log(err));
   };

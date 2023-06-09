@@ -42,45 +42,31 @@ function Getdatabboking() {
   };
 
   function generatePdf() {
-    var doc = new jsPDF("p", "pt");
+    var doc = new jsPDF("p", "pt", "a3");
 
     // Set the margin to 20 units
     // doc.setMargin(20, 20, 20, 20);
     getpdf(selectedDate, Showtime)
       .then((res) => showbookingdata(res.data.booking))
       .catch((err) => console.log(err));
-    {
-      bookingdata &&
-        doc.text(
-          50,
-          50,
-          "Movie: " +
-            bookingdata[0].movie.title +
-            "    " +
-            " Show Time: " +
-            bookingdata[0].ShowTime +
-            "     " +
-            " Date: " +
-            bookingdata[0].date
-        );
-      doc.setFont("courier");
-    }
-
-
+    console.log(bookingdata);
     doc.setFont("courier");
 
     if (bookingdata) {
       const x = 40; // X-coordinate for the booking data
       let y = 100; // Initial Y-coordinate for each row
+      doc.text(x, y - 50, "Movie: " + bookingdata[0].movie.title);
+      doc.text(x + 150, y - 50, " Show Time: " + bookingdata[0].ShowTime);
+      doc.text(x + 350, y - 50, " Date: " + bookingdata[0].date);
       doc.text(x, y, "Name");
-      doc.text(x + 70, y, "Email");
-      doc.text(x + 180, y, "Seat Type");
-      doc.text(x + 340, y, "Seat Number");
+      doc.text(x + 150, y, "Email");
+      doc.text(x + 500, y, "Seat Type");
+      doc.text(x + 600, y, "Seat Number");
       bookingdata.forEach((booking, index) => {
         doc.text(x, y + 40, "" + booking.user.name);
-        doc.text(x + 70, y + 40, "" + booking.user.email);
-        doc.text(x + 190, y + 40, "" + booking.SeatType);
-        doc.text(x + 350, y + 40, "" + booking.seatNumber);
+        doc.text(x + 150, y + 40, "" + booking.user.email);
+        doc.text(x + 500, y + 40, "" + booking.SeatType);
+        doc.text(x + 600, y + 40, "" + booking.seatNumber);
 
         y += 20;
 
@@ -91,9 +77,7 @@ function Getdatabboking() {
       });
     }
 
-
     doc.save("generated.pdf");
-    
   }
   return (
     <div>

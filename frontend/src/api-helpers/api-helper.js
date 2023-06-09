@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+
 
 export const getAllMovies = async () => {
   const res = await axios
@@ -14,7 +14,7 @@ export const getAllMovies = async () => {
 };
 
 export const getMoviesbyid = async (id) => {
-  console.log(id);
+ 
   const res = await axios
     .get(`http://localhost:5000/movie/${id}`)
     .catch((err) => console.log(err));
@@ -22,7 +22,7 @@ export const getMoviesbyid = async (id) => {
     return console.log("no data");
   }
   const data = await res.data;
-  console.log(res);
+ 
   return data;
 };
 export const sendUserAuthRequest = async (
@@ -46,7 +46,7 @@ export const sendUserAuthRequest = async (
     .catch((err) => {
       return err.response;
     });
-  console.log(res);
+
   if (res.status !== 200 && res.status !== 201) {
     console.log("unexpexted error occured");
   }
@@ -55,24 +55,22 @@ export const sendUserAuthRequest = async (
   }
   const resstatus = await res.status;
 
-  console.log(res);
+
   const resData = await res.data;
   return res;
 };
 
 export const sendUserlogin = async (data) => {
-  console.log(data);
+  
   const res = await axios
     .post(`http://localhost:5000/user/login`, {
       email: data.email,
       password: data.password,
     })
     .catch((err) => console.log(err));
-  // if (res.status !== 200 && res.status !== 201) {
-  //   console.log("unexpexted error occured");
-  // }
+ 
   const resData = await res;
-  console.log(resData);
+ 
   return resData;
 };
 export const getAlladmin = async () => {
@@ -82,8 +80,8 @@ export const getAlladmin = async () => {
   if (res.status !== 200 && res.status !== 201) {
     console.log("unexpexted error occured");
   }
-  const resData = await res.data;
-  console.log(resData);
+  const resData = await res;
+  
   return resData;
 };
 export const sendAdminAuthRequest = async (
@@ -138,26 +136,24 @@ export const newBooking = async (data) => {
     .catch((err) => console.log(err));
   return res;
 };
-
-export const getUserBooking = async () => {
+//
+export const getUserBooking = async (currentPage) => {
   const id = localStorage.getItem("userId");
   console.log(id);
   const res = await axios
-    .get(`http://localhost:5000/user/bookings/${id}`)
+    .get(`http://localhost:5000/booking/${id}?page=${currentPage}`)
     .catch((err) => console.log(err));
 
   if (res.status !== 200) {
     return console.log("unexpected Error");
   }
-  const resData = await res.data;
+  const resData = await res;
 
   return resData;
 };
 
 export const addMovie = async (data, images, language) => {
-  console.log("data" + data);
-  console.log("imahe" + images);
-  console.log("language" + language);
+  
   const res = await axios
     .post(
       "http://localhost:5000/movie",
@@ -299,6 +295,17 @@ export const getpdf = async (selectedDate, Showtime) => {
       showtime: Showtime,
       theater: adminId,
     })
+
+    .catch((err) => console.log(err));
+  const resData = await res;
+  console.log(resData);
+  return resData;
+};
+
+export const deleteBooking = async (id) => {
+  console.log(id);
+  const res = await axios
+    .delete(`http://localhost:5000/booking/${id}`)
 
     .catch((err) => console.log(err));
   const resData = await res;

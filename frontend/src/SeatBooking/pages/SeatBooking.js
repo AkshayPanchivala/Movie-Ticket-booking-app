@@ -12,11 +12,10 @@ export default function SeatBooking({ onNext, seatSelection }) {
   console.log(seatSelection.ShowDate, seatSelection.Showtime);
   const params = useParams();
   const id = localStorage.getItem("userId");
-  console.log(params);
-  console.log(params.movieid);
+
   const movieid = params.movieid;
   const theatreid = params.theatreId;
-  // console.log(params.theatreId);
+ 
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
@@ -33,26 +32,10 @@ export default function SeatBooking({ onNext, seatSelection }) {
     notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
   };
   not();
-  console.log(notAvailableSeat);
-  console.log(typeof seatSelection.seatType);
+ 
 
-  // if (seatSelection.seatType != "PREMUIM_ECONOMY") {
-  //   for (let i = 70; i < 74; i++) {
-  //     for (
-  //       let j = 0;
-  //       j < SEATS.SEAT_STRUCTURE.PREMUIM_ECONOMY.totalPlaces;
-  //       j++
-  //     ) {
-  //       const b = a.push(String.fromCharCode(i)(j + 1));
-  //       console.log(b);
-  //     }
-  //   }
-  //   console.log("asasa" + a);
-  // }
-  // console.log("fgfg" + a);
-  console.log("klklkl" + seatSelection.seatType);
   function handleUpdateSelection(seatKey) {
-    // console.log(seatSelection.seatCount, selectedSeats.length);
+  
     if (seatSelection.seatCount <= selectedSeats.length) {
       const ssss = [...selectedSeats, seatKey];
       ssss.shift();
@@ -105,10 +88,10 @@ export default function SeatBooking({ onNext, seatSelection }) {
 
   function handleAutoSelection() {
     const selectedTeam = [];
-    // console.log("seats", SEATS.SEAT_STRUCTURE[seatSelection.seatType]);
+   
     SEATS.SEAT_STRUCTURE[seatSelection.seatType].map((seatRow) => {
       seatRow.seats.map((seat) => {
-        //   console.log(`${seatRow.row}${seat}`);
+       
         if (
           !notAvailableSeat.includes(`${seatRow.row}${seat}`) &&
           selectedTeam.length < seatSelection.seatCount
@@ -124,23 +107,11 @@ export default function SeatBooking({ onNext, seatSelection }) {
   const onResReceived = (res) => {
     const data = res.data;
     const status = res.status;
-    console.log(status);
+   
 
-    // if (status === 201) {
-    //   console.log("kjkj toster");
 
-    //  return toast.success("Account is created", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   })
     navigate("/movies", { state: status });
-    // }
+    
   };
 
   function handleNext() {
@@ -157,15 +128,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
     newBooking(data)
       .then(onResReceived)
       .catch((err) => console.log(err));
-    console.log(
-      "seat selection" +
-        seatSelection.seatCount +
-        seatSelection.seatType +
-        seatSelection.Showtime +
-        seatSelection.ShowDate +
-        "ghgh" +
-        selectedSeats
-    );
+   
   }
   return (
     <Row>
@@ -173,7 +136,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
         <Label>Select your desired seat</Label>
         {SEATS.SEAT_TYPE.map((item) => (
           <Row key={`${item.type}_type`}>
-            {console.log(item.type)}
+          
             <Label>{item.title}</Label>
             {SEATS.SEAT_STRUCTURE[item.type].map((itemRow) => (
               <Row key={itemRow.row}>

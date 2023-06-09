@@ -77,7 +77,9 @@ function UpdateProfile() {
       .catch((err) => console.log(err));
   }, [pincode]);
   console.log(state, city);
-
+  const handleBackdropClick = () => {
+    navigate("/user"); // Navigate to the user profile page
+  };
   return (
     <>
       <Dialog
@@ -85,6 +87,7 @@ function UpdateProfile() {
           style: { borderRadius: 15, width: "500px", height: "700px" },
         }}
         open={true}
+        onBackdropClick={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           Update

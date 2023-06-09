@@ -8,7 +8,7 @@ import MoviesItem from "./MoviesItem";
 function Movies() {
   const [movies, setMovies] = useState();
   let status = useLocation();
-  console.log(status.state);
+
   useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
@@ -45,7 +45,7 @@ function Movies() {
         </Typography>
         <Box
           width={"100%"}
-          margin="auto"
+          marginLeft={10}
           marginTop={5}
           display={"flex"}
           justifyContent="flex-start"
