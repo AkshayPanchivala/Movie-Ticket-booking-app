@@ -85,6 +85,7 @@ function Theatersignupform({ onSubmit }) {
   useEffect(() => {
     pincodefetch(pincode)
       .then((res) => {
+        console.log(res             );
         setcity(res[0].PostOffice[0].Block);
         setstate(res[0].PostOffice[0].Circle);
       })
@@ -95,7 +96,7 @@ function Theatersignupform({ onSubmit }) {
     navigate("/Theater/login");
   };
   const handleBackdropClick = () => {
-    navigate("/"); 
+    navigate("/");
   };
   const handleConfirmPasswordChange = (event) => {
     let confirmPassword = event.target.value;

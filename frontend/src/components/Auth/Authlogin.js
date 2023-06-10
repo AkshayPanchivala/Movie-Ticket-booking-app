@@ -17,7 +17,19 @@ function Authlogin() {
 
     dispatch(userActions.login());
     localStorage.setItem("userId", data.user._id);
-    navigate("/", { state: res.status });
+    if(res.status === 200){
+      toast.success("Login Successfully", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      navigate("/");
+    }
   };
   const getData = (data) => {
     sendUserlogin(data.inputs)

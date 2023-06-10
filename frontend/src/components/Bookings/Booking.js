@@ -25,6 +25,8 @@ function Booking() {
   const [totalPages, settotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [city, setCity] = useState();
+  const [searchPincode, setsearchPincode] = useState(false);
+  const[pincode,Setpincode]=useState()
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().id;
@@ -47,7 +49,9 @@ function Booking() {
         // setTheatre(res.data.data);
       })
       .catch((err) => console.log(err));
-  }, [id, currentPage]);
+
+      
+  }, [id, currentPage,pincode]);
   // useEffect(() => {
   //   // getUserBooking()
   //   //   .then((res) => setBookings(res.bookings))
@@ -58,19 +62,22 @@ function Booking() {
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
-  console.log(currentPage);
+ 
+  const handlechange = (e, val) => {
+    setsearchPincode(true);
+    if (val === null) {
+      setsearchPincode(false);
+    }
+    Setpincode(val)
+  };
   // console.log(c);
-  // const top100Films = [
 
-  //   { title: "Singin' in the Rain", year: 1952 },
-  //   { title: 'Toy Story', year: 1995 },
-  //   { title: 'Bicycle Thieves', year: 1948 },
-  //   { title: 'The Kid', year: 1921 },
-  //   { title: 'Inglourious Basterds', year: 2009 },
-  //   { title: 'Snatch', year: 2000 },
-  //   { title: '3 Idiots', year: 2009 },
-  //   { title: 'Monty Python and the Holy Grail', year: 1975 },
-  // ];
+  // const filteredPincodes = city.map((option) => option.filter((option) => {
+  //   // Replace 'condition' with your desired filtering condition
+  //   return ;
+  // })).map((option) => option.pincode);
+
+  // console.log(filteredPincodes);
   return (
     <div>
       <Box display="flex" marginTop={"2%"}>
@@ -83,24 +90,19 @@ function Booking() {
         >
           Book Tickets of Movie:
         </Typography>
-        <Box width={"20%"}>
-          <Autocomplete
-            freeSolo
-            id="free-solo-2-demo"
-            disableClearable
-            // options={city.map((option) => option.title)}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search input"
-                InputProps={{
-                  ...params.InputProps,
-                  type: "search",
-                }}
-              />
-            )}
-          />
-        </Box>
+        {city && (
+          <Box width={"20%"}>
+            <Autocomplete
+              id="free-solo-demo"
+              freeSolo
+              options={[...new Set(city.map((option) => option.pincode))]}
+              renderInput={(params) => (
+                <TextField {...params} label="LanguageSelect" />
+              )}
+              onChange={handlechange}
+            />
+          </Box>
+        )}
       </Box>
       {movie && (
         <>

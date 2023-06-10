@@ -45,40 +45,40 @@ function Homepage() {
     //   });
     // }
   }, []);
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (status === 201) {
-      toast.success("Account is created", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    } else if (status === 200) {
-      toast.success("Login Successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
+  //   if (status === 201) {
+  //     toast.success("Account is created", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
+  //     });
+  //   } else if (status === 200) {
+  //     toast.success("Login Successfully", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "light",
+  //     });
+  //   }
     
    
   
-    if (status !== "") {
-      console.log("lk");
-      setStatus(undefined);
-      console.log("lklk" + location);
-    }
-  }, [status,location]);
+  //   if (status !== "") {
+  //     console.log("lk");
+  //     setStatus(undefined);
+  //     console.log("lklk" + location);
+  //   }
+  // }, [status,location]);
   console.log(movies);
   const slides = [
     {

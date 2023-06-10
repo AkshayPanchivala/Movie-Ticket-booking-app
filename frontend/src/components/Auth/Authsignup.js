@@ -17,7 +17,20 @@ function Authsignup() {
     if (status === 201) {
       dispatch(userActions.login());
       localStorage.setItem("userId", data.user._id);
-      navigate({ name: "/", state: status, params: "akshay" });
+
+      if (status === 201) {
+        toast.success("Account is created", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+      navigate("/");
     }
 
     if (status === 409) {
