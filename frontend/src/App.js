@@ -20,6 +20,7 @@ import UpdateProfile from "./profile/UpdateProfile";
 import Theatersignup from "./components/Theater/Theatersignup";
 import Theaterlogin from "./components/Theater/Theaterlogin";
 import Getdatabboking from "./profile/Getdatabboking";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,6 +37,18 @@ function App() {
 
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false} 
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Header />
       <section>
         <Routes>

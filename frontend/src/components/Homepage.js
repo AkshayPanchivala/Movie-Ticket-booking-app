@@ -8,14 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import MoviesItem from "./Movies/MoviesItem";
 import ImageSlider from "./ImageSlider";
 
-function Homepage({route,navigation}) {
+function Homepage() {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
-  console.log(location.key);
-  console.log(route)
-  console.log(navigation)
-  const [key,setKey] = useState("")
-  // const key = location.key
+  console.log(location);
   const [status, setStatus] = useState(location.state);
 
   useEffect(() => {
@@ -50,6 +46,7 @@ function Homepage({route,navigation}) {
     // }
   }, []);
   useEffect(() => {
+
     if (status === 201) {
       toast.success("Account is created", {
         position: "top-right",
@@ -73,13 +70,15 @@ function Homepage({route,navigation}) {
         theme: "light",
       });
     }
-
+    
+   
+  
     if (status !== "") {
       console.log("lk");
       setStatus(undefined);
       console.log("lklk" + location);
     }
-  }, [key]);
+  }, [status,location]);
   console.log(movies);
   const slides = [
     {
@@ -133,7 +132,7 @@ function Homepage({route,navigation}) {
               />
             ))}
       </Box>
-      <ToastContainer
+      {/* <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
@@ -144,7 +143,7 @@ function Homepage({route,navigation}) {
         draggable
         pauseOnHover
         theme="light"
-      />
+      /> */}
       {console.log("kjkj")}
       <Box display="flex" padding={5} margin="auto">
         <Button

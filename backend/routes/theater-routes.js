@@ -6,12 +6,14 @@ const {
   TheaterLogin,
   getTheater,
   getTheaterById,
+  getTheaterbypagination,
 } = require("./../controllers/theater-controller");
 
 // adminRouter.route("/alluser").get(getAllusers);
 theaterRouter.route("/signup").post(TheaterSignup);
 theaterRouter.route("/login").post(TheaterLogin);
 theaterRouter.route("/").get(getTheater);
+theaterRouter.route("/getTheaterbypagination").post(getTheaterbypagination);
 theaterRouter.route("/:id").get(getTheaterById);
 // adminRouter.route("/login").post(login);
 

@@ -208,7 +208,6 @@ function UserProfile() {
             >
               Bookings
             </Typography>
-
             {Bookings &&
               Bookings.map((e) => (
                 <>
@@ -224,6 +223,7 @@ function UserProfile() {
                   />
                 </>
               ))}
+            
             <Stack spacing={2} marginLeft={50}>
               <Pagination
                 count={totalPages}
@@ -231,6 +231,7 @@ function UserProfile() {
                 onChange={handlePageChange}
               />
             </Stack>
+            
           </Box>
         </Box>
       )}

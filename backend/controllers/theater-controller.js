@@ -2,6 +2,7 @@ const asynchandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Theater = require("../models/Theater");
+const User = require("../models/User");
 
 ///admin signup
 const TheaterSignup = asynchandler(async (req, res, next) => {
@@ -77,6 +78,25 @@ const getTheater = asynchandler(async (req, res, next) => {
   return res.status(200).json({ data: admins });
 });
 
+const getTheaterbypagination = asynchandler(async (req, res, next) => {
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 4;
+
+  console.log(req.body.id);
+  const user = await User.findOne({ _id: req.body.id });
+  console.log(user.pincode);
+  const totalBookingsCount = await Theater.countDocuments({
+    pincode: user.pincode,
+  });
+
+  const totalPages = Math.ceil(totalBookingsCount / limit);
+
+  const theater = await Theater.find({ pincode: user.pincode })
+    .skip((page - 1) * limit)
+    .limit(limit);
+  res.status(200).json({ theater: theater, totalPages: totalPages });
+});
+
 const getTheaterById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
   const admin = await Theater.findById(id);
@@ -89,4 +109,10 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   return res.status(200).json({ admin: admin });
 });
 
-module.exports = { TheaterSignup, TheaterLogin, getTheater, getTheaterById };
+module.exports = {
+  TheaterSignup,
+  TheaterLogin,
+  getTheater,
+  getTheaterById,
+  getTheaterbypagination,
+};

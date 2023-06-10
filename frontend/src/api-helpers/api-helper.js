@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 export const getAllMovies = async () => {
   const res = await axios
     .get("http://localhost:5000/movie")
@@ -14,7 +13,6 @@ export const getAllMovies = async () => {
 };
 
 export const getMoviesbyid = async (id) => {
- 
   const res = await axios
     .get(`http://localhost:5000/movie/${id}`)
     .catch((err) => console.log(err));
@@ -22,7 +20,7 @@ export const getMoviesbyid = async (id) => {
     return console.log("no data");
   }
   const data = await res.data;
- 
+
   return data;
 };
 export const sendUserAuthRequest = async (
@@ -55,22 +53,20 @@ export const sendUserAuthRequest = async (
   }
   const resstatus = await res.status;
 
-
   const resData = await res.data;
   return res;
 };
 
 export const sendUserlogin = async (data) => {
-  
   const res = await axios
     .post(`http://localhost:5000/user/login`, {
       email: data.email,
       password: data.password,
     })
     .catch((err) => console.log(err));
- 
+
   const resData = await res;
- 
+
   return resData;
 };
 export const getAlladmin = async () => {
@@ -81,7 +77,7 @@ export const getAlladmin = async () => {
     console.log("unexpexted error occured");
   }
   const resData = await res;
-  
+
   return resData;
 };
 export const sendAdminAuthRequest = async (
@@ -153,7 +149,6 @@ export const getUserBooking = async (currentPage) => {
 };
 
 export const addMovie = async (data, images, language) => {
-  
   const res = await axios
     .post(
       "http://localhost:5000/movie",
@@ -311,4 +306,15 @@ export const deleteBooking = async (id) => {
   const resData = await res;
   console.log(resData);
   return resData;
+};
+
+export const getTheaterbypagination = async (page) => {
+  const userId = localStorage.getItem("userId");
+  const res = await axios.post(
+    `http://localhost:5000/theater/getTheaterbypagination?page=${page}`,
+    {
+      id: userId,
+    }
+  );
+  return res;
 };
