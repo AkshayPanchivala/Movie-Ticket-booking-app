@@ -85,6 +85,7 @@ const getTheaterbypagination = asynchandler(async (req, res, next) => {
   console.log(req.body.id);
   const user = await User.findOne({ _id: req.body.id });
   console.log(user.pincode);
+
   const totalBookingsCount = await Theater.countDocuments({
     pincode: user.pincode,
   });
@@ -108,6 +109,24 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ admin: admin });
 });
+const gettheaterbypincode = asynchandler(async (req, res, next) => {
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 2;
+
+  console.log(req.body.id);
+
+  const totalBookingsCount = await Theater.countDocuments({
+    pincode: req.body.pincode,
+  });
+
+  const totalPages = Math.ceil(totalBookingsCount / limit);
+
+  const theater = await Theater.find({ pincode: req.body.pincode })
+    .skip((page - 1) * limit)
+    .limit(limit);
+  res.status(200).json({ theater: theater, totalPages: totalPages });
+});
+
 
 module.exports = {
   TheaterSignup,
@@ -115,4 +134,5 @@ module.exports = {
   getTheater,
   getTheaterById,
   getTheaterbypagination,
+  gettheaterbypincode,
 };
