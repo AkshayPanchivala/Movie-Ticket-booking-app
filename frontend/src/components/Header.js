@@ -20,9 +20,10 @@ function Header() {
   const dispatch = useDispatch();
   const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isadminloggedIn = useSelector((state) => state.admin.isLoggedIn);
   const [value, setvalue] = useState();
   const [movies, setMovies] = useState([]);
-  
+
   // const [selectedmovie,setselectedmovie]=useState();
   useEffect(() => {
     getAllMovies()
@@ -74,13 +75,20 @@ function Header() {
             onChange={(e, val) => setvalue(val)}
           >
             <Tab LinkComponent={Link} to="/movies" label="Movies" />
-            {!isTheaterLoggedIn && !isuserLoggedIn && (
+            {!isTheaterLoggedIn && !isuserLoggedIn && !isadminloggedIn && (
               <>
-              <Tab LinkComponent={Link} to="/admin" label="Admin" />
+                <Tab LinkComponent={Link} to="/admin" label="Admin" />
                 <Tab LinkComponent={Link} to="/theater" label="Theater" />
                 <Tab LinkComponent={Link} to="/Auth" label="Auth" />
               </>
             )}
+            {isadminloggedIn&&(
+              <>
+                     <Tab LinkComponent={Link} to="/add" label="Add movie" />
+              </>
+            )
+
+            }
             {isuserLoggedIn && (
               <>
                 <Tab LinkComponent={Link} to="/user" label="Profile" />
@@ -92,9 +100,9 @@ function Header() {
                 />
               </>
             )}
-            {isTheaterLoggedIn&& (
+            {isTheaterLoggedIn && (
               <>
-                <Tab LinkComponent={Link} to="/add" label="Add movie" />
+                {/* <Tab LinkComponent={Link} to="/add" label="Add movie" /> */}
                 <Tab LinkComponent={Link} to="/user-admin" label="Profile" />
                 <Tab
                   onClick={() => logout(true)}
