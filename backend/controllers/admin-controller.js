@@ -12,6 +12,7 @@ const signupAdmin = async (req, res, next) => {
   });
 };
 const loginAdmin = async (req, res, next) => {
+  console.log(req.body);
   const existingadmin = await Admin.findOne({ email: req.body.email });
   if (!existingadmin) {
     res.status(404).json({
@@ -24,19 +25,19 @@ const loginAdmin = async (req, res, next) => {
       existingadmin.password
     );
     if (!verifypassword) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "Admin Email id or Password Wrong",
       });
     }
-    if(verifypassword){
-        res.status(200).json({
-            message:"Admin loggin"
-        })
+    if (verifypassword) {
+      return res.status(200).json({
+        admin: existingadmin,
+        message: "Admin loggin",
+      });
     }
   }
-
-  
 };
 module.exports = {
-    signupAdmin,loginAdmin
-  };
+  signupAdmin,
+  loginAdmin,
+};

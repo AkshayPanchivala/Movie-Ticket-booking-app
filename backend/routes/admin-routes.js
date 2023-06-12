@@ -6,6 +6,6 @@ const AdminRouter = express.Router();
 // BookingRouter.route("/").post(newBooking);
 
 AdminRouter.route("/signup").post(signupAdmin);
-AdminRouter.route("/login").get(loginAdmin);
+AdminRouter.route("/login").post(loginAdmin);
 
 module.exports = AdminRouter;

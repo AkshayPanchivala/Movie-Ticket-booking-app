@@ -93,7 +93,7 @@ function Theatersignupform({ onSubmit }) {
   }, [pincode]);
   console.log(state, city);
   const loginhandler = () => {
-    navigate("/Theater/login");
+    navigate("/theater/login");
   };
   const handleBackdropClick = () => {
     navigate("/");

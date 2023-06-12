@@ -4,11 +4,10 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import InputGroup from "react-bootstrap/InputGroup";
-import Row from "react-bootstrap/Row";
+
 import { useNavigate } from "react-router-dom";
 
-function Authloginform({ onSubmit }) {
+function Adminloginform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [inputs, setInputs] = useState({ email: "", password: "" });
@@ -31,9 +30,7 @@ function Authloginform({ onSubmit }) {
       [e.target.name]: e.target.value,
     }));
   };
-  const signuphandler = () => {
-    navigate("/Auth");
-  };
+
   const handleBackdropClick = () => {
     navigate("/");
   };
@@ -87,24 +84,6 @@ function Authloginform({ onSubmit }) {
                 </Box>
               </Form.Group>
             </Col>
-            <Row className="mb-3">
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={3}>
-                    <Typography alignContent={"center"}>
-                      create Account?
-                    </Typography>
-                  </Box>
-                </Form.Group>
-              </Col>
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={2}>
-                    <Button onClick={signuphandler}>SignUp</Button>
-                  </Box>
-                </Form.Group>
-              </Col>
-            </Row>
           </Form>
         </Box>
       </Dialog>
@@ -112,4 +91,4 @@ function Authloginform({ onSubmit }) {
   );
 }
 
-export default Authloginform;
+export default Adminloginform;

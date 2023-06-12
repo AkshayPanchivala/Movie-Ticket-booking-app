@@ -3,10 +3,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   sendtheaterlogin,
-  sendUserAuthRequest,
-  sendUserlogin,
+
 } from "../../api-helpers/api-helper";
-import { adminActions } from "../../store";
+import {  theaterActions } from "../../store";
 
 import Theaterloginform from "./Theaterloginform";
 
@@ -18,7 +17,7 @@ function Theaterlogin() {
     const data = res.data;
    
    
-    dispatch(adminActions.login());
+    dispatch( theaterActions.login());
     localStorage.setItem("adminId", data.theater._id);
     localStorage.setItem("token", data.token);
     navigate("/", { state: res.status });

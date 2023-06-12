@@ -16,13 +16,13 @@ import {
   getTheaterbycity,
   getTheaterbypagination,
 } from "../../api-helpers/api-helper";
-import BookingCard from "../../profile/BookingCard";
+
 import Theatrecard from "./Theatrecard";
 
 function Booking() {
   const [movie, setMovie] = useState();
   const [Theatre, setTheatre] = useState();
-  const navigate = useNavigate();
+
   const [totalPages, settotalPages] = useState("");
   const [citytotalPages, setcitytotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,7 +30,7 @@ function Booking() {
   const [searchcity, setsearchcity] = useState(false);
   const [searchedCity, SetsearchedCity] = useState();
   const [theaterbycity, Settheaterbycity] = useState();
-  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().id;
 

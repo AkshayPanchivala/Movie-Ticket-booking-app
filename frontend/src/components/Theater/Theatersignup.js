@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { sendAdminAuthRequest } from "../../api-helpers/api-helper";
-import { adminActions } from "../../store";
+import { theaterActions } from "../../store";
 import Theatersignupform from "./Theatersignupform";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,7 +14,7 @@ function Theatersignup() {
     const status = data.status;
     console.log(data.data.theater._id);
     if (status === 201) {
-    dispatch(adminActions.login());
+    dispatch(theaterActions.login());
     localStorage.setItem("adminId", data.data.theater._id);
     localStorage.setItem("token", data.data.token);
     navigate("/");

@@ -2,11 +2,10 @@ import {
   Alert,
   Box,
   Dialog,
-  FormLabel,
-  TextField,
+
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -20,12 +19,10 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { render } from "react-dom";
+
+
+
+
 
 function AddmoviesForm({ onSubmit }) {
   const navigate = useNavigate();
@@ -36,7 +33,7 @@ function AddmoviesForm({ onSubmit }) {
     title: "",
     description: "",
   });
-  const [selectedOptions, setSelectedOptions] = useState([]);
+
   const [isHindi, setIsHindi] = useState(false);
   const [isEnglish, setisEnglish] = useState(false);
   const [isGujarati, setisGujarati] = useState(false);
@@ -82,7 +79,7 @@ function AddmoviesForm({ onSubmit }) {
     }));
   };
   
-  let a;
+  
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     setIsError(false);
@@ -94,7 +91,7 @@ function AddmoviesForm({ onSubmit }) {
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-    console.log(form);
+
     setValidated(true);
     if (validated === true) {
       event.preventDefault();

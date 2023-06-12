@@ -15,6 +15,7 @@ const BookingRouter = require("./routes/booking-routes");
 const globalErrorHandler=require('./arrorhandler/globalerrorhandler');
 const AppError=require('./arrorhandler/Apperror');
 const theaterRouter = require("./routes/theater-routes");
+const AdminRouter = require("./routes/admin-routes");
 
 
 const app = express();
@@ -28,6 +29,7 @@ app.use("/user", userRouter);
 app.use("/theater", theaterRouter);
 app.use("/movie",movieRouter);
 app.use("/booking",BookingRouter);
+app.use("/admin",AdminRouter);
 
 app.all('*',(req,res,next)=>{
   next(new AppError(`can't find this page`,404));

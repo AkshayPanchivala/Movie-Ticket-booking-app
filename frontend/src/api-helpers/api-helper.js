@@ -326,3 +326,13 @@ export const getTheaterbycity = async (city, page) => {
   console.log(res);
   return res;
 };
+
+export const sendAdminlogin = async (data) => {
+  console.log(data);
+  const res = await axios.post(`http://localhost:5000/admin/login`, {
+    email: data.email,
+    password: data.password,
+  });
+  console.log(res);
+  return res;
+};
