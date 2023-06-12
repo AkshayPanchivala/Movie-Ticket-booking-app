@@ -25,8 +25,8 @@ function Booking() {
   const [totalPages, settotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [city, setCity] = useState();
-  const [searchPincode, setsearchPincode] = useState(false);
-  const[pincode,Setpincode]=useState()
+  const [searchcity, setsearchcity] = useState(false);
+  const [searchedCity, SetsearchedCity] = useState();
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().id;
@@ -49,9 +49,7 @@ function Booking() {
         // setTheatre(res.data.data);
       })
       .catch((err) => console.log(err));
-
-      
-  }, [id, currentPage,pincode]);
+  }, [id, currentPage, searchedCity]);
   // useEffect(() => {
   //   // getUserBooking()
   //   //   .then((res) => setBookings(res.bookings))
@@ -62,13 +60,13 @@ function Booking() {
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
- 
+
   const handlechange = (e, val) => {
-    setsearchPincode(true);
+    setsearchcity(true);
     if (val === null) {
-      setsearchPincode(false);
+      setsearchcity(false);
     }
-    Setpincode(val)
+    SetsearchedCity(val);
   };
   // console.log(c);
 
@@ -95,9 +93,9 @@ function Booking() {
             <Autocomplete
               id="free-solo-demo"
               freeSolo
-              options={[...new Set(city.map((option) => option.pincode))]}
+              options={[...new Set(city.map((option) => option.city))]}
               renderInput={(params) => (
-                <TextField {...params} label="LanguageSelect" />
+                <TextField {...params} label="City Select" />
               )}
               onChange={handlechange}
             />

@@ -109,24 +109,23 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ admin: admin });
 });
-const gettheaterbypincode = asynchandler(async (req, res, next) => {
+const gettheaterbyCity = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 2;
 
-  console.log(req.body.id);
+  console.log(req.body.city);
 
-  const totalBookingsCount = await Theater.countDocuments({
-    pincode: req.body.pincode,
+  const totalTheatersCount = await Theater.countDocuments({
+    city: req.body.city,
   });
 
-  const totalPages = Math.ceil(totalBookingsCount / limit);
+  const totalPages = Math.ceil(totalTheatersCount / limit);
 
-  const theater = await Theater.find({ pincode: req.body.pincode })
+  const theater = await Theater.find({ city: req.body.city })
     .skip((page - 1) * limit)
     .limit(limit);
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
-
 
 module.exports = {
   TheaterSignup,
@@ -134,5 +133,5 @@ module.exports = {
   getTheater,
   getTheaterById,
   getTheaterbypagination,
-  gettheaterbypincode,
+  gettheaterbyCity,
 };
