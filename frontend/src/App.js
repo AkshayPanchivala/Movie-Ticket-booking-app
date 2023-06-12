@@ -21,6 +21,7 @@ import Theatersignup from "./components/Theater/Theatersignup";
 import Theaterlogin from "./components/Theater/Theaterlogin";
 import Getdatabboking from "./profile/Getdatabboking";
 import { ToastContainer } from "react-toastify";
+import Adminlogin from "./components/Admin/Adminlogin";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
+          <Route path="/Admin" element={<Adminlogin />} />
           {!isuserLoggedIn && !isadminLoggedIn && (
             <>
               <Route path="/admin" element={<Theatersignup />} />

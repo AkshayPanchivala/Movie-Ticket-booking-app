@@ -13,6 +13,7 @@ import {
   getAlladmin,
   getmovie,
   getMovieDetails,
+  getTheaterbycity,
   getTheaterbypagination,
 } from "../../api-helpers/api-helper";
 import BookingCard from "../../profile/BookingCard";
@@ -23,10 +24,12 @@ function Booking() {
   const [Theatre, setTheatre] = useState();
   const navigate = useNavigate();
   const [totalPages, settotalPages] = useState("");
+  const [citytotalPages, setcitytotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [city, setCity] = useState();
   const [searchcity, setsearchcity] = useState(false);
   const [searchedCity, SetsearchedCity] = useState();
+  const [theaterbycity, Settheaterbycity] = useState();
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().id;
@@ -46,9 +49,13 @@ function Booking() {
     getAlladmin()
       .then((res) => {
         setCity(res.data.data);
-        // setTheatre(res.data.data);
       })
       .catch((err) => console.log(err));
+    getTheaterbycity(searchedCity, currentPage).then((res) => {
+      Settheaterbycity(res.data.theater);
+      console.log(res.data.totalPages);
+      setcitytotalPages(res.data.totalPages);
+    });
   }, [id, currentPage, searchedCity]);
   // useEffect(() => {
   //   // getUserBooking()
@@ -68,7 +75,7 @@ function Booking() {
     }
     SetsearchedCity(val);
   };
-  // console.log(c);
+  // console.log( searchedCity);
 
   // const filteredPincodes = city.map((option) => option.filter((option) => {
   //   // Replace 'condition' with your desired filtering condition
@@ -142,7 +149,8 @@ function Booking() {
               </Box>
             </Box>
             <Box width={"50%"} paddingTop={3} marginRight={"7%"}>
-              {Theatre &&
+              {!searchcity &&
+                Theatre &&
                 Theatre.map((Theatre, index) => (
                   <Theatrecard
                     key={Theatre._id}
@@ -150,13 +158,33 @@ function Booking() {
                     id={Theatre._id}
                   />
                 ))}
-              <Stack spacing={2} marginLeft={50}>
-                <Pagination
-                  count={totalPages}
-                  color="primary"
-                  onChange={handlePageChange}
-                />
-              </Stack>
+              {searchcity &&
+                theaterbycity &&
+                theaterbycity.map((Theatre, index) => (
+                  <Theatrecard
+                    key={Theatre._id}
+                    name={Theatre.name}
+                    id={Theatre._id}
+                  />
+                ))}
+              {!searchcity && (
+                <Stack spacing={2} marginLeft={50}>
+                  <Pagination
+                    count={totalPages}
+                    color="primary"
+                    onChange={handlePageChange}
+                  />
+                </Stack>
+              )}
+              {searchcity && (
+                <Stack spacing={2} marginLeft={50}>
+                  <Pagination
+                    count={citytotalPages}
+                    color="primary"
+                    onChange={handlePageChange}
+                  />
+                </Stack>
+              )}
             </Box>
           </Box>
         </>

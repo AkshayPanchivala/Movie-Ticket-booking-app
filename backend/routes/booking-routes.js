@@ -5,7 +5,7 @@ const {
   deleteBooking,
   notAvailableSeat,
   getbookingbyadmin,
-} = require("../controllers/booking_controller");
+} = require("../controllers/booking-controller");
 
 const BookingRouter = express.Router();
 

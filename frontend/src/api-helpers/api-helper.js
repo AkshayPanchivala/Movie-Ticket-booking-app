@@ -319,13 +319,10 @@ export const getTheaterbypagination = async (page) => {
   return res;
 };
 
-export const getTheaterbycity=async(city,page)=>{
-
-  const res = await axios.post(
-    `http://localhost:5000/theater?page=${page}`,
-    {
-      city: city,
-    }
-  );
+export const getTheaterbycity = async (city, page) => {
+  const res = await axios.post(`http://localhost:5000/theater?page=${page}`, {
+    city: city,
+  });
+  console.log(res);
   return res;
-}
+};

@@ -19,66 +19,8 @@ function Homepage() {
       .then((data) => setMovies(data.movies))
       .catch((err) => console.log(err));
 
-    // if (status === 201) {
-
-    //   return toast.success("Account is created", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // }
-    // else if (status.state === 200) {
-    //   return toast.success("Login Successfully", {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "light",
-    //   });
-    // }
   }, []);
-  // useEffect(() => {
-
-  //   if (status === 201) {
-  //     toast.success("Account is created", {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: "light",
-  //     });
-  //   } else if (status === 200) {
-  //     toast.success("Login Successfully", {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: "light",
-  //     });
-  //   }
-    
-   
-  
-  //   if (status !== "") {
-  //     console.log("lk");
-  //     setStatus(undefined);
-  //     console.log("lklk" + location);
-  //   }
-  // }, [status,location]);
+ 
   console.log(movies);
   const slides = [
     {
@@ -132,19 +74,7 @@ function Homepage() {
               />
             ))}
       </Box>
-      {/* <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      /> */}
-      {console.log("kjkj")}
+     
       <Box display="flex" padding={5} margin="auto">
         <Button
           LinkComponent={Link}
