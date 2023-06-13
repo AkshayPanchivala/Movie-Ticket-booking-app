@@ -11,7 +11,8 @@ const movieRouter = express.Router();
 
 movieRouter
   .route("/")
-  .post(protect, addMovies)
+  // .post(protect, addMovies)
+  .post(addMovies)
   .get(getMovies);
 movieRouter.route("/:id").get(getById);
 

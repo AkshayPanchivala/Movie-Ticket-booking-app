@@ -138,11 +138,11 @@ function Booking() {
                 }}
               />
               <Box width={"80%"} marginTop={3} padding={2}>
-                <Typography paddingTop={2}>{movie.description}</Typography>
                 <Typography fontWeight={"bold"} marginTop={1}>
-                  starer
-                  {/* {movie.actors.map((actor)=>actor + ",")} */}
+                  {movie.title}
                 </Typography>
+                <Typography paddingTop={2}>{movie.description}</Typography>
+
                 <Typography fontWeight={"bold"} marginTop={1}>
                   Realese Date:{new Date(movie.releaseDate).toDateString()}
                 </Typography>

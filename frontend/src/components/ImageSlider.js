@@ -62,15 +62,12 @@ const ImageSlider = ({ slides }) => {
   };
   const goToSlide = (slideIndex) => {
     setCurrentIndex(slideIndex);
-   
   };
   setTimeout(goToNext, 5000);
   const slideStylesWidthBackground = {
     ...slideStyles,
     backgroundImage: `url(${slides[currentIndex].url})`,
   };
-  
-
 
   return (
     <div style={sliderStyles}>
@@ -86,12 +83,7 @@ const ImageSlider = ({ slides }) => {
       <div style={dotsContainerStyles}>
         {/* {console.log(slides)} */}
         {slides.map((slide, slideIndex) => (
-          <div
-            
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-         
-          >
+          <div key={slideIndex} onClick={() => goToSlide(slideIndex)}>
             ●
           </div>
         ))}

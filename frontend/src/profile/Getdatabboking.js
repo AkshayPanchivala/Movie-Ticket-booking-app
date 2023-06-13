@@ -19,6 +19,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ShowTime from "./../SeatBooking/constants/ShowTime";
 import { getpdf } from "../api-helpers/api-helper";
+import { useNavigate } from "react-router-dom";
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,6 +38,7 @@ function Getdatabboking() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [Showtime, setShowTime] = useState(null);
   const [bookingdata, showbookingdata] = useState([]);
+  const navigate=useNavigate();
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -51,7 +53,9 @@ function Getdatabboking() {
       .catch((err) => console.log(err));
     console.log(bookingdata);
     doc.setFont("courier");
-
+    if (bookingdata.length < 0) {
+      console.log("lklkl");
+    }
     if (bookingdata) {
       const x = 40; // X-coordinate for the booking data
       let y = 100; // Initial Y-coordinate for each row
@@ -79,12 +83,16 @@ function Getdatabboking() {
 
     doc.save("generated.pdf");
   }
+  const handleBackdropClick = () => {
+    navigate("/");
+  };
   return (
     <div>
       <Modal
         open={true}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
+        onBackdropClick={handleBackdropClick}
       >
         <Box sx={{ ...style, width: 400, borderRadius: 10, height: 300 }}>
           <h2 id="parent-modal-title">Get Your Booking Details</h2>

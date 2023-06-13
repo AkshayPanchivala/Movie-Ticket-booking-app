@@ -111,7 +111,7 @@ const getTheaterById = asynchandler(async (req, res, next) => {
 });
 const gettheaterbyCity = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
-  const limit = req.query.limit || 2;
+  const limit = req.query.limit || 4;
 
   console.log(req.body.city);
 

@@ -6,6 +6,7 @@ import { Row, Label, Col, Pagination } from "reactstrap";
 import SingleSeat from "../library/SingleSeat";
 import { newBooking, notAvailable } from "../../api-helpers/api-helper";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // const notAvailableSeat = ["F2", "I4", "I9", "K2"]; // booking seat update ahiya che
 export default function SeatBooking({ onNext, seatSelection }) {
@@ -15,7 +16,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
 
   const movieid = params.movieid;
   const theatreid = params.theatreId;
- 
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
@@ -32,10 +32,8 @@ export default function SeatBooking({ onNext, seatSelection }) {
     notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
   };
   not();
- 
 
   function handleUpdateSelection(seatKey) {
-  
     if (seatSelection.seatCount <= selectedSeats.length) {
       const ssss = [...selectedSeats, seatKey];
       ssss.shift();
@@ -88,10 +86,9 @@ export default function SeatBooking({ onNext, seatSelection }) {
 
   function handleAutoSelection() {
     const selectedTeam = [];
-   
+
     SEATS.SEAT_STRUCTURE[seatSelection.seatType].map((seatRow) => {
       seatRow.seats.map((seat) => {
-       
         if (
           !notAvailableSeat.includes(`${seatRow.row}${seat}`) &&
           selectedTeam.length < seatSelection.seatCount
@@ -107,11 +104,20 @@ export default function SeatBooking({ onNext, seatSelection }) {
   const onResReceived = (res) => {
     const data = res.data;
     const status = res.status;
-   
+    if (status === 201) {
+      toast.success("Successfully book your seat", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
 
-
-    navigate("/movies", { state: status });
-    
+    navigate("/movies");
   };
 
   function handleNext() {
@@ -128,7 +134,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
     newBooking(data)
       .then(onResReceived)
       .catch((err) => console.log(err));
-   
   }
   return (
     <Row>
@@ -136,7 +141,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
         <Label>Select your desired seat</Label>
         {SEATS.SEAT_TYPE.map((item) => (
           <Row key={`${item.type}_type`}>
-          
             <Label>{item.title}</Label>
             {SEATS.SEAT_STRUCTURE[item.type].map((itemRow) => (
               <Row key={itemRow.row}>

@@ -87,7 +87,7 @@ function Theaterloginform({ onSubmit }) {
                 </Box>
               </Form.Group>
             </Col>
-            <Row className="mb-3">
+            {/* <Row className="mb-3">
               <Col md="6">
                 <Form.Group controlId="validationCustom03">
                   <Box marginTop={3}>
@@ -104,7 +104,7 @@ function Theaterloginform({ onSubmit }) {
                   </Box>
                 </Form.Group>
               </Col>
-            </Row>
+            </Row> */}
           </Form>
         </Box>
       </Dialog>

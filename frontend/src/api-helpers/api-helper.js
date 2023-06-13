@@ -1,14 +1,14 @@
 import axios from "axios";
 
-export const getAllMovies = async () => {
+export const getAllMovies = async (currentPage) => {
   const res = await axios
-    .get("http://localhost:5000/movie")
+    .get(`http://localhost:5000/movie?page=${currentPage}`)
     .catch((err) => console.log(err));
   if (res.status !== 200) {
     return console.log("no data");
   }
   const data = await res.data;
-
+  console.log(res);
   return data;
 };
 
@@ -80,13 +80,14 @@ export const getAlladmin = async () => {
 
   return resData;
 };
-export const sendAdminAuthRequest = async (
+export const sendTheaterRequest = async (
   data,
   images,
   state,
   city,
   pincode
 ) => {
+  console.log(data);
   const res = await axios
     .post(`http://localhost:5000/theater/signup`, {
       name: data.name,
@@ -157,7 +158,7 @@ export const addMovie = async (data, images, language) => {
         description: data.description,
         posterUrl: images,
         language: language,
-        admin: localStorage.getItem("adminId"),
+        admin: localStorage.getItem("adminid"),
       },
       {
         headers: {
@@ -283,6 +284,7 @@ export const sendtheaterlogin = async (data) => {
 
 export const getpdf = async (selectedDate, Showtime) => {
   const adminId = localStorage.getItem("adminId");
+  console.log(adminId);
   console.log({ date: selectedDate, showtime: Showtime, theater: adminId });
   const res = await axios
     .post(`http://localhost:5000/booking/download`, {

@@ -85,7 +85,7 @@ function Theatersignupform({ onSubmit }) {
   useEffect(() => {
     pincodefetch(pincode)
       .then((res) => {
-        console.log(res             );
+        console.log(res);
         setcity(res[0].PostOffice[0].Block);
         setstate(res[0].PostOffice[0].Circle);
       })
@@ -114,7 +114,7 @@ function Theatersignupform({ onSubmit }) {
         onBackdropClick={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
-          Register
+          Add New Theater
         </Typography>
         <Box padding={3}>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -298,7 +298,7 @@ function Theatersignupform({ onSubmit }) {
                 </Box>
               </Form.Group>
             </Col>
-            <Row className="mb-3">
+            {/* <Row className="mb-3">
               <Col md="6">
                 <Form.Group controlId="validationCustom03">
                   <Box marginTop={3}>
@@ -315,7 +315,7 @@ function Theatersignupform({ onSubmit }) {
                   </Box>
                 </Form.Group>
               </Col>
-            </Row>
+            </Row> */}
           </Form>
         </Box>
       </Dialog>

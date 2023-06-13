@@ -8,7 +8,7 @@ import Homepage from "./components/Homepage";
 import AddMovies from "./components/Movies/AddMovies";
 import Movies from "./components/Movies/Movies";
 import UserProfile from "./profile/UserProfile";
-import { theaterActions, userActions } from "./store";
+import { adminActions, theaterActions, userActions } from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TheaterProfile from "./profile/TheaterProfile";
 // import SeatBooking from "./SeatBooking/Index";
@@ -27,12 +27,16 @@ function App() {
   const dispatch = useDispatch();
   const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  console.log(isadminLoggedIn);
   console.log(isTheaterLoggedIn, isuserLoggedIn);
   useEffect(() => {
     if (localStorage.getItem("userId")) {
       dispatch(userActions.login());
     } else if (localStorage.getItem("adminId")) {
       dispatch(theaterActions.login());
+    } else if (localStorage.getItem("adminid")) {
+      dispatch(adminActions.login());
     }
   }, [dispatch]);
 
@@ -58,7 +62,6 @@ function App() {
           <Route path="/Admin" element={<Adminlogin />} />
           {!isuserLoggedIn && !isTheaterLoggedIn && (
             <>
-              <Route path="/theater" element={<Theatersignup />} />
               <Route path="/theater/login" element={<Theaterlogin />} />
             </>
           )}
@@ -75,9 +78,14 @@ function App() {
           {!isTheaterLoggedIn && isuserLoggedIn && (
             <Route path="/updateprofile" element={<UpdateProfile />} />
           )}
+          {isadminLoggedIn && (
+            <>
+              <Route path="/add" element={<AddMovies />} />{" "}
+              <Route path="/theater" element={<Theatersignup />} />
+            </>
+          )}
           {isTheaterLoggedIn && !isuserLoggedIn && (
             <>
-              <Route path="/add" element={<AddMovies />} />
               <Route path="/bookingdata/:id" element={<Getdatabboking />} />
             </>
           )}

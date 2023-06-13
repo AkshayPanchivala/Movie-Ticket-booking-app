@@ -7,7 +7,7 @@ const Movie = require("../models/Movie");
 
 const addMovies = asynchandler(async (req, res, next) => {
   const { title, description, releaseDate, featured, actors } = req.body;
-
+  console.log(req.body);
   let missingValues = [];
 
   if (!title || typeof title == "String") missingValues.push("Name ");
@@ -20,24 +20,24 @@ const addMovies = asynchandler(async (req, res, next) => {
       )
     );
   }
-  
+
   let movie = await Movie.create({
     description: req.body.description,
     language: req.body.language,
-    theater: req.body.admin,
+    admin: req.body.admin,
     posterUrl: req.body.posterUrl,
     title: req.body.title,
   });
 
-  const session = await mongoose.startSession();
-  const adminUser = req.admin;
-  session.startTransaction();
-  await movie.save({ session });
+  // const session = await mongoose.startSession();
+  // const adminUser = req.admin;
+  // session.startTransaction();
+  // await movie.save({ session });
 
-  adminUser.adedMovies.push(movie);
-  await adminUser.save({ session });
+  // adminUser.adedMovies.push(movie);
+  // await adminUser.save({ session });
 
-  await session.commitTransaction();
+  // await session.commitTransaction();
   if (!movie) {
     return res.status(500).json({ message: "Request Failed" });
   }
@@ -45,10 +45,28 @@ const addMovies = asynchandler(async (req, res, next) => {
   return res.status(201).json({ movie });
 });
 const getMovies = asynchandler(async (req, res, next) => {
-  const movies = await Movie.find();
-  res.json({
-    movies: movies,
-  });
+  const id = req.params.id;
+
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 10;
+
+  let movies;
+
+  const totalMoviesCount = await Movie.countDocuments();
+  console.log(totalMoviesCount);
+  const totalPages = Math.ceil(totalMoviesCount / limit);
+
+  movies = await Movie.find()
+    // .sort({ date: 1 })
+    .skip((page - 1) * limit)
+    .limit(limit)
+
+    .exec();
+
+  if (!movies) {
+    return res.status(500).json({ message: "Unexpected Error" });
+  }
+  return res.status(200).json({ movies: movies, totalpages: totalPages });
 });
 const getById = asynchandler(async (req, res, next) => {
   const id = req.params.id;

@@ -1,10 +1,4 @@
-import {
-  Alert,
-  Box,
-  Dialog,
-
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Dialog, Typography } from "@mui/material";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -19,10 +13,6 @@ import {
   uploadBytesResumable,
   getDownloadURL,
 } from "firebase/storage";
-
-
-
-
 
 function AddmoviesForm({ onSubmit }) {
   const navigate = useNavigate();
@@ -51,7 +41,7 @@ function AddmoviesForm({ onSubmit }) {
 
   const photoupload = (event) => {
     let file = event.target.files;
-  
+
     if (!file) {
       alert("Please upload an image first!");
     }
@@ -78,8 +68,7 @@ function AddmoviesForm({ onSubmit }) {
       [event.target.name]: event.target.value,
     }));
   };
-  
-  
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     setIsError(false);
@@ -113,19 +102,22 @@ function AddmoviesForm({ onSubmit }) {
         }
         language.push("Gujarati");
       }
-  
 
       onSubmit({ inputs }, images, language);
     }
+  };
+  const handleBackdropClick = () => {
+    navigate("/");
   };
 
   return (
     <>
       <Dialog
         PaperProps={{
-          style: { borderRadius: 15, width: "500px", height: "700px" },
+          style: { borderRadius: 15, width: "500px", height: "520px" },
         }}
         open={true}
+        onBackdropClick={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           AddMovies
@@ -187,7 +179,6 @@ function AddmoviesForm({ onSubmit }) {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              
               <Form.Group controlId="validationCustomUsername">
                 <Form.Label>Language</Form.Label>
                 <Form.Check
@@ -196,7 +187,6 @@ function AddmoviesForm({ onSubmit }) {
                   label="Hindi"
                   checked={isHindi}
                   onChange={handleCheckbox1Change}
-                 
                 />
 
                 <Form.Check
@@ -205,7 +195,6 @@ function AddmoviesForm({ onSubmit }) {
                   label="English"
                   checked={isEnglish}
                   onChange={handleCheckbox2Change}
-               
                 />
 
                 <Form.Check
@@ -214,7 +203,6 @@ function AddmoviesForm({ onSubmit }) {
                   label="Gujarati"
                   checked={isGujarati}
                   onChange={handleCheckbox3Change}
-                  
                 />
                 {isError && (
                   <Alert variant="danger" color="red">
@@ -223,7 +211,7 @@ function AddmoviesForm({ onSubmit }) {
                 )}
               </Form.Group>
             </Row>
-            
+
             <Col md="6">
               <Form.Group controlId="validationCustom03">
                 <Box marginTop={5}>

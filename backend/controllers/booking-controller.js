@@ -7,15 +7,15 @@ const expressAsyncHandler = require("express-async-handler");
 const newBooking = expressAsyncHandler(async (req, res, next) => {
   const { movie, date, seatNumber, SeatType, ShowTime, user, theater } =
     req.body;
- 
+
   const date1 = new Date(req.body.date).toLocaleString().split(",")[0];
 
   let existingMovie;
   let existingUser;
 
-    existingMovie = await Movie.findById(movie);
-    existingUser = await User.findById(user);
-  
+  existingMovie = await Movie.findById(movie);
+  existingUser = await User.findById(user);
+
   if (!existingMovie) {
     return res.status(404).json({ message: "Movie Not Found With Given ID" });
   }
@@ -24,33 +24,31 @@ const newBooking = expressAsyncHandler(async (req, res, next) => {
   }
   let booking;
 
+  booking = new Booking({
+    movie,
+    date: date1,
+    seatNumber,
+    user,
+    theater,
+    SeatType,
+    ShowTime,
+  });
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  existingUser.bookings.push(booking._id);
+  existingMovie.bookings.push(booking._id);
 
-    booking = new Booking({
-      movie,
-      date: date1,
-      seatNumber,
-      user,
-      theater,
-      SeatType,
-      ShowTime,
-    });
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    existingUser.bookings.push(booking._id);
-    existingMovie.bookings.push(booking._id);
+  await User.findByIdAndUpdate(existingUser._id, existingUser, {
+    new: true,
+    runValidators: true,
+  });
+  await Movie.findByIdAndUpdate(existingMovie._id, existingMovie, {
+    new: true,
+    runValidators: true,
+  });
 
-    await User.findByIdAndUpdate(existingUser._id, existingUser, {
-      new: true,
-      runValidators: true,
-    });
-    await Movie.findByIdAndUpdate(existingMovie._id, existingMovie, {
-      new: true,
-      runValidators: true,
-    });
-
-    await booking.save({ session });
-    session.commitTransaction();
-  
+  await booking.save({ session });
+  session.commitTransaction();
 
   if (!booking) {
     return res.status(500).json({ message: "Unable to create a booking" });
@@ -65,7 +63,6 @@ const getBookingById = expressAsyncHandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 3;
 
- 
   let booking;
 
   const totalBookingsCount = await Booking.countDocuments({ user: id });
@@ -79,7 +76,7 @@ const getBookingById = expressAsyncHandler(async (req, res, next) => {
     .populate("movie", "title")
     .populate("theater", "name")
     .exec();
- 
+
   if (!booking) {
     return res.status(500).json({ message: "Unexpected Error" });
   }
@@ -88,12 +85,11 @@ const getBookingById = expressAsyncHandler(async (req, res, next) => {
 
 const deleteBooking = expressAsyncHandler(async (req, res, next) => {
   const id = req.params.id;
- 
+
   const booking = await Booking.findById(id);
 
   const movie = await booking.movie;
   const userid = await booking.user;
-
 
   const user = await User.findByIdAndUpdate(
     userid,
@@ -101,16 +97,13 @@ const deleteBooking = expressAsyncHandler(async (req, res, next) => {
     { new: true }
   );
 
-
   const movieDeleteion = await Movie.findByIdAndUpdate(
     movie,
     { $pull: { bookings: id } },
     { new: true }
   );
 
-
   const bookingDeletion = await Booking.findByIdAndDelete(id);
-
 
   return res.status(200).json({
     message: "booking deleted",
@@ -122,8 +115,6 @@ const notAvailableSeat = async (req, res, next) => {
   const adminid = req.params.theatreid;
   const showdate = req.body.ShowDate;
   const date = new Date(req.body.ShowDate).toLocaleString().split(",")[0];
-  
-
 
   const blocked = [];
 
@@ -133,9 +124,6 @@ const notAvailableSeat = async (req, res, next) => {
     ShowTime: req.body.ShowTime,
     date: date,
   });
-
-
-
 
   seat.map((e) => {
     console.log(e.seatNumber);
@@ -148,6 +136,7 @@ const notAvailableSeat = async (req, res, next) => {
   });
 };
 const getbookingbyadmin = async (req, res, next) => {
+  console.log("lkllk");
 
   const date = new Date(req.body.date).toLocaleString().split(",")[0];
 
@@ -158,7 +147,7 @@ const getbookingbyadmin = async (req, res, next) => {
   })
     .populate("user", "name email")
     .populate("movie", "title");
- 
+
   res.status(200).json({
     booking: booking,
   });

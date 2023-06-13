@@ -3,33 +3,82 @@ import {
   Card,
   CardActions,
   CardContent,
-
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-function MoviesItem({ title, releaseDate, posterurl, id }) {
-  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const navigate = useNavigate();
+import Box from "@mui/material/Box";
 
-  {
-    !isuserLoggedIn && navigate("/Auth");
-  }
+function MoviesItem({
+  title,
+  posterUrl,
+  id,
+
+  language,
+  description,
+}) {
+  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
+  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const [isHovered, setIsHovered] = useState(false);
+  // const handleClick = () => {
+  //   setIsClicked(true);
+  // };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  // {
+  //   !isuserLoggedIn && navigate("/Auth");
+  // }
+  // ":hover": {
+  //   boxShadow: "10px 10px 20px #ccc",
+  // },
   return (
     <Card
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    
       sx={{
         margin: 2,
-        maxWidth: 250,
-        height: 320,
+        maxWidth: 220,
+       maxHeight:300,
+        // maxheight: 20,
         borderRadius: 5,
-        ":hover": {
-          boxShadow: "10px 10px 20px #ccc",
-        },
+        // backgroundColor: isHovered ? '#f0f0f0' : 'inherit',
+        // transition: 'background-color 0.3s ease',
+        transform: isHovered ? "scale(1.17)" : "scale(1)",
+        transition: "transform 0.3s ease",
+      
       }}
     >
-      <img height={"50%"} width="100%" src={posterurl} alt={title} />
+    <div
+        style={{
+          position: "relative",
+          height: "45%",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          style={{
+            maxHeight: "100%",
+            maxWidth: "100%",
+            objectFit: "contain",
+          }}
+          src={posterUrl}
+          alt={title}
+        />
+      </div>
+      {/* <img height={"45%"} width="100%" src={posterUrl} alt={title} /> */}
       {/* <CardMedia
         sx={{ height: 140,width:100 }}
         image={posterurl}
@@ -40,26 +89,78 @@ function MoviesItem({ title, releaseDate, posterurl, id }) {
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {new Date(releaseDate).toDateString()}
+          {language + " "}
         </Typography>
+        <Typography sx={{}} gutterBottom variant="h10" component="div">
+          <div
+            style={{
+              justifyContent: "center",
+              display: "flex",
+              textAlign: "right",
+              textAlign: "left",
+            }}
+          ></div>
+        </Typography>
+        {/* {language &&
+          language.map((e) => { */}
+
+        {/* })} */}
       </CardContent>
       <CardActions>
-        <Button
-          variant="contained"
-          fullWidth
-          LinkComponent={Link}
-          to={isuserLoggedIn && `/booking/${id}`}
-          sx={{
-            margin: "auto",
-            bgcolor: "#2b2d42",
-            ":hover": {
-              bgcolor: "#121217",
-            },
-          }}
-          size="small"
-        >
-          Book
-        </Button>
+        {!isTheaterLoggedIn && !isuserLoggedIn && (
+          <Button
+            variant="contained"
+            fullWidth
+            LinkComponent={Link}
+            to={isuserLoggedIn ? `/booking/${id}` : "/auth/login"}
+            sx={{
+              margin: "auto",
+              bgcolor: "#2b2d42",
+              ":hover": {
+                bgcolor: "#121217",
+              },
+            }}
+            size="small"
+          >
+            Book
+          </Button>
+        )}
+        {!isAdminLoggedIn && isuserLoggedIn && (
+          <Button
+            variant="contained"
+            fullWidth
+            LinkComponent={Link}
+            to={isuserLoggedIn ? `/booking/${id}` : "/auth/login"}
+            sx={{
+              margin: "auto",
+              bgcolor: "#2b2d42",
+              ":hover": {
+                bgcolor: "#121217",
+              },
+            }}
+            size="small"
+          >
+            Book
+          </Button>
+        )}
+        {!isAdminLoggedIn && isTheaterLoggedIn && (
+          <Button
+            variant="contained"
+            fullWidth
+            LinkComponent={Link}
+            to={`/bookingdata/${id}`}
+            sx={{
+              margin: "auto",
+              bgcolor: "#2b2d42",
+              ":hover": {
+                bgcolor: "#121217",
+              },
+            }}
+            size="small"
+          >
+            Get Booking Detail
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
