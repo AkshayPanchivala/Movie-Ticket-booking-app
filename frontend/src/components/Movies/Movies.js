@@ -53,20 +53,9 @@ function Movies() {
   const language = ["Hindi", "English", "Gujarati"];
   return (
     <>
-      <Box  marginTop={4}>
-        <Box display="flex" marginTop={"2%"}>
-          <Typography
-            margin={"auto"}
-            variant="h4"
-            padding={2}
-            bgcolor={"#900C3F"}
-            color="white"
-            width="40%"
-            textAlign={"center"}
-          >
-            All Movies
-          </Typography>
-          <Box width={"20%"}>
+      <Box marginTop={4}>
+    
+          <Box width={"20%"} marginLeft={"80%"}>
             <Autocomplete
               id="free-solo-demo"
               freeSolo
@@ -77,7 +66,7 @@ function Movies() {
               onChange={handlechange}
             />
           </Box>
-        </Box>
+      
         <Box
           width={"90%"}
           marginLeft={22}
@@ -108,6 +97,7 @@ function Movies() {
                 language={movie.language}
                 description={movie.description}
                 title={movie.title}
+                imagePath={movie.posterUrl}
               />
             ))}
         </Box>

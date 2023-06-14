@@ -239,7 +239,7 @@ function Authsignupform({ onSubmit }) {
                 placeholder="password"
                 minLength={6}
                 maxLength={8}
-                pattern="^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$"
+                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 required
                 onChange={handleChange}
                 value={inputs.password}
@@ -258,7 +258,7 @@ function Authsignupform({ onSubmit }) {
                 placeholder="confirmpassword"
                 minLength={6}
                 maxLength={8}
-                pattern="^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$"
+                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 required
                 onChange={(event) => {
                   handleChange(event);

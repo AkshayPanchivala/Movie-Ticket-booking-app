@@ -94,6 +94,7 @@ export const sendTheaterRequest = async (
       email: data.email,
       password: data.password,
       phonenumber: data.phonenumber,
+      address: data.address,
       profilephoto: images,
       state: state,
       city: city,

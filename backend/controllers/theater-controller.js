@@ -4,12 +4,18 @@ const jwt = require("jsonwebtoken");
 const Theater = require("../models/Theater");
 const User = require("../models/User");
 
-///admin signup
 const TheaterSignup = asynchandler(async (req, res, next) => {
-  const { name, email, password } = req.body;
-
+  console.log(typeof +req.body.phonenumber);
   const existingtheater = await Theater.findOne({ email: email });
-
+console.log(req.body.name,
+ req.body.email,
+  +req.body.phonenumber,
+   req.body.password,
+  req.body.profilephoto,
+ req.body.state,
+ req.body.city,
+ req.body.pincode,
+ req.body.address)
   if (existingtheater) {
     return res.status(409).json({
       message: "Theater already exists",
@@ -18,12 +24,13 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
   const theater = await Theater.create({
     name: req.body.name,
     email: req.body.email,
-    phonenumber: req.body.phonenumber,
+    phonenumber: +req.body.phonenumber,
     password: req.body.password,
     profilephoto: req.body.profilephoto,
     state: req.body.state,
     city: req.body.city,
     pincode: req.body.pincode,
+    address: req.body.address,
   });
 
   const token = jwt.sign({ id: theater._id }, process.env.JWT_SECRET_KEY, {

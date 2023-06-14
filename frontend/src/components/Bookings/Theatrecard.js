@@ -7,10 +7,10 @@ import Typography from "@mui/joy/Typography";
 import { useParams } from "react-router-dom";
 // import Index from "../SeatBooking/Index";
 
- function Theatrecard(props) {
+function Theatrecard(props) {
   const id = useParams();
   const movieid = id.id;
- 
+
   const BookingHandler = () => {
     console.log("click");
   };
@@ -29,10 +29,11 @@ import { useParams } from "react-router-dom";
         },
       }}
     >
+      {console.log(props.profilepicture)}
       <AspectRatio ratio="1" sx={{ width: 90 }}>
         <img
           src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
-          srcSet="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90&dpr=2 2x"
+          srcSet={`${props.profilepicture}`}
           loading="lazy"
           alt=""
         />
@@ -59,18 +60,18 @@ import { useParams } from "react-router-dom";
             href={`seatbooking/${movieid}/${props.id}`}
             sx={{ color: "text.tertiary" }}
           >
-          {/* <Index/> */}
-            California, USA
+            {props.Address}
+          
           </Link>
         </Typography>
-        <Chip
+        {/* <Chip
           variant="outlined"
           color="primary"
           size="sm"
           sx={{ pointerEvents: "none", ml: "2" }}
         >
           Cool weather all day long
-        </Chip>
+        </Chip> */}
       </div>
     </Card>
   );

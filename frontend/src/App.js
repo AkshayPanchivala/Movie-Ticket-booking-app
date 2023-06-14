@@ -22,6 +22,7 @@ import Theaterlogin from "./components/Theater/Theaterlogin";
 import Getdatabboking from "./profile/Getdatabboking";
 import { ToastContainer } from "react-toastify";
 import Adminlogin from "./components/Admin/Adminlogin";
+import SeatSelection from "./SeatBooking/SeatSelection";
 
 function App() {
   const dispatch = useDispatch();
@@ -96,8 +97,8 @@ function App() {
           {!isTheaterLoggedIn && isuserLoggedIn && (
             <>
               <Route
-                path="/booking/seatbooking/:movieid/:theatreId"
-                element={<Index />}
+                path="/booking/seatbooking/:movieid/:theaterId"
+                element={<SeatSelection />}
               />
               <Route path="booking/:id" element={<Booking />} />
             </>

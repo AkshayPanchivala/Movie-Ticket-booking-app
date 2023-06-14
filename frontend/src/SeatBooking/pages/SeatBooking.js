@@ -15,7 +15,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
   const id = localStorage.getItem("userId");
 
   const movieid = params.movieid;
-  const theatreid = params.theatreId;
+  const theatreid = params.theaterId;
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);

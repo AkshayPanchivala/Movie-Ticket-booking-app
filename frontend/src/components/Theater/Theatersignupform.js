@@ -14,6 +14,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { pincodefetch } from "../../api-helpers/api-helper";
+import { toast } from "react-toastify";
 function Theatersignupform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -24,6 +25,7 @@ function Theatersignupform({ onSubmit }) {
     name: "",
     email: "",
     phonenumber: "",
+    address: "",
     password: "",
     confirmpassword: "",
   });
@@ -63,10 +65,22 @@ function Theatersignupform({ onSubmit }) {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault();
+    if (inputs.password !== inputs.confirmpassword) {
+      return toast.error("Password and confirm password not match", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
     if (form.checkValidity() === false) {
       event.stopPropagation();
     }
-    console.log(form);
+
     setValidated(true);
     if (validated === true) {
       event.preventDefault();
@@ -92,9 +106,7 @@ function Theatersignupform({ onSubmit }) {
       .catch((err) => console.log(err));
   }, [pincode]);
   console.log(state, city);
-  const loginhandler = () => {
-    navigate("/theater/login");
-  };
+
   const handleBackdropClick = () => {
     navigate("/");
   };
@@ -120,7 +132,7 @@ function Theatersignupform({ onSubmit }) {
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
               <Form.Group md="4" controlId="validationCustom01">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Theater Name</Form.Label>
                 <Form.Control
                   required
                   type="text"
@@ -129,7 +141,7 @@ function Theatersignupform({ onSubmit }) {
                   placeholder="name"
                   name="name"
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valide Name.
                 </Form.Control.Feedback>
@@ -144,7 +156,7 @@ function Theatersignupform({ onSubmit }) {
                   placeholder="email"
                   name="email"
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valide Email.
                 </Form.Control.Feedback>
@@ -161,7 +173,7 @@ function Theatersignupform({ onSubmit }) {
                   onChange={handleChange}
                   name="phonenumber"
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valide PhoneNumber.
                 </Form.Control.Feedback>
@@ -187,6 +199,22 @@ function Theatersignupform({ onSubmit }) {
                 </InputGroup>
               </Form.Group>
             </Row>
+            <Form.Group md="6" as={Col} controlId="validationCustom02">
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                placeholder="address"
+                width={100}
+                value={inputs.address}
+                onChange={handleChange}
+                name="address"
+              />
+
+              <Form.Control.Feedback type="invalid">
+                Please provide A valide Address.
+              </Form.Control.Feedback>
+            </Form.Group>
             <Row className="mb-3">
               <Form.Group as={Col} md="3" controlId="validationCustom04">
                 <Form.Label>pincode</Form.Label>
@@ -237,7 +265,7 @@ function Theatersignupform({ onSubmit }) {
               <Form.Control
                 type="text"
                 placeholder="password"
-                pattern="^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$"
+                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 minLength={6}
                 maxLength={8}
                 required
@@ -256,7 +284,7 @@ function Theatersignupform({ onSubmit }) {
                 placeholder="confirmpassword"
                 minLength={6}
                 maxLength={8}
-                pattern="^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$"
+                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 required
                 onChange={handleChange}
                 value={inputs.confirmpassword}
@@ -265,30 +293,12 @@ function Theatersignupform({ onSubmit }) {
               <Form.Control.Feedback type="invalid">
                 Please provide a valid Confirm Password.
               </Form.Control.Feedback>
-              <>
-                {inputs.confirmpassword.length > 0 && (
-                  <>
-                    {passwordMatch ? (
-                      <>
-                        <Form.Control.Feedback>
-                          Looks good!
-                        </Form.Control.Feedback>
-                      </>
-                    ) : (
-                      <>
-                        <Form.Control.Feedback type="invalid">
-                          Passwords do not match.
-                        </Form.Control.Feedback>
-                      </>
-                    )}
-                  </>
-                )}
-                <Form.Text muted>
-                  Password must contain at least one numeric character, one
-                  uppercase letter, one lowercase letter, and one special
-                  character.
-                </Form.Text>
-              </>
+
+              <Form.Text muted>
+                Password must contain at least one numeric character, one
+                uppercase letter, one lowercase letter, and one special
+                character.
+              </Form.Text>
             </Form.Group>
 
             <Col md="6">

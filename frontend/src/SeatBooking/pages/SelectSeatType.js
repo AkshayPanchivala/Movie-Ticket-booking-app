@@ -57,6 +57,7 @@ export default function SelectSeatType({ onNext }) {
       .then((res) => setgetLanguage(res.movie.language))
       .catch((err) => console.log(err));
   }, []);
+  console.log(new Date(ShowDate).toLocaleString().split(",")[0]);
   function handleNext() {
     setvalue({
       seatCount: seatCount,
@@ -65,6 +66,7 @@ export default function SelectSeatType({ onNext }) {
       showDate: ShowDate,
       showLanguage: Language,
     });
+
     onNext(TAB_OPTIONS.SEAT_SELECTION, {
       seatCount,
       seatType,
@@ -75,7 +77,9 @@ export default function SelectSeatType({ onNext }) {
   }
   {
     const Time = new Date().toLocaleString().split(",")[1];
-    console.log(Time);
+    console.log(Time.split(":")[0] - 12);
+    const date = new Date().toLocaleString().split(",")[0];
+    console.log(date);
   }
   return (
     <>
@@ -87,7 +91,6 @@ export default function SelectSeatType({ onNext }) {
         onChange={onChange}
         value={ShowDate}
       />
- 
 
       <Row>
         <Row>
@@ -110,14 +113,16 @@ export default function SelectSeatType({ onNext }) {
             <Label>Select Show Time</Label>
             <ListGroup horizontal>
               {ShowTime.Time.map((item) => (
-                <ListGroupItem
-                  key={item.Id}
-                  active={Showtime === item.Time ? true : false}
-                  tag="b"
-                  onClick={() => setShowTime(item.Time)}
-                >
-                  {item.Time}
-                </ListGroupItem>
+                <>
+                  <ListGroupItem
+                    key={item.Id}
+                    active={Showtime === item.Time ? true : false}
+                    tag="b"
+                    onClick={() => setShowTime(item.Time)}
+                  >
+                    {item.Time}
+                  </ListGroupItem>
+                </>
               ))}
             </ListGroup>
             <Label>Select Seat Type</Label>
