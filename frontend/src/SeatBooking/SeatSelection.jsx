@@ -83,10 +83,9 @@ function SeatSelection() {
   };
 
   return (
-    <div style={{ display: "flex",marginTop:"50px" }}>
+    <div style={{ display: "flex", marginTop: "50px" }}>
       <div style={{ flex: 1 }}>
-        <div >
-          
+        <div>
           {movie && (
             <>
               {console.log(movie)}
@@ -96,10 +95,11 @@ function SeatSelection() {
                   onMouseLeave={() => setIsHovered(false)}
                 >
                   <Card
+                    marginRight={20}
                     variant="outlined"
                     sx={{
-                      width: 720,
-                      height: 550,
+                      width: 400,
+                      height: 540,
                       boxShadow: isHovered
                         ? "0 0 10px rgba(0, 0, 0, 0.3)"
                         : "none",
@@ -108,7 +108,7 @@ function SeatSelection() {
                     }}
                   >
                     <CardOverflow>
-                      <AspectRatio ratio="2">
+                      <AspectRatio ratio="3/4">
                         <img
                           src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
                           srcSet={`${movie.posterUrl}`}
@@ -117,28 +117,38 @@ function SeatSelection() {
                         />
                       </AspectRatio>
                     </CardOverflow>
-                    <CardContent>
-                      <Typography level="h2" fontSize="md">
-                        {movie.description}
-                      </Typography>
-                    </CardContent>
-                    <CardOverflow
-                      variant="soft"
-                      sx={{ bgcolor: "background.level1" }}
-                    >
-                      <Divider inset="context" />
-                      <CardContent orientation="horizontal">
-                        <Typography
-                          level="body3"
-                          fontWeight="md"
-                          textColor="text.secondary"
-                        >
-                          {movie.language}
-                        </Typography>
-                        <Divider orientation="vertical" />
-                      </CardContent>
-                    </CardOverflow>
                   </Card>
+
+                  <CardContent marginTop={3}>
+                    <Typography 
+                      level="h2"
+                      fontSize="25px"
+                      fontWeight={50}
+                      marginBottom={3}
+                    >
+                      {movie.title}
+                    </Typography>
+                    <Typography level="h2" fontSize="md">
+                      {movie.description}
+                    </Typography>
+                  </CardContent>
+                  <CardOverflow
+                    variant="soft"
+                    sx={{ bgcolor: "background.level1" }}
+                  >
+                    <Divider inset="context" />
+                    <CardContent orientation="horizontal">
+                      <Typography
+                        level="body3"
+                        fontWeight="md"
+                        textColor="text.secondary"
+                      >
+                        {movie.language}
+                      </Typography>
+                      <Divider orientation="vertical" />
+                    </CardContent>
+                  </CardOverflow>
+                  {/* </Card> */}
                 </Box>
               </Box>
             </>

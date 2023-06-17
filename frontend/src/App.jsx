@@ -1,28 +1,26 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-
 import Booking from "./components/Bookings/Booking";
 import Header from "./components/Header";
 import Homepage from "./components/Homepage";
 import AddMovies from "./components/Movies/AddMovies";
-import Movies from "./components/Movies/Movies";
 import UserProfile from "./profile/UserProfile";
 import { adminActions, theaterActions, userActions } from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TheaterProfile from "./profile/TheaterProfile";
-// import SeatBooking from "./SeatBooking/Index";
-import Index from "./SeatBooking/Index";
 import Authlogin from "./components/Auth/Authlogin";
 import Authsignup from "./components/Auth/Authsignup";
 import UpdateProfile from "./profile/UpdateProfile";
-
 import Theatersignup from "./components/Theater/Theatersignup";
 import Theaterlogin from "./components/Theater/Theaterlogin";
 import Getdatabboking from "./profile/Getdatabboking";
 import { ToastContainer } from "react-toastify";
 import Adminlogin from "./components/Admin/Adminlogin";
 import SeatSelection from "./SeatBooking/SeatSelection";
+import Movi  from "./GridWithAddToCartButton/Movi";
+import Footer from "./components/footer/footer";
+import Payment from "./SeatBooking/pages/Payment";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,7 +57,7 @@ function App() {
       <section>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies" element={<Movi />} />
           <Route path="/Admin" element={<Adminlogin />} />
           {!isuserLoggedIn && !isTheaterLoggedIn && (
             <>
@@ -101,9 +99,11 @@ function App() {
                 element={<SeatSelection />}
               />
               <Route path="booking/:id" element={<Booking />} />
+              <Route path="payment" element={<Payment />} />
             </>
           )}
         </Routes>
+        <Footer />
       </section>
     </div>
   );

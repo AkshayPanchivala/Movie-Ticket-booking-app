@@ -67,7 +67,6 @@ function Booking() {
     });
   }, [id, currentPage, searchedCity]);
 
-
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
@@ -79,21 +78,12 @@ function Booking() {
     }
     SetsearchedCity(val);
   };
-  
+console.log( Theatre)
   return (
     <div>
       <Box display="flex" marginTop={"2%"}>
-        <Typography
-          width={"70%"}
-          padding={3}
-          fontFamily="fantasy"
-          variant="h4"
-          textAlign={"center"}
-        >
-          Book Tickets of Movie:
-        </Typography>
         {city && (
-          <Box width={"20%"}>
+          <Box width={"20%"} marginLeft={170} border={"darkgrey"}>
             <Autocomplete
               id="free-solo-demo"
               freeSolo
@@ -115,17 +105,18 @@ function Booking() {
               onMouseLeave={() => setIsHovered(false)}
             >
               <Card
+                marginRight={20}
                 variant="outlined"
                 sx={{
-                  width: 720,
-                  height: 550,
+                  width: 400,
+                  height: 540,
                   boxShadow: isHovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none",
                   transform: isHovered ? "scale(1.05)" : "none",
                   transition: "transform 0.2s, box-shadow 0.2s",
                 }}
               >
                 <CardOverflow>
-                  <AspectRatio ratio="2">
+                  <AspectRatio ratio="3/4">
                     <img
                       src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
                       srcSet={`${movie.posterUrl}`}
@@ -134,30 +125,51 @@ function Booking() {
                     />
                   </AspectRatio>
                 </CardOverflow>
-                <CardContent>
-                  <Typography level="h2" fontSize="md">
-                    {movie.description}
-                  </Typography>
-                </CardContent>
-                <CardOverflow
-                  variant="soft"
-                  sx={{ bgcolor: "background.level1" }}
-                >
-                  <Divider inset="context" />
-                  <CardContent orientation="horizontal">
-                    <Typography
-                      level="body3"
-                      fontWeight="md"
-                      textColor="text.secondary"
-                    >
-                      {movie.language}
-                    </Typography>
-                    <Divider orientation="vertical" />
-                  </CardContent>
-                </CardOverflow>
               </Card>
+
+              <CardContent marginTop={3}>
+                <Stack direction="row" alignItems="center">
+                  <Typography
+                    level="h2"
+                    fontSize="25px"
+                    fontWeight={50}
+                    marginBottom={3}
+                  >
+                    {movie.title}
+                  </Typography>
+                  <Typography
+                    level="body3"
+                    fontWeight="md"
+                    textColor="text.secondary"
+                    marginLeft={60}
+                    marginBottom={3}
+                  >
+                    Likes: {movie.likescount}
+                  </Typography>
+                </Stack>
+                <Typography level="h2" fontSize="md">
+                  {movie.description}
+                </Typography>
+              </CardContent>
+              <CardOverflow
+                variant="soft"
+                sx={{ bgcolor: "background.level1" }}
+              >
+                <Divider inset="context" />
+                <CardContent orientation="horizontal">
+                  <Typography
+                    level="body3"
+                    fontWeight="md"
+                    textColor="text.secondary"
+                  >
+                    {movie.language}
+                  </Typography>
+                  <Divider orientation="vertical" />
+                </CardContent>
+              </CardOverflow>
+              {/* </Card> */}
             </Box>
-            
+
             <Box width={"50%"} paddingTop={3} marginRight={"7%"}>
               {!searchcity &&
                 Theatre &&
@@ -167,7 +179,8 @@ function Booking() {
                     name={Theater.name}
                     id={Theater._id}
                     profilepicture={Theater.profilephoto}
-                    Address={Theater.Address}
+                    Address={Theater.address
+                    }
                   />
                 ))}
 
@@ -212,4 +225,3 @@ function Booking() {
 }
 
 export default Booking;
-

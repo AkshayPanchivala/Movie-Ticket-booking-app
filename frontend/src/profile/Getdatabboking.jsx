@@ -19,7 +19,8 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ShowTime from "./../SeatBooking/constants/ShowTime";
 import { getpdf } from "../api-helpers/api-helper";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 const style = {
   position: "absolute",
   top: "50%",
@@ -38,25 +39,40 @@ function Getdatabboking() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [Showtime, setShowTime] = useState(null);
   const [bookingdata, showbookingdata] = useState([]);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const params = useParams();
+  const id = params.id;
+  // console.log()
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   function generatePdf() {
-    var doc = new jsPDF("p", "pt", "a3");
-
-    // Set the margin to 20 units
-    // doc.setMargin(20, 20, 20, 20);
-    getpdf(selectedDate, Showtime)
-      .then((res) => showbookingdata(res.data.booking))
+    getpdf(selectedDate, Showtime, id)
+      .then((res) => {
+        showbookingdata(res.data.booking);
+        if (res.data.message === "any booking not found") {
+          return toast.error("any booking not found", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      })
       .catch((err) => console.log(err));
     console.log(bookingdata);
-    doc.setFont("courier");
-    if (bookingdata.length < 0) {
-      console.log("lklkl");
-    }
-    if (bookingdata) {
+
+    console.log(bookingdata.length);
+    console.log("klk778");
+    if (bookingdata.length > 0) {
+      var doc = new jsPDF("p", "pt", "a3");
+      doc.setFont("courier");
+      console.log("klk78");
       const x = 40; // X-coordinate for the booking data
       let y = 100; // Initial Y-coordinate for each row
       doc.text(x, y - 50, "Movie: " + bookingdata[0].movie.title);
@@ -79,9 +95,8 @@ function Getdatabboking() {
           y = 40;
         }
       });
+      doc.save(`${bookingdata[0].movie.title}.pdf`);
     }
-
-    doc.save("generated.pdf");
   }
   const handleBackdropClick = () => {
     navigate("/");

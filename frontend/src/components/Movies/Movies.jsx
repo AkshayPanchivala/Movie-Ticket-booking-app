@@ -22,6 +22,7 @@ function Movies() {
   useEffect(() => {
     getAllMovies(currentPage)
       .then((data) => {
+        console.log(data.movies);
         setMovies(data.movies);
         settotalPages(data.totalpages);
       })
@@ -54,19 +55,18 @@ function Movies() {
   return (
     <>
       <Box marginTop={4}>
-    
-          <Box width={"20%"} marginLeft={"80%"}>
-            <Autocomplete
-              id="free-solo-demo"
-              freeSolo
-              options={language.map((option) => option)}
-              renderInput={(params) => (
-                <TextField {...params} label="LanguageSelect" />
-              )}
-              onChange={handlechange}
-            />
-          </Box>
-      
+        <Box width={"20%"} marginLeft={"80%"}>
+          <Autocomplete
+            id="free-solo-demo"
+            freeSolo
+            options={language.map((option) => option)}
+            renderInput={(params) => (
+              <TextField {...params} label="LanguageSelect" />
+            )}
+            onChange={handlechange}
+          />
+        </Box>
+
         <Box
           width={"90%"}
           marginLeft={22}
@@ -78,27 +78,36 @@ function Movies() {
           {searchlanguage &&
             moviesBylanguage &&
             moviesBylanguage.map((movie, index) => (
-              <MoviesItem
-                key={index}
-                id={movie._id}
-                posterUrl={movie.posterUrl}
-                language={movie.language}
-                description={movie.description}
-                title={movie.title}
-              />
+              <>
+                {console.log("lk1")}
+                {console.log(movie)}
+                <MoviesItem
+                  key={index}
+                  id={movie._id}
+                  posterUrl={movie.posterUrl}
+                  language={movie.language}
+                  description={movie.description}
+                  title={movie.title}
+                />
+              </>
             ))}
           {movies &&
             !searchlanguage &&
             movies.map((movie, index) => (
-              <MoviesItem
-                key={index}
-                id={movie._id}
-                posterUrl={movie.posterUrl}
-                language={movie.language}
-                description={movie.description}
-                title={movie.title}
-                imagePath={movie.posterUrl}
-              />
+              <>
+                {" "}
+                {console.log("lk2")}
+                {console.log(movie)}
+                <MoviesItem
+                  key={index}
+                  id={movie._id}
+                  posterUrl={movie.posterUrl}
+                  language={movie.language}
+                  description={movie.description}
+                  title={movie.title}
+                  imagePath={movie.posterUrl}
+                />
+              </>
             ))}
         </Box>
       </Box>

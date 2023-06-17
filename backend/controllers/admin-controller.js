@@ -25,11 +25,13 @@ const loginAdmin = async (req, res, next) => {
       message: "Admin Not Found",
     });
   }
+  console.log(existingadmin);
   if (existingadmin) {
-    const verifypassword = bcrypt.compare(
+    const verifypassword = await bcrypt.compare(
       req.body.password,
       existingadmin.password
     );
+    console.log(verifypassword);
     if (!verifypassword) {
       return res.status(404).json({
         message: "Admin Email id or Password Wrong",

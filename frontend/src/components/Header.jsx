@@ -1,112 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import {
-//   AppBar,
-//   Autocomplete,
-//   IconButton,
-//   Tab,
-//   Tabs,
-//   TextField,
-//   Toolbar,
-// } from "@mui/material";
-// import MovieIcon from "@mui/icons-material/Movie";
-// import { Box } from "@mui/system";
-// import { getAllMovies } from "../api-helpers/api-helper";
-// import { Link, useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from "react-redux";
-// import { adminActions, theaterActions, userActions } from "../store";
-
-// function Header() {
-//   const navigate = useNavigate();
-//   const dispatch = useDispatch();
-//   const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
-//   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
-
-//   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
-//   const [value, setvalue] = useState();
-
-//   const logoutTheater = () => {
-//     dispatch(theaterActions.logout());
-//   };
-//   const logoutUser = () => {
-//     dispatch(userActions.logout());
-//   };
-//   const logoutAdmin = () => {
-//     dispatch(adminActions.logout());
-//   };
-
-//   return (
-//     <AppBar position="sticky" sx={{ bgcolor: "#2b2d42" }}>
-//       <Toolbar>
-//         <Box width={"20%"}>
-//           <IconButton LinkComponent={Link} to="/">
-//             <MovieIcon />
-//           </IconButton>
-//         </Box>
-
-//         <Box display={"flex"}>
-//           <Tabs
-//             textColor="inherit"
-//             indicatorColor="secondary"
-//             value={value}
-//             onChange={(e, val) => setvalue(val)}
-//           >
-//             <Tab LinkComponent={Link} to="/movies" label="Movies" />
-//             {!isTheaterLoggedIn && !isuserLoggedIn && !isadminLoggedIn && (
-//               <>
-//                 <Tab LinkComponent={Link} to="/admin" label="Admin" />
-//                 <Tab LinkComponent={Link} to="/theater/login" label="Theater" />
-//                 <Tab LinkComponent={Link} to="/Auth" label="Auth" />
-//               </>
-//             )}
-//             {isadminLoggedIn && (
-//               <>
-//                 <Tab LinkComponent={Link} to="/add" label="Add Movie" />
-//                 <Tab LinkComponent={Link} to="/theater" label="Add Theater" />
-//                 {/* <Tab LinkComponent={Link} to="/user" label="Profile" /> */}
-
-//                 <Tab
-//                   onClick={() => logoutAdmin()}
-//                   LinkComponent={Link}
-//                   to="/"
-//                   label="Logout"
-//                 />
-//               </>
-//             )}
-//             {isuserLoggedIn && (
-//               <>
-//                 <Tab LinkComponent={Link} to="/user" label="Profile" />
-//                 <Tab
-//                   onClick={() => logoutUser()}
-//                   LinkComponent={Link}
-//                   to="/"
-//                   label="Logout"
-//                 />
-//               </>
-//             )}
-//             {/* {isadminLoggedIn && (
-//               <>
-
-//               </>
-//             )} */}
-//             {isTheaterLoggedIn && (
-//               <>
-//                 {/* <Tab LinkComponent={Link} to="/add" label="Add movie" /> */}
-//                 <Tab LinkComponent={Link} to="/user-admin" label="Profile" />
-//                 <Tab
-//                   onClick={() => logoutTheater()}
-//                   LinkComponent={Link}
-//                   to="/"
-//                   label="Logout"
-//                 />
-//               </>
-//             )}
-//           </Tabs>
-//         </Box>
-//       </Toolbar>
-//     </AppBar>
-//   );
-// }
-// export default Header;
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -213,6 +104,22 @@ function Header() {
         break;
       case "Logout":
         dispatch(userActions.logout()); // Replace "/logout" with the actual path for the logout functionality
+        break;
+
+      default:
+        navigate("/");
+        break;
+    }
+  };
+  const handletheaterSettingClick = (setting) => {
+    handleCloseUserMenu();
+    console.log(setting);
+    switch (setting) {
+      case "Profile":
+        navigate("user-admin");
+        break;
+      case "Logout":
+        dispatch(theaterActions.logout());
         break;
 
       default:
@@ -346,25 +253,28 @@ function Header() {
               justifyContent: "flex-end",
             }}
           >
-            {isadminLoggedIn &&
-              pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={() => handleAdminPageClick(page)}
-                  sx={{
-                    my: 2,
-                    color: "white",
-                    display: "block",
-                    "&:hover": {
-                      backgroundColor: "red",
-                      color: "black",
-                      borderRadius: "10",
-                    },
-                  }}
-                >
-                  {page}
-                </Button>
-              ))}
+            {isadminLoggedIn && (
+              <>
+                {pages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={() => handleAdminPageClick(page)}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      "&:hover": {
+                        backgroundColor: "red",
+                        color: "black",
+                        borderRadius: "10",
+                      },
+                    }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -413,7 +323,10 @@ function Header() {
                 ))}
               {istheaterLoggedIn &&
                 settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => handletheaterSettingClick(setting)}
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
@@ -421,9 +334,6 @@ function Header() {
                 !isuserLoggedIn &&
                 !istheaterLoggedIn &&
                 initialsetting.map((setting) => (
-                  // <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  //   <Typography textAlign="center">{setting}</Typography>
-                  // </MenuItem>
                   <MenuItem
                     key={setting}
                     onClick={() => handleInitialSettingClick(setting)}

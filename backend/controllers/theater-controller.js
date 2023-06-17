@@ -5,17 +5,10 @@ const Theater = require("../models/Theater");
 const User = require("../models/User");
 
 const TheaterSignup = asynchandler(async (req, res, next) => {
-  console.log(typeof +req.body.phonenumber);
-  const existingtheater = await Theater.findOne({ email: email });
-console.log(req.body.name,
- req.body.email,
-  +req.body.phonenumber,
-   req.body.password,
-  req.body.profilephoto,
- req.body.state,
- req.body.city,
- req.body.pincode,
- req.body.address)
+
+
+  const existingtheater = await Theater.findOne({ email: req.body.email });
+
   if (existingtheater) {
     return res.status(409).json({
       message: "Theater already exists",

@@ -1,7 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { sendAdminAuthRequest, sendTheaterRequest } from "../../api-helpers/api-helper";
+import {
+  sendAdminAuthRequest,
+  sendTheaterRequest,
+} from "../../api-helpers/api-helper";
 import { theaterActions } from "../../store";
 import Theatersignupform from "./Theatersignupform";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,7 +15,7 @@ function Theatersignup() {
   // const dispatch = useDispatch();
   const onResReceived = (data) => {
     const status = data.status;
-    console.log(data.data.theater._id);
+ 
     if (status === 201) {
       toast.success("New Theater Added", {
         position: "top-right",
@@ -45,7 +48,7 @@ function Theatersignup() {
   const getData = (data, images, state, city, pincode) => {
     sendTheaterRequest(data.inputs, images[0], state, city, pincode)
       .then(onResReceived)
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("df" + err));
   };
   return (
     <div>

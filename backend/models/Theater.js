@@ -19,12 +19,12 @@ const theaterSchema = new mongoose.Schema({
     required: true,
     minLength: 6,
   },
-  adedMovies: [
-    {
-      type: mongoose.Types.ObjectId,
-      ref: "Movie",
-    },
-  ],
+  // adedMovies: [
+  //   {
+  //     type: mongoose.Types.ObjectId,
+  //     ref: "Movie",
+  //   },
+  // ],
   profilephoto: {
     type: String,
     required: [true, "A product must have a image"],

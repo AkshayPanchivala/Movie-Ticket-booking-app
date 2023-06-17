@@ -1,82 +1,74 @@
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  IconButton,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  ListSubheader,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import InfoIcon from "@mui/icons-material/Info";
-import Box from "@mui/material/Box";
+// import {
+//   Button,
+//   Card,
+//   CardActionArea,
+//   CardActions,
+//   CardContent,
+//   CardMedia,
+//   IconButton,
+//   ImageList,
+//   ImageListItem,
+//   ImageListItemBar,
+//   ListSubheader,
+//   Typography,
+// } from "@mui/material";
+// import React, { useState } from "react";
+// import { useSelector } from "react-redux";
+// import { Link, useNavigate } from "react-router-dom";
+// import InfoIcon from "@mui/icons-material/Info";
+// import Box from "@mui/material/Box";
 
-function MoviesItem({
-  title,
-  posterUrl,
-  id,
+// function MoviesItem({
+//   title,
+//   posterUrl,
+//   id,
 
-  language,
-  description,
-}) {
-  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
-  const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
-  const [isHovered, setIsHovered] = useState(false);
-  // const handleClick = () => {
-  //   setIsClicked(true);
-  // };
+//   language,
+//   description,
+// }) {
+//   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+//   const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
+//   const isAdminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+//   const [isHovered, setIsHovered] = useState(false);
+//   // const handleClick = () => {
+//   //   setIsClicked(true);
+//   // };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
+//   const handleMouseEnter = () => {
+//     setIsHovered(true);
+//   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-  // {
-  //   !isuserLoggedIn && navigate("/Auth");
-  // }
-  // ":hover": {
-  //   boxShadow: "10px 10px 20px #ccc",
-  // },
-  const sliderStyles = {
-    position: "relative",
-    height: "100%",
-    objectFit: "cover",
-    margin: "8px",
-  };
+//   const handleMouseLeave = () => {
+//     setIsHovered(false);
+//   };
+//   // {
+//   //   !isuserLoggedIn && navigate("/Auth");
+//   // }
+//   // ":hover": {
+//   //   boxShadow: "10px 10px 20px #ccc",
+//   // },
+//   const sliderStyles = {
+//     position: "relative",
+//     height: "100%",
 
-  return (
-    <Card sx={{ maxWidth: 325, maxHeight: 490, margin: "8px" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="800"
-          image={`${posterUrl}`}
-          alt="green iguana"
-          style={sliderStyles}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  );
-}
+//     margin: "8px",
+//   };
+
+//   return (
+//     <Card sx={{ maxWidth: 325, maxHeight: 490, margin: "8px" }}>
+//       <CardActionArea>
+//         <CardMedia
+//           component="img"
+//           height="800"
+//           image={`${posterUrl}`}
+//           alt="green iguana"
+//           style={sliderStyles}
+//         />
+
+//       </CardActionArea>
+//     </Card>
+//   );
+// }
 // <Card
 //   onMouseEnter={handleMouseEnter}
 //   onMouseLeave={handleMouseLeave}
@@ -197,5 +189,37 @@ function MoviesItem({
 //     )}
 //   </CardActions>
 // </Card>
+import * as React from "react";
+import AspectRatio from "@mui/joy/AspectRatio";
+import Box from "@mui/joy/Box";
+function MoviesItem({
+    title,
+    posterUrl,
+    id,
+  
+    language,
+    description,
+  }
+  )
+ {
+  return (
+    <>
+      {console.log(posterUrl)}
+      <Box>
+      <AspectRatio
+        objectFit="contain"
+        sx={{ width: 700, borderRadius: "sm" }}
+      >
+        <img
+          src={posterUrl}
+          srcSet={posterUrl}
+          alt="A beautiful landscape."
+          style={{ width: "100%", height: "100%" }}
+        />
+      </AspectRatio>
+    </Box>
+    </>
+  );
 
+}
 export default MoviesItem;

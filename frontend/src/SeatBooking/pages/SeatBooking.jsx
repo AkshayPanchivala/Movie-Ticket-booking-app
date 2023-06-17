@@ -129,12 +129,18 @@ export default function SeatBooking({ onNext, seatSelection }) {
       admin: theatreid,
       SeatType: seatSelection.seatType,
       ShowTime: seatSelection.Showtime,
+      price: price,
     };
     /////////////////////////////////////////////
-    newBooking(data)
-      .then(onResReceived)
-      .catch((err) => console.log(err));
+    navigate("/payment", {
+      state: data,
+    });
+    // newBooking(data)
+    //   .then(onResReceived)
+    //   .catch((err) => console.log(err));
   }
+  const price =
+    SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;
   return (
     <Row>
       <Col>
@@ -152,10 +158,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
           </Row>
         ))}
       </Col>
-      <Label>
-        Price : ₹
-        {SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount}.00
-      </Label>
+      <Label>Price : ₹{price}.00</Label>
       <Row>
         <Col>
           <Button onClick={() => onNext(TAB_OPTIONS.SEAT_TYPE)} title="Prev" />{" "}

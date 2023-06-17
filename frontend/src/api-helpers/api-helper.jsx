@@ -7,8 +7,8 @@ export const getAllMovies = async (currentPage) => {
   if (res.status !== 200) {
     return console.log("no data");
   }
-  const data = await res.data;
-  console.log(res);
+  const data = res.data;
+  console.log(data);
   return data;
 };
 
@@ -100,7 +100,9 @@ export const sendTheaterRequest = async (
       city: city,
       pincode: pincode,
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return err.response;
+    });
   if (res.status !== 200 && res.status !== 201) {
     console.log("unexpexted error occured");
   }
@@ -121,15 +123,16 @@ export const getMovieDetails = async (id) => {
 };
 
 export const newBooking = async (data) => {
+  console.log(data);
   const res = axios
     .post("http://localhost:5000/booking", {
       movie: data.movie,
       date: data.date,
-      seatNumber: data.seatNumber,
+      seatNumber: data.seatnumber,
       user: data.user,
       theater: data.admin,
       SeatType: data.SeatType,
-      ShowTime: data.ShowTime,
+      ShowTime: data.showtime,
     })
     .catch((err) => console.log(err));
   return res;
@@ -283,15 +286,18 @@ export const sendtheaterlogin = async (data) => {
   return resData;
 };
 
-export const getpdf = async (selectedDate, Showtime) => {
+export const getpdf = async (selectedDate, Showtime, id) => {
   const adminId = localStorage.getItem("adminId");
+
   console.log(adminId);
+  console.log();
   console.log({ date: selectedDate, showtime: Showtime, theater: adminId });
   const res = await axios
     .post(`http://localhost:5000/booking/download`, {
       date: selectedDate,
       showtime: Showtime,
       theater: adminId,
+      movie: id,
     })
 
     .catch((err) => console.log(err));
@@ -338,4 +344,32 @@ export const sendAdminlogin = async (data) => {
   });
   console.log(res);
   return res;
+};
+export const createlike = async (liked) => {
+  const userId = localStorage.getItem("userId");
+  const res = await axios
+    .post(`http://localhost:5000/movie/like`, {
+      user: userId,
+      movie: liked,
+    })
+    .catch((err) => console.log(err));
+  console.log(res);
+};
+export const getlikebyuser = async (liked) => {
+  const userId = localStorage.getItem("userId");
+  const res = await axios
+    .post(`http://localhost:5000/movie/getlike`, {
+      user: userId,
+    })
+    .catch((err) => console.log(err));
+  console.log(res);
+  return res;
+};
+
+export const gettopMovies = async () => {
+  const res = await axios
+    .get(`http://localhost:5000/movie/MostLiked`)
+    .catch((err) => console.log(err));
+  console.log(res.data.mostlikedmovie);
+  return res.data.mostlikedmovie;
 };
