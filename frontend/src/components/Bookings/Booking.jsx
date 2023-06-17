@@ -1,18 +1,21 @@
 import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Autocomplete,
+  Avatar,
   Card,
   CardContent,
   Divider,
+  IconButton,
   Pagination,
   Stack,
   TextField,
   Typography,
+  Grid,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getAlladmin,
   getmovie,
@@ -22,7 +25,7 @@ import {
 } from "../../api-helpers/api-helper";
 import CardOverflow from "@mui/joy/CardOverflow";
 import Theatrecard from "./Theatrecard";
-
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 function Booking() {
   const [movie, setMovie] = useState();
   const [Theatre, setTheatre] = useState();
@@ -78,7 +81,7 @@ function Booking() {
     }
     SetsearchedCity(val);
   };
-console.log( Theatre)
+  console.log(Theatre);
   return (
     <div>
       <Box display="flex" marginTop={"2%"}>
@@ -99,8 +102,13 @@ console.log( Theatre)
       {movie && (
         <>
           {console.log(movie)}
-          <Box display={"flex"} justifyContent={"center"} marginLeft="5%">
-            <Box
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            marginLeft="5%"
+            borderRadius={5}
+          >
+            {/* <Box
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
@@ -167,7 +175,103 @@ console.log( Theatre)
                   <Divider orientation="vertical" />
                 </CardContent>
               </CardOverflow>
-              {/* </Card> */}
+             
+            </Box> */}
+
+            <Box sx={{ minHeight: 300 }}>
+              <Card
+                variant="outlined"
+                sx={(theme) => ({
+                  width: 500,
+                  gridColumn: "span 2",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  resize: "horizontal",
+                  overflow: "hidden",
+                  gap: "clamp(0px, (100% - 360px + 32px) * 999, 16px)",
+                  transition: "transform 0.3s, border 0.3s",
+
+                  "& > *": {
+                    minWidth: "clamp(0px, (360px - 100%) * 999,100%)",
+                  },
+                })}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    maxWidth: 500,
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <div>
+                      <div sx={{ margin: "20px" }}>
+                        <Typography
+                          level="h2"
+                          variant="h6"
+                          sx={{
+                            fontSize: "24px",
+                            marginLeft: "220px",
+                            fontWeight: "450",
+                          }}
+                          mb={0.5}
+                        >
+                          {movie.title}
+                        </Typography>
+                      </div>
+                    </div>
+                  </Box>
+                  <Card
+                    marginRight={20}
+                    variant="outlined"
+                    sx={{
+                      width: 400,
+                      height: 540,
+                      boxShadow: isHovered
+                        ? "0 0 10px rgba(0, 0, 0, 0.3)"
+                        : "none",
+                      transform: isHovered ? "scale(1.05)" : "none",
+                      transition: "transform 0.2s, box-shadow 0.2s",
+                      marginLeft: 5,
+                    }}
+                  >
+                    <CardOverflow>
+                      <AspectRatio ratio="3/4">
+                        <img
+                          src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                          srcSet={`${movie.posterUrl}`}
+                          loading="lazy"
+                          alt=""
+                        />
+                      </AspectRatio>
+                    </CardOverflow>
+                  </Card>
+                  <IconButton
+                    size="sm"
+                    variant="plain"
+                    color="neutral"
+                    sx={{ ml: "25px", alignSelf: "flex-start" }}
+                  >
+                    <FavoriteBorderRoundedIcon color="danger" />
+                  </IconButton>
+                  <Typography level="body2" sx={{ marginLeft: "20px" }}>
+                    Language:[{movie.language+" "}]
+                  </Typography>
+                  <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
+                    <Box style={{ marginLeft: "5%" }}>
+                      <Typography>About the movie:</Typography>
+                      <Typography
+                        fontWeight="lg"
+                        level="body2"
+                        sx={{ whiteSpace: "pre-wrap", marginLeft: "10px" }}
+                      >
+                        {movie.description}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Card>
             </Box>
 
             <Box width={"50%"} paddingTop={3} marginRight={"7%"}>
@@ -179,8 +283,7 @@ console.log( Theatre)
                     name={Theater.name}
                     id={Theater._id}
                     profilepicture={Theater.profilephoto}
-                    Address={Theater.address
-                    }
+                    Address={Theater.address}
                   />
                 ))}
 
