@@ -13,11 +13,9 @@ const like = asyncHandler(async (req, res, next) => {
   const id = req.body.user;
   const movieid = req.body.movie;
   
-  console.log(id);
 
-  console.log(movieid);
   const movie = await Movie.findById(movieid);
-  console.log(movie);
+
   if (!movie) {
     return next(new AppError("movie is not found", 404));
   }
@@ -26,7 +24,7 @@ const like = asyncHandler(async (req, res, next) => {
     user: id,
     movie: movieid,
   });
-  console.log(existinglike);
+
   if (existinglike) {
     const deletedislike = await Like.findOneAndDelete({
       user: id,

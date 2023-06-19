@@ -1,8 +1,36 @@
 const Admin = require("./../models/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const asynchandler = require("express-async-handler");
 
-const signupAdmin = async (req, res, next) => {
+const signupAdmin = asynchandler(async (req, res, next) => {
+  const { name, email, password} = req.body;
+
+  let missingValues = [];
+
+  if (!name || typeof(name)=='number') missingValues.push("Name ");
+  if (!email || typeof(email)=='number') missingValues.push("Email ");
+  if (!password) missingValues.push("password ");
+ 
+
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
+ 
+
+
+
+
+
+
+
+
+
   const admin = await Admin.create({
     name: req.body.name,
     email: req.body.email,
@@ -16,22 +44,38 @@ const signupAdmin = async (req, res, next) => {
     message: "successfully created account",
     token: token,
   });
-};
-const loginAdmin = async (req, res, next) => {
-  console.log(req.body);
+});
+const loginAdmin = asynchandler(async (req, res, next) => {
+  const {email, password} = req.body;
+
+  let missingValues = [];
+
+  
+  if (!email || typeof(email)=='number') missingValues.push("Email ");
+  if (!password) missingValues.push("password ");
+ 
+
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
   const existingadmin = await Admin.findOne({ email: req.body.email });
   if (!existingadmin) {
     res.status(404).json({
       message: "Admin Not Found",
     });
   }
-  console.log(existingadmin);
+
   if (existingadmin) {
     const verifypassword = await bcrypt.compare(
       req.body.password,
       existingadmin.password
     );
-    console.log(verifypassword);
+
     if (!verifypassword) {
       return res.status(404).json({
         message: "Admin Email id or Password Wrong",
@@ -52,7 +96,7 @@ const loginAdmin = async (req, res, next) => {
       });
     }
   }
-};
+});
 module.exports = {
   signupAdmin,
   loginAdmin,

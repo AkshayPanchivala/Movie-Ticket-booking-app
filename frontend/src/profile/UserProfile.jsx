@@ -187,7 +187,7 @@ function UserProfile() {
               >
                 update profile
               </Button>
-              <Button
+              {/* <Button
                 variant="outlined"
                 startIcon={<DeleteIcon />}
                 style={{ color: "black" }}
@@ -196,7 +196,7 @@ function UserProfile() {
                 onClick={profilehandler}
               >
                 Delete Profile
-              </Button>
+              </Button> */}
             </Stack>
           </Box>
           <Box width={"70%"} display="flex" flexDirection={"column"}>
@@ -208,30 +208,30 @@ function UserProfile() {
             >
               Bookings
             </Typography>
-            {Bookings &&
-              Bookings.map((e) => (
-                <>
-                  {console.log("ee" + e.seatNumber)}
-                  <BookingCard
-                    key={e._id}
-                    id={e._id}
-                    Title={e.movie.title}
-                    Date={e.date}
-                    SeatNumber={e.seatNumber}
-                    ShowTime={e.ShowTime}
-                    TheaterName={e.theater.name}
+            {Bookings && (
+              <>
+                {Bookings.map((e) => (
+                  <>
+                    <BookingCard
+                      key={e._id}
+                      id={e._id}
+                      Title={e.movie.title}
+                      Date={e.date}
+                      SeatNumber={e.seatNumber}
+                      ShowTime={e.ShowTime}
+                      TheaterName={e.theater.name}
+                    />
+                  </>
+                ))}
+                <Stack spacing={2} marginLeft={50}>
+                  <Pagination
+                    count={totalPages}
+                    color="primary"
+                    onChange={handlePageChange}
                   />
-                </>
-              ))}
-            
-            <Stack spacing={2} marginLeft={50}>
-              <Pagination
-                count={totalPages}
-                color="primary"
-                onChange={handlePageChange}
-              />
-            </Stack>
-            
+                </Stack>
+              </>
+            )}
           </Box>
         </Box>
       )}

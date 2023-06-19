@@ -18,13 +18,15 @@ import "react-calendar/dist/Calendar.css";
 import ShowTime from "../constants/ShowTime";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { getMoviesbyid } from "../../api-helpers/api-helper";
+import { getMoviesbyid, notAvailable } from "../../api-helpers/api-helper";
+
 export default function SelectSeatType({ onNext }) {
   const [seatCount, setSeatCount] = useState(0);
   const [seatType, setSeatType] = useState(null);
   const [Showtime, setShowTime] = useState(null);
   const [ShowDate, onChange] = useState(new Date());
   const [getLanguage, setgetLanguage] = useState([]);
+  const [AvailableSeat, setAvailableSeat] = useState(0);
   const [Language, setLanguage] = useState(null);
   const [value, setvalue] = useState({
     SeatCount: "",
@@ -34,6 +36,22 @@ export default function SelectSeatType({ onNext }) {
     showLanguage: "",
   });
   const params = useParams();
+  const movieid = params.movieid;
+  const theatreid = params.theaterId;
+  useEffect(() => {
+    
+      const data = {
+        movieid,
+        theatreid,
+        ShowDate: ShowDate,
+        ShowTime: Showtime,
+      };
+      notAvailable(data).then((res) =>{ const availableseat= (226-+res.notavailable.length);
+        setAvailableSeat(availableseat)});
+   
+ 
+  }, [ ShowDate,Showtime]);
+  // const params = useParams();
   console.log(params);
 
   const [isNextDisable, setNextDisable] = useState(true);
@@ -57,7 +75,8 @@ export default function SelectSeatType({ onNext }) {
       .then((res) => setgetLanguage(res.movie.language))
       .catch((err) => console.log(err));
   }, []);
-  console.log(new Date(ShowDate).toLocaleString().split(",")[0]);
+  const selecteddate = new Date(ShowDate).toLocaleString().split(",")[0];
+  const reselecteddate = selecteddate.split("/")[0];
   function handleNext() {
     setvalue({
       seatCount: seatCount,
@@ -66,7 +85,7 @@ export default function SelectSeatType({ onNext }) {
       showDate: ShowDate,
       showLanguage: Language,
     });
-
+    console.log("sdsd" + new Date(ShowDate).toLocaleString().split(",")[0]);
     onNext(TAB_OPTIONS.SEAT_SELECTION, {
       seatCount,
       seatType,
@@ -75,15 +94,19 @@ export default function SelectSeatType({ onNext }) {
       Language,
     });
   }
-  {
-    const Time = new Date().toLocaleString().split(",")[1];
-    console.log(Time.split(":")[0] - 12);
-    const date = new Date().toLocaleString().split(",")[0];
-    console.log(date);
-  }
+
+  const Time = new Date().toLocaleString().split(",")[1];
+  const currentTime = +Time.split(":")[0] - 12;
+
+  const date = new Date().toLocaleString().split(",")[0];
+  const currentdate = date.split("/")[0];
+  const timerendered = currentdate < reselecteddate;
+  const todaytimerendered = currentdate === reselecteddate;
+
   return (
     <>
-      <Typography>Select a Date</Typography>
+     <Typography sx={{ color: 'green' }}>Available Seat is:{AvailableSeat}</Typography>
+      <Typography><strong>Select a Date</strong></Typography>
       <Calendar
         borderradius={5}
         minDate={new Date()}
@@ -95,7 +118,7 @@ export default function SelectSeatType({ onNext }) {
       <Row>
         <Row>
           <Col>
-            <Label>Select Language</Label>
+            <Label><strong>Select Language</strong></Label>
             <ListGroup horizontal>
               {getLanguage.map((item, index) => (
                 <>
@@ -110,22 +133,37 @@ export default function SelectSeatType({ onNext }) {
                 </>
               ))}
             </ListGroup>
-            <Label>Select Show Time</Label>
+            <Label><strong>Select Show Time</strong></Label>
             <ListGroup horizontal>
-              {ShowTime.Time.map((item) => (
-                <>
-                  <ListGroupItem
-                    key={item.Id}
-                    active={Showtime === item.Time ? true : false}
-                    tag="b"
-                    onClick={() => setShowTime(item.Time)}
-                  >
-                    {item.Time}
-                  </ListGroupItem>
-                </>
-              ))}
+              {timerendered &&
+                ShowTime.Time.map((item, index) => (
+                  <>
+                    <ListGroupItem
+                      key={item.Id}
+                      active={Showtime === item.Time ? true : false}
+                      tag="b"
+                      onClick={() => setShowTime(item.Time)}
+                    >
+                      {item.Time}
+                    </ListGroupItem>
+                  </>
+                ))}
+              {todaytimerendered &&
+                ShowTime.Time.map((item, index) => (
+                  <>
+                    <ListGroupItem
+                      key={item.Id}
+                      active={Showtime === item.Time ? true : false}
+                      disabled={currentTime >= item.Time.split(" ")[2]}
+                      tag="b"
+                      onClick={() => setShowTime(item.Time)}
+                    >
+                      {item.Time}
+                    </ListGroupItem>
+                  </>
+                ))}
             </ListGroup>
-            <Label>Select Seat Type</Label>
+            <Label><strong>Select Seat Type</strong></Label>
             <ListGroup horizontal>
               {SEAT.SEAT_TYPE.map((item) => (
                 <ListGroupItem
@@ -142,7 +180,7 @@ export default function SelectSeatType({ onNext }) {
         </Row>
         <Row>
           <Col>
-            <Label>Total Seats</Label>
+            <Label><strong>Total Seats</strong></Label>
             <Pagination aria-label="Page navigation example">
               <RenderSeatCounts />
             </Pagination>
@@ -151,7 +189,7 @@ export default function SelectSeatType({ onNext }) {
         <Row>
           <Col>
             <Label>
-              Total Price:{" "}
+            <strong>Total Price:{" "}</strong>
               <b>
                 ₹
                 {seatCount > 0 && seatType

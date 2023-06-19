@@ -14,6 +14,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { pincodefetch } from "../../api-helpers/api-helper";
+import { toast } from "react-toastify";
 function Authsignupform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -62,15 +63,27 @@ function Authsignupform({ onSubmit }) {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     event.preventDefault();
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
+    if (inputs.password !== inputs.confirmpassword) {
+      return toast.error("Password and confirm password not match", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
+    // if (form.checkValidity() === false) {
+    //   event.stopPropagation();
+    // }
 
     setValidated(true);
-    if (validated === true && passwordMatch) {
-      event.preventDefault();
-      onSubmit({ inputs }, images, state, city, pincode);
-    }
+    // if (validated === true && passwordMatch) {
+    event.preventDefault();
+    onSubmit({ inputs }, images, state, city, pincode);
+    // }
   };
   const pincodehandleChange = (event) => {
     if (event.target.value.length === 6) {
@@ -96,13 +109,7 @@ function Authsignupform({ onSubmit }) {
   const handleBackdropClick = () => {
     navigate("/");
   };
-  const handleConfirmPasswordChange = (event) => {
-    let confirmPassword = event.target.value;
-    console.log(confirmPassword);
-    setPasswordMatch(inputs.password === event.target.value);
-    // Check if password and confirm password match
-  };
-  
+
   return (
     <>
       <Dialog
@@ -110,7 +117,7 @@ function Authsignupform({ onSubmit }) {
           style: { borderRadius: 15, width: "500px", height: "auto" },
         }}
         open={true}
-        onBackdropClick={handleBackdropClick}
+        onClose={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           Register
@@ -128,7 +135,7 @@ function Authsignupform({ onSubmit }) {
                   placeholder="name"
                   name="name"
                 />
-          
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valid Name.
                 </Form.Control.Feedback>
@@ -143,7 +150,7 @@ function Authsignupform({ onSubmit }) {
                   placeholder="email"
                   name="email"
                 />
-             
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valid Email.
                 </Form.Control.Feedback>
@@ -161,7 +168,7 @@ function Authsignupform({ onSubmit }) {
                   onChange={handleChange}
                   name="phonenumber"
                 />
-            
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valid PhoneNumber.
                 </Form.Control.Feedback>
@@ -232,24 +239,24 @@ function Authsignupform({ onSubmit }) {
               </Form.Group>
             </Row>
             <Row className="mb-3">
-            <Form.Group md="6" controlId="validationCustom03">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="password"
-                minLength={6}
-                maxLength={8}
-                pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
-                required
-                onChange={handleChange}
-                value={inputs.password}
-                name="password"
-              />
-             
-              <Form.Control.Feedback type="invalid">
-                Please provide a valid Password.
-              </Form.Control.Feedback>
-            </Form.Group>
+              <Form.Group md="6" controlId="validationCustom03">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="password"
+                  minLength={6}
+                  maxLength={8}
+                  pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
+                  required
+                  onChange={handleChange}
+                  value={inputs.password}
+                  name="password"
+                />
+
+                <Form.Control.Feedback type="invalid">
+                  Please provide a valid Password.
+                </Form.Control.Feedback>
+              </Form.Group>
             </Row>
             <Form.Group md="6" controlId="validationCustom03">
               <Form.Label>Confirm Password</Form.Label>
@@ -260,14 +267,11 @@ function Authsignupform({ onSubmit }) {
                 maxLength={8}
                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 required
-                onChange={(event) => {
-                  handleChange(event);
-                  handleConfirmPasswordChange(event);
-                }}
+                onChange={handleChange}
                 value={inputs.confirmpassword}
                 name="confirmpassword"
               />
-              
+
               <Form.Control.Feedback type="invalid">
                 Please provide a valid ConfirmPassword.
               </Form.Control.Feedback>

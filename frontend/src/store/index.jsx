@@ -1,5 +1,6 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
+
 const userSlice = createSlice({
   name: "user",
   initialState: { isLoggedIn: false },
@@ -26,6 +27,7 @@ const theaterSlice=createSlice({
           localStorage.removeItem("token")
 
             state.isLoggedIn=false;
+          
         }
     }
 })
@@ -39,6 +41,7 @@ const adminSlice=createSlice({
       logout(state){
         localStorage.removeItem("adminid")
         localStorage.removeItem("token")
+       
 
           state.isLoggedIn=false;
       }

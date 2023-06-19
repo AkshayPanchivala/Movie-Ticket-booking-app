@@ -84,7 +84,7 @@ function UpdateProfile() {
     <>
       <Dialog
         PaperProps={{
-          style: { borderRadius: 15, width: "500px", height: "700px" },
+          style: { borderRadius: 15, width: "500px", height: "auto" },
         }}
         open={true}
         onBackdropClick={handleBackdropClick}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Row } from "reactstrap";
 
 import "./styles.css";
@@ -17,6 +17,7 @@ export default function Index() {
     setSeatSelection(seatSelection);
     // console.log(tab,se)
   }
+
   return (
     <Container>
       <Row></Row>

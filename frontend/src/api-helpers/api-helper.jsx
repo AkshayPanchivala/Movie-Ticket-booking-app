@@ -373,3 +373,52 @@ export const gettopMovies = async () => {
   console.log(res.data.mostlikedmovie);
   return res.data.mostlikedmovie;
 };
+
+const initPayment = (data, booking) => {
+  const options = {
+    key: "rzp_test_XjLr3daSU0JSug",
+    amount: data.amount,
+    currency: data.currency,
+    name: booking.user,
+    description: "Test Transaction",
+    image: booking.img,
+    order_id: data.id,
+    handler: async (response) => {
+      try {
+        const verifyUrl = "http://localhost:5000/booking/verify";
+        const { data } = await axios.post(verifyUrl, response);
+        if (data.message === "Payment verified successfully") {
+          newBooking(booking)
+            .then((res) => {
+              return res;
+            })
+            .catch((err) => console.log(err));
+        } else {
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    theme: {
+      color: "#3399cc",
+    },
+  };
+
+  const rzp1 = new window.Razorpay(options);
+
+  rzp1.open();
+};
+
+export const handlePayment = async (booking) => {
+  try {
+    const orderUrl = "http://localhost:5000/booking/orders";
+    const { data } = await axios.post(orderUrl, { amount: booking.price });
+    console.log(data);
+    initPayment(data.data);
+    //   newBooking(data)
+    //     .then(onResReceived)
+    //     .catch((err) => console.log(err));
+  } catch (error) {
+    console.log(error);
+  }
+};

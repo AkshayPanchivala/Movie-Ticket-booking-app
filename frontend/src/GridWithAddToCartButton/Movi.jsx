@@ -30,7 +30,7 @@ export default function Movi() {
     getAllMovies(currentPage)
       .then((data) => {
         setMovies(data.movies);
-       
+
         settotalPages(data.totalpages);
       })
       .catch((err) => console.log(err));
@@ -100,7 +100,7 @@ export default function Movi() {
           <Grid container spacing={3}>
             {moviesBylanguage.map((Movie) => (
               <Grid item key={Movie.id} xs={12} sm={6} md={4} lg={3}>
-                <MovieCard Movie={Movie}  />
+                <MovieCard Movie={Movie} />
               </Grid>
             ))}
           </Grid>
@@ -111,7 +111,7 @@ export default function Movi() {
           <Grid container spacing={3}>
             {top8movies.map((Movie) => (
               <Grid item key={Movie._id} xs={12} sm={6} md={4} lg={3}>
-                <MovieCard Movie={Movie} id={Movie._id}  />
+                <MovieCard Movie={Movie} id={Movie._id} />
               </Grid>
             ))}
           </Grid>

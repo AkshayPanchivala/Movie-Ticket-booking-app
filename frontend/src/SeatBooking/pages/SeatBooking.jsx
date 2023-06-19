@@ -56,6 +56,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
           updateSelected={handleUpdateSelection}
           available={availableSeats.includes(`${structure.row}${i}`)}
           seatType={seatSelection.seatType}
+          
         />
       );
     }
@@ -135,9 +136,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
     navigate("/payment", {
       state: data,
     });
-    // newBooking(data)
-    //   .then(onResReceived)
-    //   .catch((err) => console.log(err));
+   
   }
   const price =
     SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;

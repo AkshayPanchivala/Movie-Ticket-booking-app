@@ -1,12 +1,13 @@
-import * as React from "react";
+import  React,{useState}from "react";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "reactstrap";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteBooking } from "../api-helpers/api-helper";
+import { toast } from "react-toastify";
 
 export default function BookingCard(props) {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const [isClicked, setIsClicked] = React.useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   // const currentTime = new Date().toLocaleString([], { hour12: true }).split(",")[1];
   // const currentDate = new Date().toLocaleString().split(",")[0];
@@ -17,6 +18,7 @@ export default function BookingCard(props) {
   });
 
   const t = currentTime.split(" ")[0];
+  // const t = 5;
   const p = currentTime.split(" ")[1];
 
   const date = new Date(props.Date);
@@ -25,24 +27,33 @@ export default function BookingCard(props) {
     month: "2-digit",
     year: "numeric",
   });
-;
-  const time = props.ShowTime.split(" ")[0];
 
+  const time = props.ShowTime.split(" ")[0];
+  console.log("ptime" + time > t);
   const cancelbookinghandler = (id) => {
     setIsClicked(!isClicked);
-    
-   
-    
+    setIsHovered(!isHovered);
     // Perform the deletion logic or any other operations
-    {
-      isClicked &&
-      setIsHovered(!isHovered)
-        deleteBooking(id)
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err));
+    if (isClicked && isHovered) {
+      deleteBooking(id)
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success("your booking is cancel", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     }
     // Toggle the clicked state
-    setIsHovered(!isHovered)
+    setIsHovered(!isHovered);
     setIsClicked(!isClicked);
   };
 
@@ -51,9 +62,11 @@ export default function BookingCard(props) {
   //   new Date(formattedDate) === new Date(currentDate);
   console.log("lklk" + t > currentTime);
   const shouldRenderDeleteIcon =
-    new Date(formattedDate) >= new Date(currentDate) && +t < +time;
-  const render = currentDate.split("/")[0] < formattedDate.split("/")[0];
-  const amrender = p === "am";
+    currentDate === formattedDate && time > t && p === "pm";
+
+  //   new Date(formattedDate) >= new Date(currentDate) && +t < +time;
+  const renderdate = currentDate < formattedDate;
+  // const amrender = p === "pm";
   return (
     <div
       style={{
@@ -88,7 +101,7 @@ export default function BookingCard(props) {
               </Col>
             </Row>
           </div>
-          {(shouldRenderDeleteIcon || render || amrender) && (
+          {(shouldRenderDeleteIcon || p === "am" || renderdate) && (
             <div
               style={{
                 display: "flex",
@@ -100,11 +113,9 @@ export default function BookingCard(props) {
             >
               <DeleteIcon />
             </div>
-
           )}
         </Card.Body>
       </Card>
-      
     </div>
   );
 }

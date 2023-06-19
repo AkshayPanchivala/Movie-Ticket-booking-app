@@ -5,25 +5,32 @@ import { FavouriteButton } from "./FavouriteButton";
 
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { createlike, getlikebyuser } from "../api-helpers/api-helper";
 
 export const MovieCard = (props) => {
   const { Movie, rootProps } = props;
-  const { language, posterUrl, description, rating,title, likescount } = Movie;
+  const { language, posterUrl, description, rating, title, likescount } = Movie;
   const [liked, setliked] = useState();
   const [isliked, setisliked] = useState(false);
   const [movieliked, setmovieliked] = useState();
   const [fatchData, setfatchData] = useState(false);
+
   const [userlikedmovie, setuserlikedmovie] = useState([]);
+  const navigate = useNavigate();
+  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+
   let id = Movie._id;
   const theme = useTheme();
 
   const likeclickhandler = (id) => {
+    if (!isuserLoggedIn) {
+      navigate("/auth/login");
+    }
     setisliked(!isliked);
-    console.log(isliked);
-    console.log("lkj");
+
     setliked(id);
     // setisliked(isliked);
   };
@@ -47,8 +54,8 @@ export const MovieCard = (props) => {
     }
   }, [movieliked, fatchData, setisliked]);
 
-  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const istheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
+  // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const showlikehandler = () => {
     console.log("lklk54");
   };
@@ -63,6 +70,7 @@ export const MovieCard = (props) => {
           sx={{
             aspectRatio: "3/4",
             borderRadius: { base: "md", md: "xl" },
+
             width: "100%",
             height: "100%",
             objectFit: "cover",
@@ -73,15 +81,7 @@ export const MovieCard = (props) => {
           }}
         />
         <Stack direction="row" alignItems="center">
-          <Rating defaultValue={rating} id={id} size="small" />
-          <Typography
-            variant="body2"
-            fontSize="body2.fontSize"
-            color="text.secondary"
-            marginLeft={3}
-          >
-            {likescount} Votes
-          </Typography>
+          {/* <Rating defaultValue={rating} id={id} size="small" /> */}
         </Stack>
 
         <Box display="flex" alignItems="center">
@@ -99,16 +99,15 @@ export const MovieCard = (props) => {
           >
             <FavoriteIcon />
           </FavouriteButton>
+
           <Typography
             variant="body2"
-            color={
-              theme.palette.mode === "light"
-                ? "text.secondary"
-                : "text.disabled"
-            }
-            onClick={() => showlikehandler(id)}
+            fontSize="body2.fontSize"
+            color="text.secondary"
+            marginLeft={3}
           >
-            {likescount}
+            {likescount} Votes
+            {/* </Typography> */}
           </Typography>
         </Box>
       </Box>
@@ -141,7 +140,7 @@ export const MovieCard = (props) => {
         </Stack>
       </Stack>
       <Stack align="center">
-        {!istheaterLoggedIn && (
+        {isuserLoggedIn && (
           <Button
             variant="contained"
             color="inherit"
@@ -151,6 +150,30 @@ export const MovieCard = (props) => {
           >
             Book Now
           </Button>
+        )}
+        {isadminLoggedIn && (
+          <div style={{ display: "flex" }}>
+            <Button
+              variant="contained"
+              color="inherit"
+              LinkComponent={Link}
+              to={isuserLoggedIn ? `/booking/${id}` : "/auth/login"}
+              style={{ marginRight: "8px" }}
+              fullWidth
+            >
+              Update Movie
+            </Button>
+
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ marginLeft: "8px" }}
+              // Add the necessary props and event handlers for the second button
+              fullWidth
+            >
+              Delete Movie
+            </Button>
+          </div>
         )}
         {istheaterLoggedIn && (
           <Button

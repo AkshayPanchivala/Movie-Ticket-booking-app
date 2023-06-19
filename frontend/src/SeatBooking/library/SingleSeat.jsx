@@ -10,9 +10,9 @@ export default function SingleSeat({
   seatType,
 }) {
   const [active, setActive] = useState(selected);
-  
+
   const [row1, setRow1] = useState([]);
- 
+
   console.log("row1" + row1);
   function handleSelected() {
     if (available) {
@@ -28,13 +28,10 @@ export default function SingleSeat({
       <>
         <PaginationItem>
           <PaginationLink
-          
             onClick={handleSelected}
             className={available ? activeClass : "not-available"}
           >
             {`${row}${seatNumber}`}
-
-            {console.log(`${row}${seatNumber}`)}
           </PaginationLink>
         </PaginationItem>
       </>

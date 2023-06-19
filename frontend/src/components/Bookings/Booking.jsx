@@ -108,94 +108,8 @@ function Booking() {
             marginLeft="5%"
             borderRadius={5}
           >
-            {/* <Box
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <Card
-                marginRight={20}
-                variant="outlined"
-                sx={{
-                  width: 400,
-                  height: 540,
-                  boxShadow: isHovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none",
-                  transform: isHovered ? "scale(1.05)" : "none",
-                  transition: "transform 0.2s, box-shadow 0.2s",
-                }}
-              >
-                <CardOverflow>
-                  <AspectRatio ratio="3/4">
-                    <img
-                      src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                      srcSet={`${movie.posterUrl}`}
-                      loading="lazy"
-                      alt=""
-                    />
-                  </AspectRatio>
-                </CardOverflow>
-              </Card>
-
-              <CardContent marginTop={3}>
-                <Stack direction="row" alignItems="center">
-                  <Typography
-                    level="h2"
-                    fontSize="25px"
-                    fontWeight={50}
-                    marginBottom={3}
-                  >
-                    {movie.title}
-                  </Typography>
-                  <Typography
-                    level="body3"
-                    fontWeight="md"
-                    textColor="text.secondary"
-                    marginLeft={60}
-                    marginBottom={3}
-                  >
-                    Likes: {movie.likescount}
-                  </Typography>
-                </Stack>
-                <Typography level="h2" fontSize="md">
-                  {movie.description}
-                </Typography>
-              </CardContent>
-              <CardOverflow
-                variant="soft"
-                sx={{ bgcolor: "background.level1" }}
-              >
-                <Divider inset="context" />
-                <CardContent orientation="horizontal">
-                  <Typography
-                    level="body3"
-                    fontWeight="md"
-                    textColor="text.secondary"
-                  >
-                    {movie.language}
-                  </Typography>
-                  <Divider orientation="vertical" />
-                </CardContent>
-              </CardOverflow>
-             
-            </Box> */}
-
             <Box sx={{ minHeight: 300 }}>
-              <Card
-                variant="outlined"
-                sx={(theme) => ({
-                  width: 500,
-                  gridColumn: "span 2",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  resize: "horizontal",
-                  overflow: "hidden",
-                  gap: "clamp(0px, (100% - 360px + 32px) * 999, 16px)",
-                  transition: "transform 0.3s, border 0.3s",
-
-                  "& > *": {
-                    minWidth: "clamp(0px, (360px - 100%) * 999,100%)",
-                  },
-                })}
-              >
+              <Card variant="elevation">
                 <Box
                   sx={{
                     display: "flex",
@@ -213,7 +127,7 @@ function Booking() {
                           sx={{
                             fontSize: "24px",
                             marginLeft: "220px",
-                            fontWeight: "450",
+                            fontWeight: "550",
                           }}
                           mb={0.5}
                         >
@@ -227,7 +141,7 @@ function Booking() {
                     variant="outlined"
                     sx={{
                       width: 400,
-                      height: 540,
+                      height: 533,
                       boxShadow: isHovered
                         ? "0 0 10px rgba(0, 0, 0, 0.3)"
                         : "none",
@@ -255,12 +169,15 @@ function Booking() {
                   >
                     <FavoriteBorderRoundedIcon color="danger" />
                   </IconButton>
-                  <Typography level="body2" sx={{ marginLeft: "20px" }}>
-                    Language:[{movie.language+" "}]
+                  <Typography level="body2" sx={{ marginLeft: "33px" }}>
+                    <strong>Language:</strong>[{movie.language + " "}]
                   </Typography>
                   <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
-                    <Box style={{ marginLeft: "5%" }}>
-                      <Typography>About the movie:</Typography>
+                    <Box style={{ marginLeft: "6%" }}>
+                      <Typography>
+                        {" "}
+                        <strong>About the movie:</strong>
+                      </Typography>
                       <Typography
                         fontWeight="lg"
                         level="body2"

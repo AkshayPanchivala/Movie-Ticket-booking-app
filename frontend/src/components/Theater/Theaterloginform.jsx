@@ -21,9 +21,8 @@ function Theaterloginform({ onSubmit }) {
     }
 
     setValidated(true);
-    if (validated === true) {
-      onSubmit({ inputs });
-    }
+
+    onSubmit({ inputs });
   };
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -41,10 +40,10 @@ function Theaterloginform({ onSubmit }) {
     <>
       <Dialog
         PaperProps={{
-          style: { borderRadius: 15, width: "500px", height: "430px" },
+          style: { borderRadius: 15, width: "500px", height: "auto" },
         }}
         open={true}
-        onBackdropClick={handleBackdropClick}
+        onClose={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           Login

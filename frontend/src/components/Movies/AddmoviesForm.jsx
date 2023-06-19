@@ -82,7 +82,7 @@ function AddmoviesForm({ onSubmit }) {
     }
 
     setValidated(true);
-    if (validated === true) {
+   
       event.preventDefault();
       if (isHindi === true) {
         if (language.includes("Hindi")) {
@@ -104,7 +104,7 @@ function AddmoviesForm({ onSubmit }) {
       }
 
       onSubmit({ inputs }, images, language);
-    }
+ 
   };
   const handleBackdropClick = () => {
     navigate("/");
@@ -117,7 +117,7 @@ function AddmoviesForm({ onSubmit }) {
           style: { borderRadius: 15, width: "500px", height: "550px" },
         }}
         open={true}
-        onBackdropClick={handleBackdropClick}
+        onClose={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           AddMovies

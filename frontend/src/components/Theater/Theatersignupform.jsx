@@ -77,15 +77,16 @@ function Theatersignupform({ onSubmit }) {
         theme: "light",
       });
     }
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    }
+    // if (form.checkValidity() === false) {
+    //   event.stopPropagation();
+    // }
 
     setValidated(true);
-    if (validated === true) {
-      event.preventDefault();
-      onSubmit({ inputs }, images, state, city, pincode);
-    }
+    console.log(validated);
+    console.log("fdfdfds145");
+
+    event.preventDefault();
+    onSubmit({ inputs }, images, state, city, pincode);
   };
   const pincodehandleChange = (event) => {
     if (event.target.value.length === 6) {
@@ -110,20 +111,15 @@ function Theatersignupform({ onSubmit }) {
   const handleBackdropClick = () => {
     navigate("/");
   };
-  const handleConfirmPasswordChange = (event) => {
-    let confirmPassword = event.target.value;
-    console.log(confirmPassword);
-    setPasswordMatch(inputs.password === event.target.value);
-    // Check if password and confirm password match
-  };
+
   return (
     <>
       <Dialog
         PaperProps={{
-          style: { borderRadius: 15, width: "500px", height: "770px" },
+          style: { borderRadius: 15, width: "500px", height: "auto" },
         }}
         open={true}
-        onBackdropClick={handleBackdropClick}
+        onClose={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
           Add New Theater
@@ -238,7 +234,6 @@ function Theatersignupform({ onSubmit }) {
                   onChange={handleChange}
                   value={state}
                   name="state"
-                  defaultValue="Otto"
                 />
                 <Form.Control.Feedback type="invalid">
                   Please provide a valid State.
@@ -307,24 +302,6 @@ function Theatersignupform({ onSubmit }) {
                 </Box>
               </Form.Group>
             </Col>
-            {/* <Row className="mb-3">
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={3}>
-                    <Typography alignContent={"center"}>
-                      If you have Account?
-                    </Typography>
-                  </Box>
-                </Form.Group>
-              </Col>
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={2}>
-                    <Button onClick={loginhandler}>Login</Button>
-                  </Box>
-                </Form.Group>
-              </Col>
-            </Row> */}
           </Form>
         </Box>
       </Dialog>

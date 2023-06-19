@@ -6,43 +6,49 @@ const Theater = require("../models/Theater");
 const Movie = require("../models/Movie");
 
 const addMovies = asynchandler(async (req, res, next) => {
-  const { title, description, releaseDate, featured, actors } = req.body;
-  console.log(req.body);
-  let missingValues = [];
+  // const { description, language, admin, posterUrl, title } = req.body;
 
-  if (!title || typeof title == "String") missingValues.push("Name ");
+  // let missingValues = [];
 
-  if (missingValues.length > 0) {
-    return next(
-      new AppError(
-        `required missing values : ${missingValues} is neccessary to be filled`,
-        400
-      )
-    );
+  // if (!description|| typeof description == "number") missingValues.push("description ");
+  // if (!email || typeof email == "number") missingValues.push("Email ");
+  // if (!password) missingValues.push("password ");
+
+  // if (missingValues.length > 0) {
+  //   return next(
+  //     new AppError(
+  //       `required missing values : ${missingValues} is neccessary to be filled`,
+  //       400
+  //     )
+  //   );
+  // }
+  let existingmovie = await Movie.find({ title: req.body.title });
+  if (existingmovie) {
+    return res.status(409).json({ message: "Already Aded This Movie" });
+  } else {
+    let movie = await Movie.create({
+      description: req.body.description,
+      language: req.body.language,
+      admin: req.body.admin,
+      posterUrl: req.body.posterUrl,
+      title: req.body.title,
+    });
+
+    // const session = await mongoose.startSession();
+    // const adminUser = req.admin;
+    // session.startTransaction();
+    // await movie.save({ session });
+
+    // adminUser.adedMovies.push(movie);
+    // await adminUser.save({ session });
+
+    // await session.commitTransaction();
+    if (!movie) {
+      return res.status(400).json({ message: "Something went wrong" });
+    }
+
+    return res.status(201).json({ movie });
   }
-
-  let movie = await Movie.create({
-    description: req.body.description,
-    language: req.body.language,
-    admin: req.body.admin,
-    posterUrl: req.body.posterUrl,
-    title: req.body.title,
-  });
-
-  // const session = await mongoose.startSession();
-  // const adminUser = req.admin;
-  // session.startTransaction();
-  // await movie.save({ session });
-
-  // adminUser.adedMovies.push(movie);
-  // await adminUser.save({ session });
-
-  // await session.commitTransaction();
-  if (!movie) {
-    return res.status(500).json({ message: "Request Failed" });
-  }
-
-  return res.status(201).json({ movie });
 });
 // const getMovies = asynchandler(async (req, res, next) => {
 //   const id = req.params.id;
@@ -85,7 +91,7 @@ const addMovies = asynchandler(async (req, res, next) => {
 //   return res.status(200).json({ movies: movies,rating:ratings, totalpages: totalPages });
 
 const getMovies = asynchandler(async (req, res, next) => {
-  console.log("dsf");
+
   const id = req.params.id;
 
   const page = req.query.page || 1;

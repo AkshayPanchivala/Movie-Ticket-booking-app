@@ -71,6 +71,7 @@ function Header() {
         break;
       case "Logout":
         dispatch(adminActions.logout()); // Replace "/logout" with the actual path for the logout functionality
+        navigate("/");
         break;
 
       default:
@@ -82,14 +83,12 @@ function Header() {
     handleCloseUserMenu();
     switch (clickedPage) {
       case "Add Movie":
-        navigate("/add"); // Replace "/profile" with the actual path for the profile page
+        navigate("/add"); 
         break;
       case "Add Theater":
-        navigate("/theater"); // Replace "/logout" with the actual path for the logout functionality
+        navigate("/theater"); 
         break;
-      case "User":
-        navigate("/Auth"); // Replace "/logout" with the actual path for the logout functionality
-        break;
+
       default:
         navigate("/");
         break;
@@ -103,7 +102,8 @@ function Header() {
         navigate("/user"); // Replace "/profile" with the actual path for the profile page
         break;
       case "Logout":
-        dispatch(userActions.logout()); // Replace "/logout" with the actual path for the logout functionality
+        dispatch(userActions.logout());
+        navigate("/");
         break;
 
       default:
@@ -120,6 +120,7 @@ function Header() {
         break;
       case "Logout":
         dispatch(theaterActions.logout());
+        navigate("/");
         break;
 
       default:

@@ -46,6 +46,7 @@ function Theatersignup() {
     }
   };
   const getData = (data, images, state, city, pincode) => {
+
     sendTheaterRequest(data.inputs, images[0], state, city, pincode)
       .then(onResReceived)
       .catch((err) => console.log("df" + err));
@@ -53,20 +54,7 @@ function Theatersignup() {
   return (
     <div>
       <Theatersignupform onSubmit={getData} />
-      {/* <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      {/* Same as */}
-      {/* <ToastContainer /> */}
+   
     </div>
   );
 }

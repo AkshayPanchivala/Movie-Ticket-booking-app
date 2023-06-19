@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Divider,
+  IconButton,
   Pagination,
   Stack,
   TextField,
@@ -24,7 +25,7 @@ import {
   getTheaterbypagination,
 } from "../api-helpers/api-helper";
 import CardOverflow from "@mui/joy/CardOverflow";
-
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 function SeatSelection() {
   const [movie, setMovie] = useState();
   const [Theatre, setTheatre] = useState();
@@ -88,67 +89,88 @@ function SeatSelection() {
         <div>
           {movie && (
             <>
-              {console.log(movie)}
+             
               <Box display={"flex"} justifyContent={"center"} marginLeft="5%">
-                <Box
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  <Card
-                    marginRight={20}
-                    variant="outlined"
-                    sx={{
-                      width: 400,
-                      height: 540,
-                      boxShadow: isHovered
-                        ? "0 0 10px rgba(0, 0, 0, 0.3)"
-                        : "none",
-                      transform: isHovered ? "scale(1.05)" : "none",
-                      transition: "transform 0.2s, box-shadow 0.2s",
-                    }}
-                  >
-                    <CardOverflow>
-                      <AspectRatio ratio="3/4">
-                        <img
-                          src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                          srcSet={`${movie.posterUrl}`}
-                          loading="lazy"
-                          alt=""
-                        />
-                      </AspectRatio>
-                    </CardOverflow>
-                  </Card>
-
-                  <CardContent marginTop={3}>
-                    <Typography 
-                      level="h2"
-                      fontSize="25px"
-                      fontWeight={50}
-                      marginBottom={3}
+                <Box sx={{ minHeight: 300 }}>
+                  <Card variant="elevation">
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 2,
+                        maxWidth: 500,
+                      }}
                     >
-                      {movie.title}
-                    </Typography>
-                    <Typography level="h2" fontSize="md">
-                      {movie.description}
-                    </Typography>
-                  </CardContent>
-                  <CardOverflow
-                    variant="soft"
-                    sx={{ bgcolor: "background.level1" }}
-                  >
-                    <Divider inset="context" />
-                    <CardContent orientation="horizontal">
-                      <Typography
-                        level="body3"
-                        fontWeight="md"
-                        textColor="text.secondary"
+                      <Box sx={{ display: "flex" }}>
+                        <div>
+                          <div sx={{ margin: "20px" }}>
+                            <Typography
+                              level="h2"
+                              variant="h6"
+                              sx={{
+                                fontSize: "24px",
+                                marginLeft: "220px",
+                                fontWeight: "450",
+                              }}
+                              mb={0.5}
+                            >
+                              {movie.title}
+                            </Typography>
+                          </div>
+                        </div>
+                      </Box>
+                      <Card
+                        marginRight={20}
+                        variant="outlined"
+                        sx={{
+                          width: 400,
+                          height: 533,
+                          boxShadow: isHovered
+                            ? "0 0 10px rgba(0, 0, 0, 0.3)"
+                            : "none",
+                          transform: isHovered ? "scale(1.05)" : "none",
+                          transition: "transform 0.2s, box-shadow 0.2s",
+                          marginLeft: 5,
+                        }}
                       >
-                        {movie.language}
+                        <CardOverflow>
+                          <AspectRatio ratio="3/4">
+                            <img
+                              src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                              srcSet={`${movie.posterUrl}`}
+                              loading="lazy"
+                              alt=""
+                            />
+                          </AspectRatio>
+                        </CardOverflow>
+                      </Card>
+                      <IconButton
+                        size="sm"
+                        variant="plain"
+                        color="neutral"
+                        sx={{ ml: "25px", alignSelf: "flex-start" }}
+                      >
+                        <FavoriteBorderRoundedIcon color="danger" />
+                      </IconButton>
+                      <Typography level="body2" sx={{ marginLeft: "33px" }}>
+                        <strong> Language:</strong>[{movie.language + " "}]
                       </Typography>
-                      <Divider orientation="vertical" />
-                    </CardContent>
-                  </CardOverflow>
-                  {/* </Card> */}
+                      <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
+                        <Box style={{ marginLeft: "6%" }}>
+                          <Typography>
+                            <strong>About the movie:</strong>
+                          </Typography>
+                          <Typography
+                            fontWeight="lg"
+                            level="body2"
+                            sx={{ whiteSpace: "pre-wrap", marginLeft: "10px" }}
+                          >
+                            {movie.description}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </Card>
                 </Box>
               </Box>
             </>

@@ -14,7 +14,6 @@ const getAllusers = asynchandler(async (req, res, next) => {
 });
 
 const signup = asynchandler(async (req, res, next) => {
-  
   const existinguser = await User.findOne({ email: req.body.email });
 
   if (existinguser) {
@@ -87,7 +86,7 @@ const login = asynchandler(async (req, res, next) => {
     existinguser.password
   );
 
-  if (verifypassword) {
+  if (!verifypassword) {
     return res.status(200).json({
       user: existinguser,
       message: "Account is login",
@@ -106,7 +105,7 @@ const getBookingsOfUser = asynchandler(async (req, res, next) => {
   bookings = await Booking.find({ user: id })
     .populate("movie", "title")
     .populate("theater", "name");
- 
+
   if (!bookings) {
     return res.status(200).json({ message: "unable to get Bookings" });
   }

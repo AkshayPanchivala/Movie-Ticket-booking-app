@@ -2,40 +2,37 @@ const { default: mongoose } = require("mongoose");
 const Booking = require("../models/Booking");
 const Movie = require("../models/Movie");
 const User = require("../models/User");
-const expressAsyncHandler = require("express-async-handler");
-
+const asynchandler = require("express-async-handler");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 
-const order = async (req, res) => {
-  console.log("lklk");
-  try {
-    const instance = new Razorpay({
-      key_id: process.env.KEY_ID,
-      key_secret: process.env.KEY_SECRET,
-    });
 
-    const options = {
-      amount: req.body.amount * 100,
-      currency: "INR",
-      receipt: crypto.randomBytes(10).toString("hex"),
-    };
 
-    instance.orders.create(options, (error, order) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Something Went Wrong!" });
-      }
-      res.status(200).json({ data: order });
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error!" });
-    console.log(error);
-  }
-};
 
-const verify = async (req, res) => {
-  try {
+///////Payment Process
+const order = asynchandler(async (req, res) => {
+  const instance = new Razorpay({
+    key_id: process.env.KEY_ID,
+    key_secret: process.env.KEY_SECRET,
+  });
+
+  const options = {
+    amount: req.body.amount * 100,
+    currency: "INR",
+    receipt: crypto.randomBytes(10).toString("hex"),
+  };
+
+  instance.orders.create(options, (error, order) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Something Went Wrong!" });
+    }
+    res.status(200).json({ data: order });
+  });
+});
+
+const verify = asynchandler(async (req, res) => {
+
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       req.body;
     const sign = razorpay_order_id + "|" + razorpay_payment_id;
@@ -49,17 +46,30 @@ const verify = async (req, res) => {
     } else {
       return res.status(400).json({ message: "Invalid signature sent!" });
     }
-  } catch (error) {
-    res.status(500).json({ message: "Internal Server Error!" });
-    console.log(error);
-  }
-};
 
-// module.exports = router;
-const newBooking = expressAsyncHandler(async (req, res, next) => {
-  console.log(req.body);
+});
+
+////create a Booking
+const newBooking = asynchandler(async (req, res, next) => {
   const { movie, date, seatNumber, SeatType, ShowTime, user, theater } =
     req.body;
+
+  let missingValues = [];
+
+  if (!movie || typeof movie == "number") missingValues.push("movie");
+  if (!seatNumber || typeof seatNumber == "number")
+    missingValues.push("SeatNumber ");
+  if (!SeatType || typeof SeatType == "number") missingValues.push("SeatType ");
+  if (!ShowTime || typeof ShowTime == "number") missingValues.push("ShowTime ");
+
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
 
   const date1 = new Date(req.body.date).toLocaleString().split(",")[0];
 
@@ -110,11 +120,13 @@ const newBooking = expressAsyncHandler(async (req, res, next) => {
   return res.status(201).json({ booking });
 });
 
-const getBookingById = expressAsyncHandler(async (req, res, next) => {
+///get booking by userID
+
+const getBookingById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
   const page = req.query.page || 1;
-  const limit = req.query.limit || 3;
+  const limit = req.query.limit || 4;
 
   let booking;
 
@@ -136,13 +148,14 @@ const getBookingById = expressAsyncHandler(async (req, res, next) => {
   return res.status(200).json({ booking, totalPages });
 });
 
-const deleteBooking = expressAsyncHandler(async (req, res, next) => {
+///////delete Booking by User
+const deleteBooking = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
   const booking = await Booking.findById(id);
 
-  const movie = await booking.movie;
-  const userid = await booking.user;
+  const movie = booking.movie;
+  const userid = booking.user;
 
   const user = await User.findByIdAndUpdate(
     userid,
@@ -163,7 +176,9 @@ const deleteBooking = expressAsyncHandler(async (req, res, next) => {
   });
 });
 
-const notAvailableSeat = async (req, res, next) => {
+////////////////Not available seat
+
+const notAvailableSeat =asynchandler(async (req, res, next) => {
   const movieid = req.params.movieid;
   const adminid = req.params.theatreid;
   const showdate = req.body.ShowDate;
@@ -187,10 +202,11 @@ const notAvailableSeat = async (req, res, next) => {
   res.status(200).json({
     notavailable: blocked,
   });
-};
-const getbookingbyadmin = async (req, res, next) => {
-  console.log("lkllk");
+});
 
+////////get Booking by theater
+
+const getbookingbyadmin = asynchandler(async (req, res, next) => {
   const date = new Date(req.body.date).toLocaleString().split(",")[0];
 
   const booking = await Booking.find({
@@ -201,7 +217,7 @@ const getbookingbyadmin = async (req, res, next) => {
   })
     .populate("user", "name email")
     .populate("movie", "title");
-  console.log(booking);
+
   if (booking.length === 0) {
     return res.status(200).json({
       message: "any booking not found",
@@ -210,7 +226,7 @@ const getbookingbyadmin = async (req, res, next) => {
   res.status(200).json({
     booking: booking,
   });
-};
+});
 module.exports = {
   order,
   verify,
