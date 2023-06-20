@@ -5,7 +5,7 @@ const movieSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-      unique: true,
+
     },
     description: {
       type: String,
@@ -31,7 +31,12 @@ movieSchema.virtual("likescount", {
   ref: "Like",
   localField: "_id",
   foreignField: "movie",
-  count: true,
+  // count: true,
+});
+movieSchema.virtual("comment", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "movie",
 });
 
 const Movie = mongoose.model("Movie", movieSchema);

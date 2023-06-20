@@ -154,6 +154,7 @@ export const getUserBooking = async (currentPage) => {
 };
 
 export const addMovie = async (data, images, language) => {
+  console.log(images)
   const res = await axios
     .post(
       "http://localhost:5000/movie",
@@ -345,24 +346,27 @@ export const sendAdminlogin = async (data) => {
   console.log(res);
   return res;
 };
-export const createlike = async (liked) => {
+export const createlike = async (movieid, rating) => {
   const userId = localStorage.getItem("userId");
   const res = await axios
     .post(`http://localhost:5000/movie/like`, {
       user: userId,
-      movie: liked,
+      movie: movieid,
+      rating: rating,
     })
     .catch((err) => console.log(err));
-  console.log(res);
+
 };
-export const getlikebyuser = async (liked) => {
+export const getlikebyuser = async (id) => {
+  const movieid = id;
+  console.log(id);
   const userId = localStorage.getItem("userId");
   const res = await axios
-    .post(`http://localhost:5000/movie/getlike`, {
+    .post(`http://localhost:5000/movie/getlike/${movieid}`, {
       user: userId,
     })
     .catch((err) => console.log(err));
-  console.log(res);
+
   return res;
 };
 
@@ -421,4 +425,15 @@ export const handlePayment = async (booking) => {
   } catch (error) {
     console.log(error);
   }
+};
+export const createcomment = async (comment, id) => {
+  console.log(comment);
+  const userId = localStorage.getItem("userId");
+  const res = await axios
+    .post(`http://localhost:5000/movie/comment/${id}`, {
+      user: userId,
+      comment: comment,
+    })
+    .catch((err) => console.log(err));
+  console.log(res);
 };

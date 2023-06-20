@@ -34,6 +34,9 @@ const bookingSchema = new mongoose.Schema({
     ref: "Theater",
     required: true,
   },
+  createdAt: {
+    type: Date,
+  },
 });
 const Booking = mongoose.model("Booking", bookingSchema);
 module.exports = Booking;

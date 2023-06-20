@@ -1,11 +1,9 @@
 import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Autocomplete,
-  Avatar,
   Card,
   CardContent,
   Divider,
-  IconButton,
   Pagination,
   Stack,
   TextField,
@@ -17,7 +15,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  createcomment,
   getAlladmin,
+  getlikebyuser,
   getmovie,
   getMovieDetails,
   getTheaterbycity,
@@ -26,6 +26,21 @@ import {
 import CardOverflow from "@mui/joy/CardOverflow";
 import Theatrecard from "./Theatrecard";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import { Input } from "reactstrap";
+import { Face } from "@mui/icons-material";
+import { Rating } from "./Rating";
+
+import { styled } from "@mui/material/styles";
+
+import CardHeader from "@mui/material/CardHeader";
+
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+
+import { red } from "@mui/material/colors";
+
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 function Booking() {
   const [movie, setMovie] = useState();
   const [Theatre, setTheatre] = useState();
@@ -37,18 +52,38 @@ function Booking() {
   const [searchcity, setsearchcity] = useState(false);
   const [searchedCity, SetsearchedCity] = useState();
   const [theaterbycity, Settheaterbycity] = useState();
-
+  const [Comment, setComment] = useState("");
   const [isHovered, setIsHovered] = useState(false);
-
+  const [resComment, setresComment] = useState("");
+  const [createComment,setcreateComment]=useState(false)
+  const [rating, setrating] = useState(0);
+  const [showComent, setshowComent] = useState(false);
   // Rest of your component code
 
   // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().id;
+  console.log(id);
+
+  const userid = localStorage.getItem("userId");
 
   useEffect(() => {
     getMovieDetails(id)
-      .then((res) => setMovie(res.movie))
+      .then((res) => {
+        setresComment(res.movie.comment);
+        setMovie(res.movie);
+      })
+      .catch((err) => console.log(err));
+    getlikebyuser(id)
+      .then((res) => {
+        if (res.data.likes.length > 0) {
+          setrating(res.data.likes[0].rating);
+        } else {
+          setrating(0);
+        }
+
+        // setMovie(res.movie);
+      })
       .catch((err) => console.log(err));
     getTheaterbypagination(currentPage)
       .then((res) => {
@@ -68,7 +103,7 @@ function Booking() {
       console.log(res.data.totalPages);
       setcitytotalPages(res.data.totalPages);
     });
-  }, [id, currentPage, searchedCity]);
+  }, [id, currentPage, searchedCity,createComment]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -82,6 +117,17 @@ function Booking() {
     SetsearchedCity(val);
   };
   console.log(Theatre);
+  const handleInputChange = (e, val) => {
+    setComment(e.target.value);
+  };
+  const commenthandler = () => {
+    createcomment(Comment, id);
+    setcreateComment(!createComment)
+    setComment("");
+  };
+  const viewmorehandler = () => {
+    setshowComent(!showComent);
+  };
   return (
     <div>
       <Box display="flex" marginTop={"2%"}>
@@ -115,7 +161,7 @@ function Booking() {
                     display: "flex",
                     flexDirection: "column",
                     gap: 2,
-                    maxWidth: 500,
+                    maxWidth: 520,
                   }}
                 >
                   <Box sx={{ display: "flex" }}>
@@ -161,19 +207,24 @@ function Booking() {
                       </AspectRatio>
                     </CardOverflow>
                   </Card>
-                  <IconButton
+                  {/* <IconButton
                     size="sm"
                     variant="plain"
                     color="neutral"
                     sx={{ ml: "25px", alignSelf: "flex-start" }}
                   >
-                    <FavoriteBorderRoundedIcon color="danger" />
-                  </IconButton>
-                  <Typography level="body2" sx={{ marginLeft: "33px" }}>
+                    <FavoriteBorderRoun
+                    dedIcon color="danger" />
+                  </IconButton> */}
+
+                  <Stack direction="row" alignItems="center" marginLeft={5}>
+                    <Rating defaultValue={rating} id={id} size="small" />
+                  </Stack>
+                  <Typography level="body2" sx={{ marginLeft: "35px" }}>
                     <strong>Language:</strong>[{movie.language + " "}]
                   </Typography>
                   <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
-                    <Box style={{ marginLeft: "6%" }}>
+                    <Box style={{ marginLeft: "35px" }}>
                       <Typography>
                         {" "}
                         <strong>About the movie:</strong>
@@ -187,6 +238,101 @@ function Booking() {
                       </Typography>
                     </Box>
                   </Box>
+                  {/* <CardOverflow
+                    sx={{ pb: "var(--Card-padding)", display: "flex" }}
+                  > */}
+                  <Box sx={{ display: "flex", gap: 1.0, }}>
+                    <Box style={{ marginLeft: "35px" ,width:"400px"}}>
+                    {resComment.length>0  &&<Typography>
+                        {" "}
+                        <strong>Reviews </strong>
+                      </Typography>}
+                   
+                      {resComment.length>0 && (
+                        <>
+                          {!showComent&&resComment.slice(0, 3).map((commen) => (
+                            <Card sx={{ maxWidth: 520, marginBottom: "15px" }}>
+                              <CardHeader
+                                avatar={
+                                  <Avatar
+                                    src={commen.user.profilephoto}
+                                    sx={{ bgcolor: red[500] }}
+                                  ></Avatar>
+                                }
+                                title={commen.user.name}
+                                subheader={commen.comment}
+                              />
+                            </Card>
+                          ))}{" "}
+                         { resComment.length>3 &&!showComent &&<Link onClick={viewmorehandler} color="text.primary">
+                            View More
+                          </Link>}
+                          {showComent && resComment.map((commen) => (
+                            <Card sx={{ maxWidth: 520, marginBottom: "15px" }}>
+                              <CardHeader
+                                avatar={
+                                  <Avatar
+                                    src={commen.user.profilephoto}
+                                    sx={{ bgcolor: red[500] }}
+                                  ></Avatar>
+                                }
+                                title={commen.user.name}
+                                subheader={commen.comment}
+                              />
+                            </Card>
+                          ))}
+                          { showComent &&<Link onClick={viewmorehandler} color="text.primary">
+                            Less comment
+                          </Link>}
+                        </>
+                      )}
+
+                    </Box>
+                  </Box>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      width: " 88%",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    <IconButton
+                      size="sm"
+                      variant="plain"
+                      color="neutral"
+                      sx={{ ml: 3 }}
+                    >
+                      <Face />
+                    </IconButton>
+                    <Input
+                      variant="plain"
+                      size="xs"
+                      value={Comment}
+                      placeholder="Add a Review…"
+                      sx={{
+                        flexGrow: 1,
+                        mr: 1,
+                        "--Input-focusedThickness": "0px",
+                      }}
+                      onChange={handleInputChange}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        textDecoration: "none",
+                        marginBottom: "15px",
+                        marginLeft: "20px",
+                      }}
+                    >
+                      <Link disabled role="button" onClick={commenthandler}>
+                        Post
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* </CardOverflow> */}
                 </Box>
               </Card>
             </Box>

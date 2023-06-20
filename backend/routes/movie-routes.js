@@ -11,7 +11,7 @@ const {
   getlikebyuser,
   MostLiked,
 } = require("../controllers/like-controller");
-
+const comment = require("./../controllers/comment-controller");
 const movieRouter = express.Router();
 
 movieRouter
@@ -21,7 +21,8 @@ movieRouter
   .get(getMovies);
 movieRouter.route("/like").post(like);
 movieRouter.route("/MostLiked").get(MostLiked);
-movieRouter.route("/getlike").post(getlikebyuser);
+movieRouter.route("/getlike/:movieid").post(getlikebyuser);
+movieRouter.route("/comment/:id").post(comment);
 movieRouter.route("/:id").get(getById);
 
 module.exports = movieRouter;

@@ -68,6 +68,7 @@ function Payment() {
             newBooking(booking)
               .then(onResReceived)
               .catch((err) => console.log(err));
+            navigate("/movies");
           } else {
           }
         } catch (error) {
@@ -102,7 +103,6 @@ function Payment() {
     <>
       {Movie && (
         <div className="paymentcard">
-       
           <div className="booking_containerr">
             <img src={Movie.posterUrl} alt="book_img" className="movie_img" />
             <p className="movie_name">{Movie.title}</p>

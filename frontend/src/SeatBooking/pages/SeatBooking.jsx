@@ -4,7 +4,7 @@ import TAB_OPTIONS from "../constants/TabOptions";
 import Button from "../library/Button";
 import { Row, Label, Col, Pagination } from "reactstrap";
 import SingleSeat from "../library/SingleSeat";
-import { newBooking, notAvailable } from "../../api-helpers/api-helper";
+import { InitialBooking, newBooking, notAvailable } from "../../api-helpers/api-helper";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -56,7 +56,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
           updateSelected={handleUpdateSelection}
           available={availableSeats.includes(`${structure.row}${i}`)}
           seatType={seatSelection.seatType}
-          
         />
       );
     }
@@ -132,11 +131,11 @@ export default function SeatBooking({ onNext, seatSelection }) {
       ShowTime: seatSelection.Showtime,
       price: price,
     };
+  
     /////////////////////////////////////////////
     navigate("/payment", {
       state: data,
     });
-   
   }
   const price =
     SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;

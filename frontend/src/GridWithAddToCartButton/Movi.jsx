@@ -36,7 +36,7 @@ export default function Movi() {
       .catch((err) => console.log(err));
     gettopMovies()
       .then((res) => {
-        console.log("data" + res);
+     
         settop8Movies(res);
       })
       .catch((err) => console.log(err));

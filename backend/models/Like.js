@@ -9,6 +9,10 @@ const likeschema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Movie",
   },
+  rating: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Like = mongoose.model("Like", likeschema);

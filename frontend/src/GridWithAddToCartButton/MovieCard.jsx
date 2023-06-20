@@ -12,53 +12,15 @@ import { createlike, getlikebyuser } from "../api-helpers/api-helper";
 export const MovieCard = (props) => {
   const { Movie, rootProps } = props;
   const { language, posterUrl, description, rating, title, likescount } = Movie;
-  const [liked, setliked] = useState();
-  const [isliked, setisliked] = useState(false);
-  const [movieliked, setmovieliked] = useState();
-  const [fatchData, setfatchData] = useState(false);
 
-  const [userlikedmovie, setuserlikedmovie] = useState([]);
-  const navigate = useNavigate();
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
 
   let id = Movie._id;
   const theme = useTheme();
 
-  const likeclickhandler = (id) => {
-    if (!isuserLoggedIn) {
-      navigate("/auth/login");
-    }
-    setisliked(!isliked);
-
-    setliked(id);
-    // setisliked(isliked);
-  };
-  useEffect(() => {
-    createlike(liked);
-  }, [isliked, liked]);
-
-  useEffect(() => {
-    getlikebyuser().then((res) => {
-      console.log(res.data.likes);
-      setmovieliked(res.data.likes);
-      setfatchData(true);
-    });
-  }, [liked, isliked, likescount]);
-
-  useEffect(() => {
-    if (fatchData) {
-      const likedMovies = movieliked.map((likedMovie) => likedMovie.movie);
-      setuserlikedmovie(likedMovies);
-      setfatchData(false);
-    }
-  }, [movieliked, fatchData, setisliked]);
-
   const istheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
-  // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const showlikehandler = () => {
-    console.log("lklk54");
-  };
+
   return (
     <Stack spacing={{ base: 4, md: 1 }} {...rootProps}>
       <Box position="relative">
@@ -77,39 +39,21 @@ export const MovieCard = (props) => {
           }}
           onError={(e) => {
             e.target.onerror = null;
-            // e.target.src = "/path/to/default-image.jpg"; // Replace with your default image path
           }}
         />
-        <Stack direction="row" alignItems="center">
-          {/* <Rating defaultValue={rating} id={id} size="small" /> */}
-        </Stack>
-
-        <Box display="flex" alignItems="center">
-          <FavouriteButton
-            position="absolute"
-            top="4"
-            right="4"
-            aria-label={`Add ${title} to your favourites`}
-            onClick={() => likeclickhandler(id)}
-            sx={{
-              color: `${
-                isliked || userlikedmovie.includes(id) ? "red" : "inherit"
-              }`,
-            }}
-          >
-            <FavoriteIcon />
-          </FavouriteButton>
-
+        <Stack direction="row" alignItems="center" marginLeft={1}>
+          <Rating defaultValue={rating} id={id} size="small" />
           <Typography
             variant="body2"
             fontSize="body2.fontSize"
             color="text.secondary"
-            marginLeft={3}
+            marginLeft={8}
           >
             {likescount} Votes
-            {/* </Typography> */}
           </Typography>
-        </Box>
+        </Stack>
+
+        <Box display="flex" alignItems="center"></Box>
       </Box>
       <Stack>
         <Stack spacing={1}>
@@ -141,6 +85,17 @@ export const MovieCard = (props) => {
       </Stack>
       <Stack align="center">
         {isuserLoggedIn && (
+          <Button
+            variant="contained"
+            color="inherit"
+            LinkComponent={Link}
+            to={isuserLoggedIn ? `/booking/${id}` : "/auth/login"}
+            fullWidth
+          >
+            Book Now
+          </Button>
+        )}
+        {!isuserLoggedIn && !isadminLoggedIn && !istheaterLoggedIn && (
           <Button
             variant="contained"
             color="inherit"

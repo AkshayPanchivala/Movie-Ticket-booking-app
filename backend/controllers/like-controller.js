@@ -11,8 +11,8 @@ const Movie = require("./../models/Movie");
 
 const like = asyncHandler(async (req, res, next) => {
   const id = req.body.user;
-  const movieid = req.body.movie;
-  
+  const movieid = req.body.movie.movieid;
+  console.log(movieid, req.body.rating, id);
 
   const movie = await Movie.findById(movieid);
 
@@ -26,19 +26,13 @@ const like = asyncHandler(async (req, res, next) => {
   });
 
   if (existinglike) {
-    const deletedislike = await Like.findOneAndDelete({
-      user: id,
-      movie: movieid,
-    });
-    return res.status(200).json({
-      status: "success",
-      msg: "successfully dislike this movie",
-    });
+    return 1;
   }
 
   const like = await Like.create({
     user: id,
     movie: movieid,
+    rating: req.body.rating,
   });
   res.status(200).json({
     status: "success",
@@ -48,8 +42,11 @@ const like = asyncHandler(async (req, res, next) => {
 
 const getlikebyuser = asyncHandler(async (req, res, next) => {
   const id = req.body.user;
-  console.log(id);
-  const like = await Like.find({ user: id }).select("-_id -user");
+  const moid = req.params.movieid;
+  console.log("sads" + moid);
+  const like = await Like.find({ user: id, movie: moid }).select(
+    "-_id -user -movie"
+  );
 
   console.log("like" + like);
   res.status(200).json({
@@ -115,15 +112,28 @@ const MostLiked = asyncHandler(async (req, res, next) => {
     return next(new AppError("Not found any like on bike", 404));
   }
 
-  //   const bike=likedbike[0]
   const movie = [];
   for (let i = 0; i < likedmovie.length; i++) {
+    let rating = 0;
     const mostlikedmovie = await Movie.findById(likedmovie[i]).populate({
       path: "likescount",
     });
-    movie.push(mostlikedmovie);
-  }
 
+    mostlikedmovie.likescount.forEach((mov) => {
+      rating += mov.rating;
+    });
+
+    const avg = rating / mostlikedmovie.likescount.length; // Calculate average rating
+    const movieObj = {
+      ...mostlikedmovie.toObject(),
+      likescount: mostlikedmovie.likescount.length,
+      rating: avg.toFixed(2),
+    };
+
+    movie.push(movieObj);
+  }
+  movie.sort((a, b) => b.rating - a.rating);
+  console.log(movie);
   if (movie) {
     res.json({
       mostlikedmovie: movie,

@@ -14,6 +14,7 @@ const BookingRouter = express.Router();
 BookingRouter.route("/orders").post(order);
 BookingRouter.route("/verify").post(verify);
 BookingRouter.route("/").post(newBooking);
+
 BookingRouter.route("/download").post(getbookingbyadmin);
 BookingRouter.route("/notavailableseat/:movieid/:theatreid").post(
   notAvailableSeat

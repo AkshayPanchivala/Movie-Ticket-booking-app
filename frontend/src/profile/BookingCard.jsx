@@ -1,4 +1,4 @@
-import  React,{useState}from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import { Col, Row } from "reactstrap";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -18,7 +18,9 @@ export default function BookingCard(props) {
   });
 
   const t = currentTime.split(" ")[0];
-  // const t = 5;
+
+
+
   const p = currentTime.split(" ")[1];
 
   const date = new Date(props.Date);
@@ -29,6 +31,7 @@ export default function BookingCard(props) {
   });
 
   const time = props.ShowTime.split(" ")[0];
+  console.log("xc"+time)
   console.log("ptime" + time > t);
   const cancelbookinghandler = (id) => {
     setIsClicked(!isClicked);
@@ -60,13 +63,16 @@ export default function BookingCard(props) {
   // const shouldRenderDeleteIcon =
   //   new Date(formattedDate) > new Date(currentDate) &&
   //   new Date(formattedDate) === new Date(currentDate);
-  console.log("lklk" + t > currentTime);
+  console.log("lklk" +time > t);
   const shouldRenderDeleteIcon =
-    currentDate === formattedDate && time > t && p === "pm";
+    currentDate === formattedDate && time > t[1] && p === "pm";
 
   //   new Date(formattedDate) >= new Date(currentDate) && +t < +time;
   const renderdate = currentDate < formattedDate;
   // const amrender = p === "pm";
+  console.log("12" + shouldRenderDeleteIcon);
+  console.log("13" + p === "am");
+  console.log("15" + renderdate);
   return (
     <div
       style={{

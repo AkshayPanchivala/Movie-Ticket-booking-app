@@ -144,14 +144,7 @@ function SeatSelection() {
                           </AspectRatio>
                         </CardOverflow>
                       </Card>
-                      <IconButton
-                        size="sm"
-                        variant="plain"
-                        color="neutral"
-                        sx={{ ml: "25px", alignSelf: "flex-start" }}
-                      >
-                        <FavoriteBorderRoundedIcon color="danger" />
-                      </IconButton>
+                     
                       <Typography level="body2" sx={{ marginLeft: "33px" }}>
                         <strong> Language:</strong>[{movie.language + " "}]
                       </Typography>

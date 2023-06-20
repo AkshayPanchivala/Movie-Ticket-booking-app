@@ -61,6 +61,7 @@ function AddmoviesForm({ onSubmit }) {
       );
     }
   };
+  console.log(images)
 
   const handleChange = (event) => {
     setInputs((prevState) => ({

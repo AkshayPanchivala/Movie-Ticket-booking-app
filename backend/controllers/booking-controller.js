@@ -5,9 +5,8 @@ const User = require("../models/User");
 const asynchandler = require("express-async-handler");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-
-
-
+const sendEmail = require("../utill/email");
+const Theater = require("../models/Theater");
 
 ///////Payment Process
 const order = asynchandler(async (req, res) => {
@@ -24,7 +23,7 @@ const order = asynchandler(async (req, res) => {
 
   instance.orders.create(options, (error, order) => {
     if (error) {
-      console.log(error);
+      
       return res.status(500).json({ message: "Something Went Wrong!" });
     }
     res.status(200).json({ data: order });
@@ -32,21 +31,19 @@ const order = asynchandler(async (req, res) => {
 });
 
 const verify = asynchandler(async (req, res) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    req.body;
+  const sign = razorpay_order_id + "|" + razorpay_payment_id;
+  const expectedSign = crypto
+    .createHmac("sha256", process.env.KEY_SECRET)
+    .update(sign.toString())
+    .digest("hex");
 
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-      req.body;
-    const sign = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSign = crypto
-      .createHmac("sha256", process.env.KEY_SECRET)
-      .update(sign.toString())
-      .digest("hex");
-
-    if (razorpay_signature === expectedSign) {
-      return res.status(200).json({ message: "Payment verified successfully" });
-    } else {
-      return res.status(400).json({ message: "Invalid signature sent!" });
-    }
-
+  if (razorpay_signature === expectedSign) {
+    return res.status(200).json({ message: "Payment verified successfully" });
+  } else {
+    return res.status(400).json({ message: "Invalid signature sent!" });
+  }
 });
 
 ////create a Booking
@@ -78,7 +75,11 @@ const newBooking = asynchandler(async (req, res, next) => {
 
   existingMovie = await Movie.findById(movie);
   existingUser = await User.findById(user);
-
+  existingTheater = await Theater.findById(theater);
+ await Movie.findByIdAndUpdate(existingMovie._id, existingMovie, {
+    new: true,
+    runValidators: true,
+  });
   if (!existingMovie) {
     return res.status(404).json({ message: "Movie Not Found With Given ID" });
   }
@@ -116,7 +117,40 @@ const newBooking = asynchandler(async (req, res, next) => {
   if (!booking) {
     return res.status(500).json({ message: "Unable to create a booking" });
   }
+console.log(booking)
+const message=
+`Dear ${existingUser.name},
 
+Thank you for booking tickets for  ${existingMovie.title}. Your booking has been confirmed.
+
+Booking Details:
+Movie:  ${existingMovie.title}
+Date: ${booking.date}
+Time: ${booking.ShowTime}
+Theater Name:${existingTheater.name}
+Theater Address:${existingTheater.address}
+Number of Tickets: ${booking.seatNumber.length}
+Your SeatNumber: ${booking.seatNumber+","}
+
+
+
+
+Please note the following information:
+
+- Show up at the theater at least [Arrival Time] minutes before the showtime.
+- Kindly carry a valid ID proof for verification at the theater.
+- In case of any queries or changes, feel free to contact our customer support team at 9328899248.
+
+Thank you once again for choosing our service. We hope you enjoy the movie!
+
+Best regards,
+Akshay panchivala`
+
+  await sendEmail({
+    email: existingUser.email,
+    subject:`Booking Confirmation - ${existingMovie.title}`,
+    message,
+  });
   return res.status(201).json({ booking });
 });
 
@@ -178,7 +212,7 @@ const deleteBooking = asynchandler(async (req, res, next) => {
 
 ////////////////Not available seat
 
-const notAvailableSeat =asynchandler(async (req, res, next) => {
+const notAvailableSeat = asynchandler(async (req, res, next) => {
   const movieid = req.params.movieid;
   const adminid = req.params.theatreid;
   const showdate = req.body.ShowDate;

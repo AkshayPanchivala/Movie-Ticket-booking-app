@@ -56,13 +56,17 @@ function Header() {
     // setselectedmovie(val);
     const movie = movies.find((m) => m.title === val);
 
-    console.log(movie);
+if(movie){
+
+
     if (isuserLoggedIn) {
       navigate(`/booking/${movie._id}`);
     } else {
       navigate("/Auth");
     }
-  };
+  }else{
+    navigate(`/`);
+  };}
   const handleadminSettingClick = (setting) => {
     handleCloseUserMenu();
     switch (setting) {
