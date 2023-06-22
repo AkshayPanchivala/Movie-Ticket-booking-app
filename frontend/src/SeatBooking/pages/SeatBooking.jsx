@@ -4,13 +4,11 @@ import TAB_OPTIONS from "../constants/TabOptions";
 import Button from "../library/Button";
 import { Row, Label, Col, Pagination } from "reactstrap";
 import SingleSeat from "../library/SingleSeat";
-import { InitialBooking, newBooking, notAvailable } from "../../api-helpers/api-helper";
+import { newBooking, notAvailable } from "../../api-helpers/api-helper";
 import { useNavigate, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import axios from "axios";
 
-// const notAvailableSeat = ["F2", "I4", "I9", "K2"]; // booking seat update ahiya che
 export default function SeatBooking({ onNext, seatSelection }) {
-  console.log(seatSelection.ShowDate, seatSelection.Showtime);
   const params = useParams();
   const id = localStorage.getItem("userId");
 
@@ -20,6 +18,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
   const [notAvailableSeat, setnotAvailableSeat] = useState([]);
+
   const navigate = useNavigate();
 
   const not = () => {
@@ -38,7 +37,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
       const ssss = [...selectedSeats, seatKey];
       ssss.shift();
       setSelectedSeats(ssss);
-      console.log("sss" + ssss);
     } else {
       setSelectedSeats([...selectedSeats, seatKey]);
     }
@@ -65,9 +63,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
     const availableSeats = [];
     SEATS.SEAT_TYPE.map((itemType) => {
       SEATS.SEAT_STRUCTURE[itemType.type].map((rowItem) => {
-        // SEATS.SEAT_STRUCTURE[type].map((rowItem) => {
-        //type ahiya change
-
         rowItem.seats.map((seatItem) =>
           !notAvailableSeat.includes(`${rowItem.row}${seatItem}`)
             ? availableSeats.push(`${rowItem.row}${seatItem}`)
@@ -98,30 +93,10 @@ export default function SeatBooking({ onNext, seatSelection }) {
       });
     });
     setSelectedSeats(selectedTeam);
-    console.log("selected" + selectedTeam); /// seatnumber
   }
 
-  const onResReceived = (res) => {
-    const data = res.data;
-    const status = res.status;
-    if (status === 201) {
-      toast.success("Successfully book your seat", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-
-    navigate("/movies");
-  };
-
   function handleNext() {
-    const data = {
+    const data1 = {
       movie: movieid,
       date: seatSelection.ShowDate,
       seatNumber: selectedSeats,
@@ -131,11 +106,65 @@ export default function SeatBooking({ onNext, seatSelection }) {
       ShowTime: seatSelection.Showtime,
       price: price,
     };
-  
+
     /////////////////////////////////////////////
-    navigate("/payment", {
-      state: data,
-    });
+    const handlePayment = async () => {
+      const onResReceived = (res) => {
+        const data = res.data;
+        const status = res.status;
+        if (status === 201) {
+          navigate("/movies");
+        }
+      };
+      navigate("/movies");
+      const initPayment = (data) => {
+        const options = {
+          key: "rzp_test_XjLr3daSU0JSug",
+          amount: data.amount,
+          currency: data.currency,
+          name: data1.user,
+          description: "Test Transaction",
+          image: data1.img,
+          order_id: data.id,
+          handler: async (response) => {
+            const id = data.id;
+            try {
+              const verifyUrl = "http://localhost:5000/booking/verify";
+              const { data } = await axios.post(verifyUrl, response);
+              console.log(data.message);
+              if (data.message === "Payment verified successfully") {
+                newBooking(data1, id)
+                  .then(onResReceived)
+                  .catch((err) => console.log(err));
+              } else {
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const rzp1 = new window.Razorpay(options);
+
+        rzp1.open();
+      };
+
+      try {
+        const orderUrl = "http://localhost:5000/booking/orders";
+        const { data } = await axios.post(orderUrl, { amount: data1.price });
+        console.log(data);
+        initPayment(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handlePayment();
+    // navigate("/payment", {
+    //   state: data,
+    // });
   }
   const price =
     SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;

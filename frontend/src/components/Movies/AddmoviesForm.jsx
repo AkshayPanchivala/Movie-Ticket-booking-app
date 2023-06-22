@@ -30,12 +30,15 @@ function AddmoviesForm({ onSubmit }) {
 
   const handleCheckbox1Change = (event) => {
     setIsHindi(event.target.checked);
+    
   };
   const handleCheckbox2Change = (event) => {
     setisEnglish(event.target.checked);
+   
   };
   const handleCheckbox3Change = (event) => {
     setisGujarati(event.target.checked);
+    
   };
   const language = [];
 
@@ -61,7 +64,6 @@ function AddmoviesForm({ onSubmit }) {
       );
     }
   };
-  console.log(images)
 
   const handleChange = (event) => {
     setInputs((prevState) => ({
@@ -83,29 +85,28 @@ function AddmoviesForm({ onSubmit }) {
     }
 
     setValidated(true);
-   
-      event.preventDefault();
-      if (isHindi === true) {
-        if (language.includes("Hindi")) {
-          return 1;
-        }
-        language.push("Hindi");
-      }
-      if (isEnglish === true) {
-        if (language.includes("English")) {
-          return 1;
-        }
-        language.push("English");
-      }
-      if (isGujarati === true) {
-        if (language.includes("Gujarati")) {
-          return 1;
-        }
-        language.push("Gujarati");
-      }
 
-      onSubmit({ inputs }, images, language);
- 
+    event.preventDefault();
+    if (isHindi === true) {
+      if (language.includes("Hindi")) {
+        return 1;
+      }
+      language.push("Hindi");
+    }
+    if (isEnglish === true) {
+      if (language.includes("English")) {
+        return 1;
+      }
+      language.push("English");
+    }
+    if (isGujarati === true) {
+      if (language.includes("Gujarati")) {
+        return 1;
+      }
+      language.push("Gujarati");
+    }
+
+    onSubmit({ inputs }, images, language);
   };
   const handleBackdropClick = () => {
     navigate("/");
@@ -115,7 +116,7 @@ function AddmoviesForm({ onSubmit }) {
     <>
       <Dialog
         PaperProps={{
-          style: { borderRadius: 15, width: "500px", height: "550px" },
+          style: { borderRadius: 15, width: "500px", height: "auto" },
         }}
         open={true}
         onClose={handleBackdropClick}
@@ -136,9 +137,9 @@ function AddmoviesForm({ onSubmit }) {
                   placeholder="title"
                   name="title"
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+               
                 <Form.Control.Feedback type="invalid">
-                  Please provide A valide Title.
+                  Please provide A valid Title.
                 </Form.Control.Feedback>
               </Form.Group>
               <Form.Group md="4" controlId="validationCustom01">
@@ -151,10 +152,10 @@ function AddmoviesForm({ onSubmit }) {
                   placeholder="description"
                   name="description"
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                
 
                 <Form.Control.Feedback type="invalid">
-                  Please provide A valide Description.
+                  Please provide A valid Description.
                 </Form.Control.Feedback>
               </Form.Group>
 
@@ -188,6 +189,8 @@ function AddmoviesForm({ onSubmit }) {
                   label="Hindi"
                   checked={isHindi}
                   onChange={handleCheckbox1Change}
+           
+                 
                 />
 
                 <Form.Check
@@ -196,6 +199,7 @@ function AddmoviesForm({ onSubmit }) {
                   label="English"
                   checked={isEnglish}
                   onChange={handleCheckbox2Change}
+                 
                 />
 
                 <Form.Check
@@ -204,6 +208,7 @@ function AddmoviesForm({ onSubmit }) {
                   label="Gujarati"
                   checked={isGujarati}
                   onChange={handleCheckbox3Change}
+                  
                 />
                 {isError && (
                   <Alert variant="danger" color="red">

@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { Box, Button, Typography, Stack, useTheme } from "@mui/material";
 import { Rating } from "./Rating";
-import { FavouriteButton } from "./FavouriteButton";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { createlike, getlikebyuser } from "../api-helpers/api-helper";
+import {
+  createlike,
+  getlikebyuser,
+  movieDelete,
+} from "../api-helpers/api-helper";
 
 export const MovieCard = (props) => {
   const { Movie, rootProps } = props;
@@ -20,7 +22,11 @@ export const MovieCard = (props) => {
   const theme = useTheme();
 
   const istheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
-
+  const Moviedeletehandler = (id) => {
+    movieDelete(id)
+    window.location.reload()
+    
+  };
   return (
     <Stack spacing={{ base: 4, md: 1 }} {...rootProps}>
       <Box position="relative">
@@ -111,15 +117,16 @@ export const MovieCard = (props) => {
             <Button
               variant="contained"
               color="inherit"
-              LinkComponent={Link}
-              to={isuserLoggedIn ? `/booking/${id}` : "/auth/login"}
+              onClick={() => {
+                Moviedeletehandler(id);
+              }}
               style={{ marginRight: "8px" }}
               fullWidth
             >
-              Update Movie
+              Delete Movie
             </Button>
 
-            <Button
+            {/* <Button
               variant="contained"
               color="secondary"
               style={{ marginLeft: "8px" }}
@@ -127,7 +134,7 @@ export const MovieCard = (props) => {
               fullWidth
             >
               Delete Movie
-            </Button>
+            </Button> */}
           </div>
         )}
         {istheaterLoggedIn && (

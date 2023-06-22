@@ -1,10 +1,11 @@
 const express = require("express");
 
-const { protect } = require("../Auth/Authcontroller");
+// const { protect } = require("../Auth/Authcontroller");
 const {
   addMovies,
   getMovies,
   getById,
+  deleteMovie 
 } = require("../controllers/movie-controller");
 const {
   like,
@@ -12,17 +13,21 @@ const {
   MostLiked,
 } = require("../controllers/like-controller");
 const comment = require("./../controllers/comment-controller");
-const movieRouter = express.Router();
 
+
+
+const movieRouter = express.Router();
+const Userprotect = require("../Auth/Userprotect");
+const Adminprotect=require("./../Auth/Adminprotect")
 movieRouter
   .route("/")
-  // .post(protect, addMovies)
-  .post(addMovies)
+  .post(Adminprotect, addMovies)
   .get(getMovies);
-movieRouter.route("/like").post(like);
+movieRouter.route("/like").post(Userprotect, like);
 movieRouter.route("/MostLiked").get(MostLiked);
-movieRouter.route("/getlike/:movieid").post(getlikebyuser);
-movieRouter.route("/comment/:id").post(comment);
+movieRouter.route("/getlike/:movieid").get(Userprotect, getlikebyuser);
+movieRouter.route("/delete/:id").delete(Adminprotect,deleteMovie );
+movieRouter.route("/comment/:id").post(Userprotect, comment);
 movieRouter.route("/:id").get(getById);
 
 module.exports = movieRouter;

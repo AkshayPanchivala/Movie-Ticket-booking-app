@@ -7,20 +7,11 @@ import AddmoviesForm from "./AddmoviesForm";
 function AddMovies() {
   const navigate = useNavigate();
   const onResReceived = (res) => {
-    console.log(res);
+
     if (res.status === 201) {
-      toast.success("Movie Add Successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      navigate("/");
     }
-    navigate("/");
+    
   };
   const getData = (data, images, language) => {
     addMovie(data.inputs, images[0], language)

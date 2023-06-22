@@ -1,28 +1,7 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
-export const getAllMovies = async (currentPage) => {
-  const res = await axios
-    .get(`http://localhost:5000/movie?page=${currentPage}`)
-    .catch((err) => console.log(err));
-  if (res.status !== 200) {
-    return console.log("no data");
-  }
-  const data = res.data;
-  console.log(data);
-  return data;
-};
-
-export const getMoviesbyid = async (id) => {
-  const res = await axios
-    .get(`http://localhost:5000/movie/${id}`)
-    .catch((err) => console.log(err));
-  if (res.status !== 200) {
-    return console.log("no data");
-  }
-  const data = await res.data;
-
-  return data;
-};
+////////////////// User register//////////////////
 export const sendUserAuthRequest = async (
   data,
   images,
@@ -45,41 +24,121 @@ export const sendUserAuthRequest = async (
       return err.response;
     });
 
-  if (res.status !== 200 && res.status !== 201) {
-    console.log("unexpexted error occured");
+  if (res.status === 400) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
   if (res.status === 409) {
-    console.log("lklk");
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
-  const resstatus = await res.status;
+  if (res.status === 500) {
+    return toast.error("Something went wrong", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 201) {
+    toast.success(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
 
-  const resData = await res.data;
   return res;
 };
 
+/////////////user Login////////////////////////
 export const sendUserlogin = async (data) => {
   const res = await axios
     .post(`http://localhost:5000/user/login`, {
       email: data.email,
       password: data.password,
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return err.response;
+    });
 
-  const resData = await res;
-
-  return resData;
-};
-export const getAlladmin = async () => {
-  const res = await axios
-    .get(`http://localhost:5000/theater`)
-    .catch((err) => console.log(err));
-  if (res.status !== 200 && res.status !== 201) {
-    console.log("unexpexted error occured");
+  if (res.status === 400) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
-  const resData = await res;
-
-  return resData;
+  if (res.status === 404) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 500) {
+    return toast.error("Something went wrong", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 200) {
+    toast.success(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  return res;
 };
+
+/////////////////////////create Theater//////////////////////
 export const sendTheaterRequest = async (
   data,
   images,
@@ -87,74 +146,85 @@ export const sendTheaterRequest = async (
   city,
   pincode
 ) => {
-  console.log(data);
   const res = await axios
-    .post(`http://localhost:5000/theater/signup`, {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      phonenumber: data.phonenumber,
-      address: data.address,
-      profilephoto: images,
-      state: state,
-      city: city,
-      pincode: pincode,
-    })
+    .post(
+      `http://localhost:5000/theater/signup`,
+      {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        phonenumber: data.phonenumber,
+        address: data.address,
+        profilephoto: images,
+        state: state,
+        city: city,
+        pincode: pincode,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
     .catch((err) => {
       return err.response;
     });
-  if (res.status !== 200 && res.status !== 201) {
-    console.log("unexpexted error occured");
+  if (res.status === 400) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 500) {
+    return toast.error(`Something Went Wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 409) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 201) {
+    toast.success(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
   const resData = await res;
-  console.log(resData);
-  return resData;
-};
-
-export const getMovieDetails = async (id) => {
-  const res = await axios
-    .get(`http://localhost:5000/movie/${id}`)
-    .catch((err) => console.log(err));
-  if (res.status !== 200) {
-    return console.log("Unexpected Error");
-  }
-  const resData = await res.data;
-  return resData;
-};
-
-export const newBooking = async (data) => {
-  console.log(data);
-  const res = axios
-    .post("http://localhost:5000/booking", {
-      movie: data.movie,
-      date: data.date,
-      seatNumber: data.seatnumber,
-      user: data.user,
-      theater: data.admin,
-      SeatType: data.SeatType,
-      ShowTime: data.showtime,
-    })
-    .catch((err) => console.log(err));
-  return res;
-};
-//
-export const getUserBooking = async (currentPage) => {
-  const id = localStorage.getItem("userId");
-  console.log(id);
-  const res = await axios
-    .get(`http://localhost:5000/booking/${id}?page=${currentPage}`)
-    .catch((err) => console.log(err));
-
-  if (res.status !== 200) {
-    return console.log("unexpected Error");
-  }
-  const resData = await res;
 
   return resData;
 };
+
+//////////Add Movie//////////////
 
 export const addMovie = async (data, images, language) => {
-  console.log(images)
   const res = await axios
     .post(
       "http://localhost:5000/movie",
@@ -171,24 +241,391 @@ export const addMovie = async (data, images, language) => {
         },
       }
     )
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return err.response;
+    });
 
-  if (res.status !== 201) {
-    return console.log("Unexpected Error Occurred");
+  if (res.status === 409) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
+  if (res.status === 400) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 500) {
+    return toast.error("Something went wrong", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 201) {
+    toast.success(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  return res;
+};
 
+//////////////////Theater Login///////////////////
+export const sendtheaterlogin = async (data) => {
+  const res = await axios
+    .post(`http://localhost:5000/theater/login`, {
+      email: data.email,
+      password: data.password,
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  console.log(res);
+  if (res.status === 400) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 500) {
+    return toast.error(`Something went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 404) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 200) {
+    toast.success(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  return res;
+};
+
+/////////////Admin Login///////////
+export const sendAdminlogin = async (data) => {
+  const res = await axios
+    .post(`http://localhost:5000/admin/login`, {
+      email: data.email,
+      password: data.password,
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  console.log(res);
+  if (res.status === 400) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 500) {
+    return toast.error(`Something went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 404) {
+    return toast.error(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 200) {
+    toast.success(`${res.data.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  return res;
+};
+
+///////////////////get All Movies //////////////////////
+export const getAllMovies = async (currentPage) => {
+  const res = await axios
+    .get(`http://localhost:5000/movie?page=${currentPage}`)
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  const data = res.data;
+
+  return data;
+};
+///////////////////get Movies By ID //////////////////////
+export const getMoviesbyid = async (id) => {
+  const res = await axios
+    .get(`http://localhost:5000/movie/${id}`)
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  const data = await res.data;
+
+  return data;
+};
+
+////////////////////////Get all theater/////////////////
+export const getAlladmin = async () => {
+  const res = await axios.get(`http://localhost:5000/theater`).catch((err) => {
+    return err.response;
+  });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   const resData = await res;
+
   return resData;
 };
+/////////////get Movie Detail////////////////////
+export const getMovieDetails = async (id) => {
+  const res = await axios
+    .get(`http://localhost:5000/movie/${id}`)
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  const resData = await res.data;
+  return resData;
+};
+
+export const newBooking = async (data, id) => {
+  console.log(id);
+  const res = await axios
+    .post(
+      "http://localhost:5000/booking",
+      {
+        movie: data.movie,
+        date: data.date,
+        seatNumber: data.seatNumber,
+        user: data.user,
+        theater: data.admin,
+        SeatType: data.SeatType,
+        ShowTime: data.ShowTime,
+        paymentId: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .catch((err) => {
+      return err.response;
+    });
+  console.log(res);
+  console.log(res.status);
+  console.log(res.status);
+  if (res.status === 400) {
+    return toast.error(`${res.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 500) {
+    return toast.error(`Something went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 201) {
+    toast.success(`Booking is created`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  return res;
+};
+// get User Booking
+export const getUserBooking = async (currentPage) => {
+  const id = localStorage.getItem("userId");
+
+  const res = await axios
+    .get(`http://localhost:5000/booking/${id}?page=${currentPage}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status === 404) {
+    return toast.error(`${res.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  const resData = await res;
+
+  return resData;
+};
+
 export const getAdminById = async () => {
   const adminId = localStorage.getItem("adminId");
-  console.log(adminId);
+
   const res = await axios
     .get(`http://localhost:5000/theater/${adminId}`)
-    .catch((err) => console.log(err));
-  console.log(res.data);
+    .catch((err) => {
+      return err.response;
+    });
+
   if (res.status !== 200) {
-    return console.log("Unexpected Error Occurred");
+    return toast.error(`${res.message}`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
   const resData = await res.data;
@@ -197,21 +634,30 @@ export const getAdminById = async () => {
 
 export const getUserbyid = async (id) => {
   const userId = localStorage.getItem("userId");
-  console.log("userId", userId);
+
   const res = await axios
     .get(`http://localhost:5000/user/${userId}`)
-    .catch((err) => console.log(err));
-  // console.log(res.data);
+    .catch((err) => {
+      return err.response;
+    });
   if (res.status !== 200) {
-    return console.log("Unexpected Error Occurred");
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
-
   const resData = await res.data.user;
-  // console.log(res.data.user);
-  // console.log("resdatafromhenldr", resData);
+
   return resData;
 };
 
+/////////////////Not available seat update//////////////////////////
 export const notAvailable = async (data) => {
   const movieid = data.movieid;
   const theatreid = data.theatreid;
@@ -224,38 +670,53 @@ export const notAvailable = async (data) => {
         ShowTime: data.ShowTime,
       }
     )
-    .catch((err) => console.log(err));
-  // console.log(res.data);
+    .catch((err) => {
+      return err.response;
+    });
+
   if (res.status !== 200) {
     return console.log("Unexpected Error Occurred");
   }
 
   const resData = await res.data;
-  // console.log("resdatafromhenldr", resData);
+
   return resData;
 };
+
+////Pincode fetch///////////
 export const pincodefetch = async (data) => {
   const pincode = data;
-  console.log(data);
+
   const res = await axios
     .get(`https://api.postalpincode.in/pincode/${pincode}`)
-    .catch((err) => console.log(err));
-  // console.log(res.data);
-  if (res.status !== 200) {
-    return console.log("Unexpected Error Occurred");
+    .catch((err) => {
+      return err.response;
+    });
+
+  if (res.data[0].Status === "Error") {
+    return toast.error(`Please Enter a valid pincode`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   }
 
   const resData = await res.data;
-  // console.log("resdatafromhenldr", resData);
+
   return resData;
 };
 
 //////////////////////////
 export const updateprofile = async ({ inputs }, state, city, pincode) => {
   const userId = localStorage.getItem("userId");
-  console.log(inputs, state, city, pincode);
+
   const data = inputs;
-  console.log("userId", userId);
+
   const res = await axios
     .put(`http://localhost:5000/user/${userId}`, {
       name: data.name,
@@ -271,50 +732,83 @@ export const updateprofile = async ({ inputs }, state, city, pincode) => {
     .catch((err) => console.log(err));
   return res;
 };
-export const sendtheaterlogin = async (data) => {
-  console.log(data.password);
-  const res = await axios
-    .post(`http://localhost:5000/theater/login`, {
-      email: data.email,
-      password: data.password,
-    })
-    .catch((err) => console.log(err));
-  // if (res.status !== 200 && res.status !== 201) {
-  //   console.log("unexpexted error occured");
-  // }
-  const resData = await res;
-  console.log(resData);
-  return resData;
-};
 
 export const getpdf = async (selectedDate, Showtime, id) => {
   const adminId = localStorage.getItem("adminId");
 
-  console.log(adminId);
-  console.log();
-  console.log({ date: selectedDate, showtime: Showtime, theater: adminId });
   const res = await axios
-    .post(`http://localhost:5000/booking/download`, {
-      date: selectedDate,
-      showtime: Showtime,
-      theater: adminId,
-      movie: id,
-    })
+    .post(
+      `http://localhost:5000/booking/download`,
+      {
+        date: selectedDate,
+        showtime: Showtime,
+        theater: adminId,
+        movie: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
 
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   const resData = await res;
-  console.log(resData);
+
   return resData;
 };
 
 export const deleteBooking = async (id) => {
-  console.log(id);
   const res = await axios
-    .delete(`http://localhost:5000/booking/${id}`)
+    .delete(`http://localhost:5000/booking/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
 
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  if (res.status === 200) {
+    return toast.error(`Booking is deleted`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   const resData = await res;
-  console.log(resData);
+
   return resData;
 };
 
@@ -333,37 +827,37 @@ export const getTheaterbycity = async (city, page) => {
   const res = await axios.post(`http://localhost:5000/theater?page=${page}`, {
     city: city,
   });
-  console.log(res);
+
   return res;
 };
 
-export const sendAdminlogin = async (data) => {
-  console.log(data);
-  const res = await axios.post(`http://localhost:5000/admin/login`, {
-    email: data.email,
-    password: data.password,
-  });
-  console.log(res);
-  return res;
-};
 export const createlike = async (movieid, rating) => {
   const userId = localStorage.getItem("userId");
   const res = await axios
-    .post(`http://localhost:5000/movie/like`, {
-      user: userId,
-      movie: movieid,
-      rating: rating,
-    })
+    .post(
+      `http://localhost:5000/movie/like`,
+      {
+        user: userId,
+        movie: movieid,
+        rating: rating,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
     .catch((err) => console.log(err));
-
 };
 export const getlikebyuser = async (id) => {
   const movieid = id;
-  console.log(id);
-  const userId = localStorage.getItem("userId");
+
+  // const userId = localStorage.getItem("userId");
   const res = await axios
-    .post(`http://localhost:5000/movie/getlike/${movieid}`, {
-      user: userId,
+    .get(`http://localhost:5000/movie/getlike/${movieid}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
     .catch((err) => console.log(err));
 
@@ -373,67 +867,61 @@ export const getlikebyuser = async (id) => {
 export const gettopMovies = async () => {
   const res = await axios
     .get(`http://localhost:5000/movie/MostLiked`)
-    .catch((err) => console.log(err));
-  console.log(res.data.mostlikedmovie);
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
   return res.data.mostlikedmovie;
 };
 
-const initPayment = (data, booking) => {
-  const options = {
-    key: "rzp_test_XjLr3daSU0JSug",
-    amount: data.amount,
-    currency: data.currency,
-    name: booking.user,
-    description: "Test Transaction",
-    image: booking.img,
-    order_id: data.id,
-    handler: async (response) => {
-      try {
-        const verifyUrl = "http://localhost:5000/booking/verify";
-        const { data } = await axios.post(verifyUrl, response);
-        if (data.message === "Payment verified successfully") {
-          newBooking(booking)
-            .then((res) => {
-              return res;
-            })
-            .catch((err) => console.log(err));
-        } else {
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    theme: {
-      color: "#3399cc",
-    },
-  };
-
-  const rzp1 = new window.Razorpay(options);
-
-  rzp1.open();
-};
-
-export const handlePayment = async (booking) => {
-  try {
-    const orderUrl = "http://localhost:5000/booking/orders";
-    const { data } = await axios.post(orderUrl, { amount: booking.price });
-    console.log(data);
-    initPayment(data.data);
-    //   newBooking(data)
-    //     .then(onResReceived)
-    //     .catch((err) => console.log(err));
-  } catch (error) {
-    console.log(error);
-  }
-};
 export const createcomment = async (comment, id) => {
-  console.log(comment);
   const userId = localStorage.getItem("userId");
   const res = await axios
-    .post(`http://localhost:5000/movie/comment/${id}`, {
-      user: userId,
-      comment: comment,
+    .post(
+      `http://localhost:5000/movie/comment/${id}`,
+      {
+        user: userId,
+        comment: comment,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .catch((err) => console.log(err));
+};
+export const movieDelete = async (id) => {
+  const res = await axios
+    .delete(`http://localhost:5000/movie/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
     .catch((err) => console.log(err));
-  console.log(res);
+  if (res.status === 200) {
+    toast.success(`Movie is Deleted`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  return res;
 };

@@ -7,11 +7,11 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
 function AddedMoviesCard(props) {
-  console.log(props);
+
   const [movie, setmovie] = useState();
-  console.log(props.id);
+
   useEffect(() => {
-    console.log(props.id);
+
     getMoviesbyid(props.id)
       .then((res) => setmovie(res.movie))
       .catch((err) => console.log(err));

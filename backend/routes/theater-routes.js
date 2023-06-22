@@ -9,9 +9,9 @@ const {
   getTheaterbypagination,
   gettheaterbyCity,
 } = require("./../controllers/theater-controller");
-
+const Adminprotect = require("./../Auth/Adminprotect");
 // adminRouter.route("/alluser").get(getAllusers);
-theaterRouter.route("/signup").post(TheaterSignup);
+theaterRouter.route("/signup").post(Adminprotect, TheaterSignup);
 theaterRouter.route("/login").post(TheaterLogin);
 theaterRouter.route("/").get(getTheater).post(gettheaterbyCity);
 theaterRouter.route("/getTheaterbypagination").post(getTheaterbypagination);

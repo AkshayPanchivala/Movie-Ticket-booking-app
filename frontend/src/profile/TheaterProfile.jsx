@@ -47,14 +47,13 @@ function AdminProfile() {
       {Theater && (
         <>
           {console.log(Theater.adedMovies)}
-          <Box width={"100%"} display="flex" >
+          <Box width={"100%"} justify-content="center" align-items="center">
             <Box
               flexDirection={"column"}
               justifyContent="center"
               alignItems="center"
               width={"35%"}
               padding={3}
-
             >
               <Avatar
                 alt="User Profile Photo"
@@ -147,24 +146,6 @@ function AdminProfile() {
                   Delete Profile
                 </Button>
               </Stack>
-            </Box>
-            <Box width={"70%"} display="flex" flexDirection={"column"}>
-              <Typography
-                variant="h3"
-                fontFamily={"verdana"}
-                textAlign="center"
-                padding={2}
-              >
-                Added Movies
-              </Typography>
-
-              {Theater.adedMovies &&
-                Theater.adedMovies.map((e) => (
-                  <>
-                    {console.log("ee" + e)}
-                    <AddedMoviesCard key={e} id={e} />
-                  </>
-                ))}
             </Box>
           </Box>
         </>

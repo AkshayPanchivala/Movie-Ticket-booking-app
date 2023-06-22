@@ -18,17 +18,15 @@ import Getdatabboking from "./profile/Getdatabboking";
 import { ToastContainer } from "react-toastify";
 import Adminlogin from "./components/Admin/Adminlogin";
 import SeatSelection from "./SeatBooking/SeatSelection";
-import Movi  from "./GridWithAddToCartButton/Movi";
+import Movies from "./GridWithAddToCartButton/Movies";
 import Footer from "./components/footer/footer";
-import Payment from "./SeatBooking/pages/Payment";
 
 function App() {
   const dispatch = useDispatch();
   const isTheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
-  console.log(isadminLoggedIn);
-  console.log(isTheaterLoggedIn, isuserLoggedIn);
+
   useEffect(() => {
     if (localStorage.getItem("userId")) {
       dispatch(userActions.login());
@@ -57,7 +55,7 @@ function App() {
       <section>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/movies" element={<Movi />} />
+          <Route path="/movies" element={<Movies />} />
           <Route path="/Admin" element={<Adminlogin />} />
           {!isuserLoggedIn && !isTheaterLoggedIn && (
             <>
@@ -99,7 +97,6 @@ function App() {
                 element={<SeatSelection />}
               />
               <Route path="booking/:id" element={<Booking />} />
-              <Route path="payment" element={<Payment />} />
             </>
           )}
         </Routes>

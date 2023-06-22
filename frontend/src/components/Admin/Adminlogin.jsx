@@ -8,27 +8,18 @@ import {
 } from "../../api-helpers/api-helper";
 import { adminActions } from "../../store";
 import Adminloginform from "./AdminLoginform";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function Adminlogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onResReceived = (res) => {
     const data = res.data;
-    console.log(data);
-    dispatch(adminActions.login());
-    localStorage.setItem("adminid", data.admin._id);
+
     if (res.status === 200) {
-      toast.success("Login Successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      dispatch(adminActions.login());
+      localStorage.setItem("adminid", data.admin._id);
+      localStorage.setItem("token", data.token);
       navigate("/");
     }
   };

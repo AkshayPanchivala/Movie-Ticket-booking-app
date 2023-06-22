@@ -42,7 +42,7 @@ function Getdatabboking() {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.id;
-  // console.log()
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -65,16 +65,13 @@ function Getdatabboking() {
         }
       })
       .catch((err) => console.log(err));
-    console.log(bookingdata);
 
-    console.log(bookingdata.length);
-    console.log("klk778");
     if (bookingdata.length > 0) {
       var doc = new jsPDF("p", "pt", "a3");
       doc.setFont("courier");
-      console.log("klk78");
-      const x = 40; // X-coordinate for the booking data
-      let y = 100; // Initial Y-coordinate for each row
+
+      const x = 40;
+      let y = 100;
       doc.text(x, y - 50, "Movie: " + bookingdata[0].movie.title);
       doc.text(x + 150, y - 50, " Show Time: " + bookingdata[0].ShowTime);
       doc.text(x + 350, y - 50, " Date: " + bookingdata[0].date);
@@ -116,6 +113,8 @@ function Getdatabboking() {
             selected={selectedDate}
             onChange={handleDateChange}
             dateFormat="yyyy-MM-dd"
+            minDate={new Date()}
+            maxDate={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)}
             placeholderText="Select a date"
           />
           <Label>Select Show Time</Label>

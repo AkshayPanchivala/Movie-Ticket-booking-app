@@ -2,86 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Index from "./Index";
 import AspectRatio from "@mui/joy/AspectRatio";
-import {
-  Autocomplete,
-  Card,
-  CardContent,
-  Divider,
-  IconButton,
-  Pagination,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  getAlladmin,
-  getmovie,
-  getMovieDetails,
-  getTheaterbycity,
-  getTheaterbypagination,
-} from "../api-helpers/api-helper";
+import { getMovieDetails } from "../api-helpers/api-helper";
 import CardOverflow from "@mui/joy/CardOverflow";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+
 function SeatSelection() {
   const [movie, setMovie] = useState();
-  const [Theatre, setTheatre] = useState();
-
-  const [totalPages, settotalPages] = useState("");
-  const [citytotalPages, setcitytotalPages] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [city, setCity] = useState();
-  const [searchcity, setsearchcity] = useState(false);
-  const [searchedCity, SetsearchedCity] = useState();
-  const [theaterbycity, Settheaterbycity] = useState();
 
   const [isHovered, setIsHovered] = useState(false);
-  const params = useParams();
-  console.log(params.theaterId);
-  // Rest of your component code
-
-  // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().movieid;
-  console.log(id);
+
   useEffect(() => {
     getMovieDetails(id)
       .then((res) => setMovie(res.movie))
       .catch((err) => console.log(err));
-    getTheaterbypagination(currentPage)
-      .then((res) => {
-        console.log(res.data.theater);
-        console.log(res.data.totalPages);
-        settotalPages(res.data.totalPages);
-        setTheatre(res.data.theater);
-      })
-      .catch((err) => console.log(err));
-    getAlladmin()
-      .then((res) => {
-        setCity(res.data.data);
-      })
-      .catch((err) => console.log(err));
-    getTheaterbycity(searchedCity, currentPage).then((res) => {
-      Settheaterbycity(res.data.theater);
-      console.log(res.data.totalPages);
-      setcitytotalPages(res.data.totalPages);
-    });
-  }, [id, currentPage, searchedCity]);
-
-  const handlePageChange = (event, page) => {
-    setCurrentPage(page);
-  };
-
-  const handlechange = (e, val) => {
-    setsearchcity(true);
-    if (val === null) {
-      setsearchcity(false);
-    }
-    SetsearchedCity(val);
-  };
+  }, [id]);
 
   return (
     <div style={{ display: "flex", marginTop: "50px" }}>
@@ -89,7 +27,6 @@ function SeatSelection() {
         <div>
           {movie && (
             <>
-             
               <Box display={"flex"} justifyContent={"center"} marginLeft="5%">
                 <Box sx={{ minHeight: 300 }}>
                   <Card variant="elevation">
@@ -144,7 +81,7 @@ function SeatSelection() {
                           </AspectRatio>
                         </CardOverflow>
                       </Card>
-                     
+
                       <Typography level="body2" sx={{ marginLeft: "33px" }}>
                         <strong> Language:</strong>[{movie.language + " "}]
                       </Typography>

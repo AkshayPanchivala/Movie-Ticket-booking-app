@@ -12,9 +12,9 @@ import { MovieCard } from "./MovieCard";
 
 import { getAllMovies, gettopMovies } from "../api-helpers/api-helper";
 import { useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 
-export default function Movi() {
+
+export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [searchlanguage, setsearchlanguage] = useState(false);
 
@@ -41,10 +41,9 @@ export default function Movi() {
       })
       .catch((err) => console.log(err));
   }, [currentPage, searchlanguage]);
-  console.log(movies, searchlanguage);
 
   const handlechange = (e, val) => {
-    console.log(e);
+
     setsearchlanguage(true);
     if (val === null) {
       setsearchlanguage(false);
@@ -54,15 +53,10 @@ export default function Movi() {
       movie.language.includes(val)
     );
     Setmoviesbylanguage(filteredMovies);
-    // settotalPages(1);
-    console.log(moviesBylanguage);
-    console.log("fdfdfxczdf" + searchlanguage);
+ 
 
-    // );
   };
-  // moviesBylanguage.forEach((movie) => {
-  //   console.log(movie.title);
-  // });
+ 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
@@ -126,18 +120,7 @@ export default function Movi() {
           />
         </Stack>
       )}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+    
     </>
   );
 }

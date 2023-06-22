@@ -1,33 +1,22 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-
-  sendUserlogin,
-} from "../../api-helpers/api-helper";
+import { sendUserlogin } from "../../api-helpers/api-helper";
 import { userActions } from "../../store";
 import Authloginform from "./Authloginform";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 function Authlogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onResReceived = (res) => {
     const data = res.data;
+    console.log(res);
+    if (res.status === 200) {
+      dispatch(userActions.login());
+      localStorage.setItem("userId", data.user._id);
+      localStorage.setItem("token", data.token);
 
-    dispatch(userActions.login());
-    localStorage.setItem("userId", data.user._id);
-    if(res.status === 200){
-      toast.success("Login Successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
       navigate("/");
     }
   };

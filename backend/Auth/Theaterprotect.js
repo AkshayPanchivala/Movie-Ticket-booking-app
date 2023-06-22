@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const Theater = require("./../models/Theater");
 const AppError = require("../arrorhandler/Apperror");
 
-const protect = async (req, res, next) => {
+const Theaterprotect = async (req, res, next) => {
   try {
     let token;
     if (
@@ -14,21 +14,18 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
     }
 
-
     const decoded = jwt.verify(token, "MOVIETICKETBOOKING");
-    console.log(decoded);
-    const freshuser = await Theater.findById(decoded.id);
-    if (!freshuser) {
 
+    const freshTheater = await Theater.findById(decoded.id);
+    if (!freshTheater) {
       next(new AppError("you are not log in", 401));
     }
-
-    req.admin = freshuser;
+   
+    req.theater = freshTheater;
 
     return next();
   } catch (err) {
-
     next(new AppError("you are not log in", 401));
   }
 };
-module.exports = { protect };
+module.exports = Theaterprotect;

@@ -17,33 +17,10 @@ function Theatersignup() {
     const status = data.status;
  
     if (status === 201) {
-      toast.success("New Theater Added", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-      // dispatch(theaterActions.login());
-      // localStorage.setItem("adminId", data.data.theater._id);
-      // localStorage.setItem("token", data.data.token);
+
       navigate("/");
     }
-    if (status === 409) {
-      return toast.error("Already account is created", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
+  
   };
   const getData = (data, images, state, city, pincode) => {
 

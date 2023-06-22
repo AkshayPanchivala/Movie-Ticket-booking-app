@@ -13,8 +13,7 @@ export default function SingleSeat({
 
   const [row1, setRow1] = useState([]);
 
-  console.log("row1" + row);
-  console.log("seatType" + seatType);
+
   function handleSelected() {
     if (available) {
       setActive(!active);

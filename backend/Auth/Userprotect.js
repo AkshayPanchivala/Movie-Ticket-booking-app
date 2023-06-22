@@ -1,12 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-const Admin = require("./../models/Admin");
+const User = require("./../models/User");
 const AppError = require("../arrorhandler/Apperror");
 
-const Adminprotect = async (req, res, next) => {
+const Userprotect = async (req, res, next) => {
   try {
     let token;
-
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
@@ -16,17 +15,18 @@ const Adminprotect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, "MOVIETICKETBOOKING");
-   
-    const freshadmin = await Admin.findById(decoded.id);
-    if (!freshadmin) {
+
+    const freshUser = await User.findById(decoded.id);
+  
+    if (!freshUser) {
       next(new AppError("you are not log in", 401));
     }
-  
-    req.admin = freshadmin;
+
+    req.user = freshUser;
 
     return next();
   } catch (err) {
     next(new AppError("you are not log in", 401));
   }
 };
-module.exports = Adminprotect;
+module.exports = Userprotect;

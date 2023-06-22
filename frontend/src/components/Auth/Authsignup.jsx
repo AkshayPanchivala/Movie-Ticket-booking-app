@@ -17,34 +17,14 @@ function Authsignup() {
     if (status === 201) {
       dispatch(userActions.login());
       localStorage.setItem("userId", data.user._id);
-
-      if (status === 201) {
-        toast.success("Account is created", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
+      localStorage.setItem("token", data.token);
       navigate("/");
-    }
+     
+      }
+     
+    
 
-    if (status === 409) {
-      return toast.error("Already account is created", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
+
   };
   const getData = (data, images, state, city, pincode) => {
     sendUserAuthRequest(data.inputs, images[0], state, city, pincode)
@@ -53,23 +33,7 @@ function Authsignup() {
   };
   return (
     <div>
-      {/* <AuthForm onSubmit={getData} isAdmin={false} /> */}
       <Authsignupform onSubmit={getData} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      {/* Same as */}
-      <ToastContainer />
-      {/* Same as */}
     </div>
   );
 }

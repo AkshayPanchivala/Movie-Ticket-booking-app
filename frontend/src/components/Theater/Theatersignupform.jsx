@@ -20,7 +20,7 @@ function Theatersignupform({ onSubmit }) {
   const [validated, setValidated] = useState(false);
   const [images, setImages] = useState([]);
   const [pincode, setpincode] = useState();
-  const [passwordMatch, setPasswordMatch] = useState(true);
+
   const [inputs, setInputs] = useState({
     name: "",
     email: "",
@@ -60,7 +60,7 @@ function Theatersignupform({ onSubmit }) {
       [event.target.name]: event.target.value,
     }));
   };
-  console.log(inputs);
+
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -82,8 +82,7 @@ function Theatersignupform({ onSubmit }) {
     // }
 
     setValidated(true);
-    console.log(validated);
-    console.log("fdfdfds145");
+
 
     event.preventDefault();
     onSubmit({ inputs }, images, state, city, pincode);

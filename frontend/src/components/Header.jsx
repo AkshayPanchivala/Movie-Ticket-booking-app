@@ -26,7 +26,7 @@ function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [movies, setMovies] = React.useState([]);
 
-  const [selectedmovie, setselectedmovie] = React.useState();
+
   const dispatch = useDispatch();
   React.useEffect(() => {
     getAllMovies()

@@ -2,9 +2,6 @@ const asyncHandler = require("express-async-handler");
 const AppError = require("./../arrorhandler/Apperror");
 const Like = require("./../models/Like");
 const Movie = require("./../models/Movie");
-// const DisLike = require("./../models/dislike.model");
-
-// const Comments = require("../module/comment.model");
 
 ///////////////////////////////////////////
 /////create like
@@ -12,7 +9,6 @@ const Movie = require("./../models/Movie");
 const like = asyncHandler(async (req, res, next) => {
   const id = req.body.user;
   const movieid = req.body.movie.movieid;
-  console.log(movieid, req.body.rating, id);
 
   const movie = await Movie.findById(movieid);
 
@@ -41,14 +37,13 @@ const like = asyncHandler(async (req, res, next) => {
 });
 
 const getlikebyuser = asyncHandler(async (req, res, next) => {
-  const id = req.body.user;
+  const id = req.user._id;
   const moid = req.params.movieid;
-  console.log("sads" + moid);
+
   const like = await Like.find({ user: id, movie: moid }).select(
     "-_id -user -movie"
   );
 
-  console.log("like" + like);
   res.status(200).json({
     likes: like,
     status: "success",
@@ -56,39 +51,6 @@ const getlikebyuser = asyncHandler(async (req, res, next) => {
   });
 });
 //////////////////////////////////////////////////////
-////create dislike
-// const dislike=asyncHandler(async(req,res,next)=>{
-
-//         const id=req.params.id;
-//         const bike=await Bike.findById(id);
-
-//         if(!bike){
-//             return next(new AppError("Bike is not found",404));
-//         }
-
-//        const existingdislike=await DisLike.findOne({
-//         user_id: req.user.id,
-//         Bike_id: id,
-//        })
-//        if(existingdislike){
-//         return next(new AppError("you Have already dislike this product",400));
-//        }
-//        const deletelike=await Like.findOneAndDelete({
-
-//         user_id: req.user.id,
-//         Bike_id: id,
-//        })
-//        const dislike=await DisLike.create({
-//         user_id: req.user.id,
-//         Bike_id: id,
-//        })
-
-//        res.status(400).json({
-//         status:'success',
-//         msg:"successfully disliked this bike"
-//        })
-
-// });
 
 // //////////////////////////////////////////////////
 // ///get most liked product
@@ -133,7 +95,7 @@ const MostLiked = asyncHandler(async (req, res, next) => {
     movie.push(movieObj);
   }
   movie.sort((a, b) => b.rating - a.rating);
-  console.log(movie);
+
   if (movie) {
     res.json({
       mostlikedmovie: movie,

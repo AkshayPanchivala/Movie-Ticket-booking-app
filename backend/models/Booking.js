@@ -34,6 +34,10 @@ const bookingSchema = new mongoose.Schema({
     ref: "Theater",
     required: true,
   },
+  paymentId: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
   },

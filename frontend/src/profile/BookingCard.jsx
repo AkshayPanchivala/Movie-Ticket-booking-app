@@ -9,8 +9,6 @@ export default function BookingCard(props) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  // const currentTime = new Date().toLocaleString([], { hour12: true }).split(",")[1];
-  // const currentDate = new Date().toLocaleString().split(",")[0];
   const currentDate = new Date().toLocaleDateString();
   const currentTime = new Date().toLocaleTimeString([], {
     hour: "2-digit",
@@ -31,12 +29,11 @@ export default function BookingCard(props) {
   });
 
   const time = props.ShowTime.split(" ")[0];
-  console.log("xc"+time)
-  console.log("ptime" + time > t);
+
   const cancelbookinghandler = (id) => {
     setIsClicked(!isClicked);
     setIsHovered(!isHovered);
-    // Perform the deletion logic or any other operations
+
     if (isClicked && isHovered) {
       deleteBooking(id)
         .then((res) => {
@@ -60,19 +57,13 @@ export default function BookingCard(props) {
     setIsClicked(!isClicked);
   };
 
-  // const shouldRenderDeleteIcon =
-  //   new Date(formattedDate) > new Date(currentDate) &&
-  //   new Date(formattedDate) === new Date(currentDate);
-  console.log("lklk" +time > t);
+
   const shouldRenderDeleteIcon =
     currentDate === formattedDate && time > t[1] && p === "pm";
 
-  //   new Date(formattedDate) >= new Date(currentDate) && +t < +time;
+
   const renderdate = currentDate < formattedDate;
-  // const amrender = p === "pm";
-  console.log("12" + shouldRenderDeleteIcon);
-  console.log("13" + p === "am");
-  console.log("15" + renderdate);
+
   return (
     <div
       style={{

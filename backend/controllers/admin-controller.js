@@ -2,16 +2,17 @@ const Admin = require("./../models/Admin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const asynchandler = require("express-async-handler");
+const AppError = require("../arrorhandler/Apperror");
 
+/////////////// Admin Signup//////////////////////////////
 const signupAdmin = asynchandler(async (req, res, next) => {
-  const { name, email, password} = req.body;
+  const { name, email, password } = req.body;
 
   let missingValues = [];
 
-  if (!name || typeof(name)=='number') missingValues.push("Name ");
-  if (!email || typeof(email)=='number') missingValues.push("Email ");
+  if (!name || typeof name == "number") missingValues.push("Name ");
+  if (!email || typeof email == "number") missingValues.push("Email ");
   if (!password) missingValues.push("password ");
- 
 
   if (missingValues.length > 0) {
     return next(
@@ -21,16 +22,6 @@ const signupAdmin = asynchandler(async (req, res, next) => {
       )
     );
   }
- 
-
-
-
-
-
-
-
-
-
   const admin = await Admin.create({
     name: req.body.name,
     email: req.body.email,
@@ -45,15 +36,20 @@ const signupAdmin = asynchandler(async (req, res, next) => {
     token: token,
   });
 });
-const loginAdmin = asynchandler(async (req, res, next) => {
-  const {email, password} = req.body;
 
+
+
+
+
+
+/////////////////////////login Admin///////////////////////////
+const loginAdmin = asynchandler(async (req, res, next) => {
+  const { email, password } = req.body;
+  console.log(req.body);
   let missingValues = [];
 
-  
-  if (!email || typeof(email)=='number') missingValues.push("Email ");
+  if (!email || typeof email == "number") missingValues.push("Email ");
   if (!password) missingValues.push("password ");
- 
 
   if (missingValues.length > 0) {
     return next(
@@ -64,6 +60,7 @@ const loginAdmin = asynchandler(async (req, res, next) => {
     );
   }
   const existingadmin = await Admin.findOne({ email: req.body.email });
+
   if (!existingadmin) {
     res.status(404).json({
       message: "Admin Not Found",
@@ -91,12 +88,17 @@ const loginAdmin = asynchandler(async (req, res, next) => {
     if (verifypassword) {
       return res.status(200).json({
         admin: existingadmin,
-        message: "Admin loggin",
+        message: "Login Successfull",
         token: token,
       });
     }
   }
 });
+
+
+
+
+
 module.exports = {
   signupAdmin,
   loginAdmin,

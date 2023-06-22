@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 function Theatrecard(props) {
   const id = useParams();
   const movieid = id.id;
-console.log(props)
+
   const BookingHandler = () => {
     console.log("click");
   };
@@ -29,7 +29,7 @@ console.log(props)
         },
       }}
     >
-      {console.log(props.profilepicture)}
+    
       <AspectRatio ratio="1" sx={{ width: 90 }}>
         <img
           src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"

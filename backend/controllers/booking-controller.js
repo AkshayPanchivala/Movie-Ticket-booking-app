@@ -1,12 +1,14 @@
 const { default: mongoose } = require("mongoose");
-const Booking = require("../models/Booking");
-const Movie = require("../models/Movie");
-const User = require("../models/User");
 const asynchandler = require("express-async-handler");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+
+const Booking = require("../models/Booking");
+const Movie = require("../models/Movie");
+const User = require("../models/User");
 const sendEmail = require("../utill/email");
 const Theater = require("../models/Theater");
+const AppError = require("../arrorhandler/Apperror");
 
 ///////Payment Process
 const order = asynchandler(async (req, res) => {
@@ -23,7 +25,6 @@ const order = asynchandler(async (req, res) => {
 
   instance.orders.create(options, (error, order) => {
     if (error) {
-      
       return res.status(500).json({ message: "Something Went Wrong!" });
     }
     res.status(200).json({ data: order });
@@ -48,9 +49,17 @@ const verify = asynchandler(async (req, res) => {
 
 ////create a Booking
 const newBooking = asynchandler(async (req, res, next) => {
-  const { movie, date, seatNumber, SeatType, ShowTime, user, theater } =
-    req.body;
-
+  const {
+    movie,
+    date,
+    seatNumber,
+    SeatType,
+    ShowTime,
+    user,
+    theater,
+    paymentId,
+  } = req.body;
+  
   let missingValues = [];
 
   if (!movie || typeof movie == "number") missingValues.push("movie");
@@ -67,7 +76,9 @@ const newBooking = asynchandler(async (req, res, next) => {
       )
     );
   }
-
+  if (!paymentId || typeof paymentId == "number") {
+    return res.status(400).json({ message: "Your payment is not except" });
+  }
   const date1 = new Date(req.body.date).toLocaleString().split(",")[0];
 
   let existingMovie;
@@ -76,7 +87,7 @@ const newBooking = asynchandler(async (req, res, next) => {
   existingMovie = await Movie.findById(movie);
   existingUser = await User.findById(user);
   existingTheater = await Theater.findById(theater);
- await Movie.findByIdAndUpdate(existingMovie._id, existingMovie, {
+  await Movie.findByIdAndUpdate(existingMovie._id, existingMovie, {
     new: true,
     runValidators: true,
   });
@@ -96,6 +107,7 @@ const newBooking = asynchandler(async (req, res, next) => {
     theater,
     SeatType,
     ShowTime,
+    paymentId,
   });
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -117,11 +129,12 @@ const newBooking = asynchandler(async (req, res, next) => {
   if (!booking) {
     return res.status(500).json({ message: "Unable to create a booking" });
   }
-console.log(booking)
-const message=
-`Dear ${existingUser.name},
 
-Thank you for booking tickets for  ${existingMovie.title}. Your booking has been confirmed.
+  const message = `Dear ${existingUser.name},
+
+Thank you for booking tickets for  ${
+    existingMovie.title
+  }. Your booking has been confirmed.
 
 Booking Details:
 Movie:  ${existingMovie.title}
@@ -130,7 +143,7 @@ Time: ${booking.ShowTime}
 Theater Name:${existingTheater.name}
 Theater Address:${existingTheater.address}
 Number of Tickets: ${booking.seatNumber.length}
-Your SeatNumber: ${booking.seatNumber+","}
+Your SeatNumber: ${booking.seatNumber + ","}
 
 
 
@@ -144,11 +157,11 @@ Please note the following information:
 Thank you once again for choosing our service. We hope you enjoy the movie!
 
 Best regards,
-Akshay panchivala`
+Akshay panchivala`;
 
   await sendEmail({
     email: existingUser.email,
-    subject:`Booking Confirmation - ${existingMovie.title}`,
+    subject: `Booking Confirmation - ${existingMovie.title}`,
     message,
   });
   return res.status(201).json({ booking });

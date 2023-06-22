@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container, Stack, Box, Typography, Button } from "@mui/material";
-import { PlayArrow as PlayIcon } from "@mui/icons-material";
+
 import { Link as NavLink } from "react-router-dom";
-import Movi from "../GridWithAddToCartButton/Movi";
+
 import { getAllMovies } from "../api-helpers/api-helper";
+import Movies from "../GridWithAddToCartButton/Movies";
 
 export default function Homepage() {
   const [movies, setMovies] = useState([]);
@@ -18,8 +19,8 @@ export default function Homepage() {
       })
       .catch((err) => console.log(err));
   }, []);
-  // console.log();
-  console.log(movies[0]);
+
+
   return (
     <>
       <>
@@ -109,7 +110,7 @@ export default function Homepage() {
                     color: "white",
                   }}
                 >
-                  {/* <PlayIcon sx={{ width: 96, height: 96 }} /> */}
+                 
                 </Button>
                 <Box
                   component="img"
@@ -124,7 +125,7 @@ export default function Homepage() {
               </Box>
             </Box>
           </Stack>
-          <Movi />
+          <Movies />
         </Container>
       </>
     </>

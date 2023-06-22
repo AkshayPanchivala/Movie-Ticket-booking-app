@@ -3,10 +3,49 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Theater = require("../models/Theater");
 const User = require("../models/User");
+const AppError = require("../arrorhandler/Apperror");
 
+
+///////////Theater SignUp///////////////////////////////
 const TheaterSignup = asynchandler(async (req, res, next) => {
+  
+  const {
+    email,
+    password,
+    phonenumber,
+    profilephoto,
+    name,
+    state,
+    city,
+    pincode,
+    address
+  } = req.body;
+  let missingValues = [];
 
+  if (!email || typeof email == "number") missingValues.push("Email ");
+  if (!password) missingValues.push("Password ");
+  if (!phonenumber || typeof phonenumber == "number")
+    missingValues.push("PhoneNumber ");
+  if (!profilephoto || typeof profilephoto == "number")
+    missingValues.push("ProfilePhoto");
+  if (!name || typeof name == "number") missingValues.push("Name");
+  if (!address || typeof address == "number") missingValues.push("Address");
+  
+  if (!state || typeof state == "number") missingValues.push("State");
+  if (!city || typeof city == "number") missingValues.push("City");
+  if (!pincode || typeof pincode == "number") missingValues.push("Pincode");
 
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required  values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
+  
+  
+  
   const existingtheater = await Theater.findOne({ email: req.body.email });
 
   if (existingtheater) {
@@ -33,15 +72,36 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
   res.status(201).json({
     theater: theater,
     token: token,
-    message: "Account is created",
+    message: "New Theater Added",
   });
 });
 
+
+
+
+////////////////////////Theater Login//////////////////////////////////////
+
 const TheaterLogin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
+  let missingValues = [];
 
+  if (!email || typeof email == "number") missingValues.push("Email ");
+  if (!password) missingValues.push("password ");
+
+  if (missingValues.length > 0) {
+    return next(
+      new AppError(
+        `required missing values : ${missingValues} is neccessary to be filled`,
+        400
+      )
+    );
+  }
   const existingtheater = await Theater.findOne({ email: email });
-
+  if (!existingtheater) {
+    res.status(404).json({
+      message: "Not Found",
+    });
+  }
   const verifypassword = await bcrypt.compare(
     req.body.password,
     existingtheater.password
@@ -59,11 +119,12 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
     return res.status(200).json({
       theater: existingtheater,
       token: token,
-      message: "Account is login",
+      message: "login successfull",
     });
-  } else {
+  }
+  if (!verifypassword) {
     return res.status(404).json({
-      message: "Theater is not found",
+      message: "Admin Email id or Password Wrong",
     });
   }
 });
@@ -82,9 +143,7 @@ const getTheaterbypagination = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 4;
 
-  console.log(req.body.id);
   const user = await User.findOne({ _id: req.body.id });
-  console.log(user.pincode);
 
   const totalBookingsCount = await Theater.countDocuments({
     pincode: user.pincode,
@@ -112,8 +171,6 @@ const getTheaterById = asynchandler(async (req, res, next) => {
 const gettheaterbyCity = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 4;
-
-  console.log(req.body.city);
 
   const totalTheatersCount = await Theater.countDocuments({
     city: req.body.city,

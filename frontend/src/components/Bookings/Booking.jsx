@@ -63,7 +63,7 @@ function Booking() {
   // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
 
   const id = useParams().id;
-  console.log(id);
+
 
   const userid = localStorage.getItem("userId");
 
@@ -87,8 +87,7 @@ function Booking() {
       .catch((err) => console.log(err));
     getTheaterbypagination(currentPage)
       .then((res) => {
-        console.log(res.data.theater);
-        console.log(res.data.totalPages);
+     
         settotalPages(res.data.totalPages);
         setTheatre(res.data.theater);
       })
@@ -100,7 +99,7 @@ function Booking() {
       .catch((err) => console.log(err));
     getTheaterbycity(searchedCity, currentPage).then((res) => {
       Settheaterbycity(res.data.theater);
-      console.log(res.data.totalPages);
+
       setcitytotalPages(res.data.totalPages);
     });
   }, [id, currentPage, searchedCity,createComment]);
@@ -116,7 +115,7 @@ function Booking() {
     }
     SetsearchedCity(val);
   };
-  console.log(Theatre);
+
   const handleInputChange = (e, val) => {
     setComment(e.target.value);
   };
@@ -147,7 +146,7 @@ function Booking() {
       </Box>
       {movie && (
         <>
-          {console.log(movie)}
+         
           <Box
             display={"flex"}
             justifyContent={"center"}
@@ -207,15 +206,7 @@ function Booking() {
                       </AspectRatio>
                     </CardOverflow>
                   </Card>
-                  {/* <IconButton
-                    size="sm"
-                    variant="plain"
-                    color="neutral"
-                    sx={{ ml: "25px", alignSelf: "flex-start" }}
-                  >
-                    <FavoriteBorderRoun
-                    dedIcon color="danger" />
-                  </IconButton> */}
+                 
 
                   <Stack direction="row" alignItems="center" marginLeft={5}>
                     <Rating defaultValue={rating} id={id} size="small" />
@@ -238,9 +229,7 @@ function Booking() {
                       </Typography>
                     </Box>
                   </Box>
-                  {/* <CardOverflow
-                    sx={{ pb: "var(--Card-padding)", display: "flex" }}
-                  > */}
+               
                   <Box sx={{ display: "flex", gap: 1.0, }}>
                     <Box style={{ marginLeft: "35px" ,width:"400px"}}>
                     {resComment.length>0  &&<Typography>
@@ -332,7 +321,6 @@ function Booking() {
                     </div>
                   </div>
 
-                  {/* </CardOverflow> */}
                 </Box>
               </Card>
             </Box>
@@ -354,7 +342,7 @@ function Booking() {
                 theaterbycity &&
                 theaterbycity.map((Theater, index) => (
                   <>
-                    {console.log(Theater.profilephoto)}
+                   
                     <Theatrecard
                       key={Theater._id}
                       profilepicture={Theater.profilephoto}

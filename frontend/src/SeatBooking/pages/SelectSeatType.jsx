@@ -14,7 +14,7 @@ import {
 import TAB_OPTIONS from "../constants/TabOptions";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-// import Showtime from "../Showtime";
+
 import ShowTime from "../constants/ShowTime";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -39,20 +39,17 @@ export default function SelectSeatType({ onNext }) {
   const movieid = params.movieid;
   const theatreid = params.theaterId;
   useEffect(() => {
-    
-      const data = {
-        movieid,
-        theatreid,
-        ShowDate: ShowDate,
-        ShowTime: Showtime,
-      };
-      notAvailable(data).then((res) =>{ const availableseat= (226-+res.notavailable.length);
-        setAvailableSeat(availableseat)});
-   
- 
-  }, [ ShowDate,Showtime]);
-  // const params = useParams();
-  console.log(params);
+    const data = {
+      movieid,
+      theatreid,
+      ShowDate: ShowDate,
+      ShowTime: Showtime,
+    };
+    notAvailable(data).then((res) => {
+      const availableseat = 226 - +res.notavailable.length;
+      setAvailableSeat(availableseat);
+    });
+  }, [ShowDate, Showtime, movieid, theatreid]);
 
   const [isNextDisable, setNextDisable] = useState(true);
   function RenderSeatCounts() {
@@ -85,7 +82,7 @@ export default function SelectSeatType({ onNext }) {
       showDate: ShowDate,
       showLanguage: Language,
     });
-    console.log("sdsd" + new Date(ShowDate).toLocaleString().split(",")[0]);
+
     onNext(TAB_OPTIONS.SEAT_SELECTION, {
       seatCount,
       seatType,
@@ -105,8 +102,12 @@ export default function SelectSeatType({ onNext }) {
 
   return (
     <>
-     <Typography sx={{ color: 'green' }}>Available Seat is:{AvailableSeat}</Typography>
-      <Typography><strong>Select a Date</strong></Typography>
+      <Typography sx={{ color: "green" }}>
+        Available Seat is:{AvailableSeat}
+      </Typography>
+      <Typography>
+        <strong>Select a Date</strong>
+      </Typography>
       <Calendar
         borderradius={5}
         minDate={new Date()}
@@ -118,7 +119,9 @@ export default function SelectSeatType({ onNext }) {
       <Row>
         <Row>
           <Col>
-            <Label><strong>Select Language</strong></Label>
+            <Label>
+              <strong>Select Language</strong>
+            </Label>
             <ListGroup horizontal>
               {getLanguage.map((item, index) => (
                 <>
@@ -133,7 +136,9 @@ export default function SelectSeatType({ onNext }) {
                 </>
               ))}
             </ListGroup>
-            <Label><strong>Select Show Time</strong></Label>
+            <Label>
+              <strong>Select Show Time</strong>
+            </Label>
             <ListGroup horizontal>
               {timerendered &&
                 ShowTime.Time.map((item, index) => (
@@ -163,7 +168,9 @@ export default function SelectSeatType({ onNext }) {
                   </>
                 ))}
             </ListGroup>
-            <Label><strong>Select Seat Type</strong></Label>
+            <Label>
+              <strong>Select Seat Type</strong>
+            </Label>
             <ListGroup horizontal>
               {SEAT.SEAT_TYPE.map((item) => (
                 <ListGroupItem
@@ -180,7 +187,9 @@ export default function SelectSeatType({ onNext }) {
         </Row>
         <Row>
           <Col>
-            <Label><strong>Total Seats</strong></Label>
+            <Label>
+              <strong>Total Seats</strong>
+            </Label>
             <Pagination aria-label="Page navigation example">
               <RenderSeatCounts />
             </Pagination>
@@ -189,7 +198,7 @@ export default function SelectSeatType({ onNext }) {
         <Row>
           <Col>
             <Label>
-            <strong>Total Price:{" "}</strong>
+              <strong>Total Price: </strong>
               <b>
                 ₹
                 {seatCount > 0 && seatType
