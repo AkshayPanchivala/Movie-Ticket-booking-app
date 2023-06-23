@@ -2,44 +2,35 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Autocomplete,
   Card,
-  CardContent,
-  Divider,
+ 
   Pagination,
   Stack,
   TextField,
   Typography,
-  Grid,
+
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link,  useParams } from "react-router-dom";
 import {
   createcomment,
   getAlladmin,
   getlikebyuser,
-  getmovie,
   getMovieDetails,
   getTheaterbycity,
   getTheaterbypagination,
 } from "../../api-helpers/api-helper";
 import CardOverflow from "@mui/joy/CardOverflow";
 import Theatrecard from "./Theatrecard";
-import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import { Input } from "reactstrap";
 import { Face } from "@mui/icons-material";
 import { Rating } from "./Rating";
-
-import { styled } from "@mui/material/styles";
-
 import CardHeader from "@mui/material/CardHeader";
-
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-
 import { red } from "@mui/material/colors";
 
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 
 function Booking() {
   const [movie, setMovie] = useState();
@@ -58,14 +49,13 @@ function Booking() {
   const [createComment,setcreateComment]=useState(false)
   const [rating, setrating] = useState(0);
   const [showComent, setshowComent] = useState(false);
-  // Rest of your component code
 
-  // const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
 
   const id = useParams().id;
 
 
-  const userid = localStorage.getItem("userId");
+  
 
   useEffect(() => {
     getMovieDetails(id)
@@ -82,7 +72,7 @@ function Booking() {
           setrating(0);
         }
 
-        // setMovie(res.movie);
+   
       })
       .catch((err) => console.log(err));
     getTheaterbypagination(currentPage)
@@ -346,7 +336,7 @@ function Booking() {
                     <Theatrecard
                       key={Theater._id}
                       profilepicture={Theater.profilephoto}
-                      Address={Theater.Address}
+                      Address={Theater.address}
                       name={Theater.name}
                       id={Theater._id}
                     />

@@ -53,13 +53,13 @@ const getlikebyuser = asyncHandler(async (req, res, next) => {
 //////////////////////////////////////////////////////
 
 // //////////////////////////////////////////////////
-// ///get most liked product
+// ///get most liked Movie//////////////
 const MostLiked = asyncHandler(async (req, res, next) => {
   const likedmovie = await Like.aggregate([
     {
       $group: {
         _id: "$movie",
-        count: { $sum: 1 }, // counting no. of documents pass
+        count: { $sum: 1 },
       },
     },
     {
@@ -85,7 +85,7 @@ const MostLiked = asyncHandler(async (req, res, next) => {
       rating += mov.rating;
     });
 
-    const avg = rating / mostlikedmovie.likescount.length; // Calculate average rating
+    const avg = rating / mostlikedmovie.likescount.length;
     const movieObj = {
       ...mostlikedmovie.toObject(),
       likescount: mostlikedmovie.likescount.length,

@@ -5,7 +5,6 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
-import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
 
 function Theaterloginform({ onSubmit }) {
@@ -30,9 +29,7 @@ function Theaterloginform({ onSubmit }) {
       [e.target.name]: e.target.value,
     }));
   };
-  const signuphandler = () => {
-    navigate("/theater");
-  };
+
   const handleBackdropClick = () => {
     navigate("/");
   };
@@ -86,24 +83,7 @@ function Theaterloginform({ onSubmit }) {
                 </Box>
               </Form.Group>
             </Col>
-            {/* <Row className="mb-3">
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={3}>
-                    <Typography alignContent={"center"}>
-                      create Account?
-                    </Typography>
-                  </Box>
-                </Form.Group>
-              </Col>
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={2}>
-                    <Button onClick={signuphandler}>SignUp</Button>
-                  </Box>
-                </Form.Group>
-              </Col>
-            </Row> */}
+           
           </Form>
         </Box>
       </Dialog>

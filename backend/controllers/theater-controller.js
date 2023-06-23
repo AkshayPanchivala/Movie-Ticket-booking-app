@@ -5,10 +5,8 @@ const Theater = require("../models/Theater");
 const User = require("../models/User");
 const AppError = require("../arrorhandler/Apperror");
 
-
 ///////////Theater SignUp///////////////////////////////
 const TheaterSignup = asynchandler(async (req, res, next) => {
-  
   const {
     email,
     password,
@@ -18,7 +16,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
     state,
     city,
     pincode,
-    address
+    address,
   } = req.body;
   let missingValues = [];
 
@@ -30,7 +28,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
     missingValues.push("ProfilePhoto");
   if (!name || typeof name == "number") missingValues.push("Name");
   if (!address || typeof address == "number") missingValues.push("Address");
-  
+
   if (!state || typeof state == "number") missingValues.push("State");
   if (!city || typeof city == "number") missingValues.push("City");
   if (!pincode || typeof pincode == "number") missingValues.push("Pincode");
@@ -43,9 +41,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
       )
     );
   }
-  
-  
-  
+
   const existingtheater = await Theater.findOne({ email: req.body.email });
 
   if (existingtheater) {
@@ -75,9 +71,6 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
     message: "New Theater Added",
   });
 });
-
-
-
 
 ////////////////////////Theater Login//////////////////////////////////////
 
@@ -131,12 +124,20 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
 
 const getTheater = asynchandler(async (req, res, next) => {
   let admins;
+  
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 6;
 
-  admins = await Theater.find();
+  const totaltheater = await Theater.countDocuments();
+
+  const totalPages = Math.ceil(totaltheater / limit);
+  admins = await Theater.find()
+    .skip((page - 1) * limit)
+    .limit(limit);
   if (!admins) {
     return res.status(404).json({ message: "Not found data" });
   }
-  return res.status(200).json({ data: admins });
+  return res.status(200).json({ data: admins, totalPages: totalPages });
 });
 
 const getTheaterbypagination = asynchandler(async (req, res, next) => {

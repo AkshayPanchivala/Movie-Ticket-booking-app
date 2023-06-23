@@ -1,28 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Stack, Box, Typography, Button } from "@mui/material";
-
 import { Link as NavLink } from "react-router-dom";
-
-import { getAllMovies } from "../api-helpers/api-helper";
-import Movies from "../GridWithAddToCartButton/Movies";
+import Movies from "../Movies/Movies";
 
 export default function Homepage() {
-  const [movies, setMovies] = useState([]);
-  const [totalPages, settotalPages] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  useEffect(() => {
-    getAllMovies(currentPage)
-      .then((data) => {
-        setMovies(data.movies);
-        settotalPages(data.totalpages);
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-
   return (
-    <>
+
       <>
         <Container>
           <Stack
@@ -54,7 +37,6 @@ export default function Homepage() {
                     zIndex: -1,
                   }}
                 >
-               
                   Gaddar 2
                 </Box>
                 <br />
@@ -109,9 +91,7 @@ export default function Homepage() {
                     transform: "translateX(-50%) translateY(-50%)",
                     color: "white",
                   }}
-                >
-                 
-                </Button>
+                ></Button>
                 <Box
                   component="img"
                   alt="Gaddar 2"
@@ -128,6 +108,6 @@ export default function Homepage() {
           <Movies />
         </Container>
       </>
-    </>
+    
   );
 }

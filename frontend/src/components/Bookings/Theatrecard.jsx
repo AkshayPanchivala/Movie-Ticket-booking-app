@@ -2,10 +2,10 @@ import * as React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Link from "@mui/joy/Link";
 import Card from "@mui/joy/Card";
-import Chip from "@mui/joy/Chip";
+
 import Typography from "@mui/joy/Typography";
 import { useParams } from "react-router-dom";
-// import Index from "../SeatBooking/Index";
+
 
 function Theatrecard(props) {
   const id = useParams();
@@ -64,14 +64,7 @@ function Theatrecard(props) {
           
           </Link>
         </Typography>
-        {/* <Chip
-          variant="outlined"
-          color="primary"
-          size="sm"
-          sx={{ pointerEvents: "none", ml: "2" }}
-        >
-          Cool weather all day long
-        </Chip> */}
+       
       </div>
     </Card>
   );

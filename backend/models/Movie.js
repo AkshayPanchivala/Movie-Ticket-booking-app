@@ -17,10 +17,10 @@ const movieSchema = new mongoose.Schema(
       required: true,
     },
     bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
-    // theater: {
-    //   type: mongoose.Types.ObjectId,
-    //   ref: "Theater",
-    // },
+    createdAt: {
+      type: Date,
+      default: new Date(),
+    },
   },
   {
     toJSON: { virtuals: true },

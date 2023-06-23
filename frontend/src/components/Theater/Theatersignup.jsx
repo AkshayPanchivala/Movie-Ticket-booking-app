@@ -1,18 +1,18 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import {
-  sendAdminAuthRequest,
+
   sendTheaterRequest,
 } from "../../api-helpers/api-helper";
-import { theaterActions } from "../../store";
+
 import Theatersignupform from "./Theatersignupform";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
+
 function Theatersignup() {
   const navigate = useNavigate();
 
-  // const dispatch = useDispatch();
+
   const onResReceived = (data) => {
     const status = data.status;
  

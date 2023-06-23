@@ -17,8 +17,6 @@ export default function BookingCard(props) {
 
   const t = currentTime.split(" ")[0];
 
-
-
   const p = currentTime.split(" ")[1];
 
   const date = new Date(props.Date);
@@ -50,19 +48,20 @@ export default function BookingCard(props) {
             });
           }
         })
+        
         .catch((err) => console.log(err));
     }
-    // Toggle the clicked state
+
     setIsHovered(!isHovered);
     setIsClicked(!isClicked);
-  };
 
+  };
 
   const shouldRenderDeleteIcon =
     currentDate === formattedDate && time > t[1] && p === "pm";
 
-
   const renderdate = currentDate < formattedDate;
+
 
   return (
     <div
@@ -93,12 +92,14 @@ export default function BookingCard(props) {
               <Col xs={12} sm={4}>
                 <Card.Text>
                   <strong>seatNumber:</strong>
-                  {props.SeatNumber}
+                  {props.SeatNumber+","}
                 </Card.Text>
               </Col>
             </Row>
           </div>
-          {(shouldRenderDeleteIcon || p === "am" || renderdate) && (
+          {(shouldRenderDeleteIcon ||
+            (p === "am" && currentDate <= formattedDate) ||
+            renderdate) && (
             <div
               style={{
                 display: "flex",

@@ -1,10 +1,11 @@
 const asynchandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const User = require("../models/User");
 const AppError = require("./../arrorhandler/Apperror");
 const Booking = require("../models/Booking");
-
+const sendEmail = require("../utill/email");
 
 const getAllusers = asynchandler(async (req, res, next) => {
   const user = await User.find();
@@ -94,7 +95,7 @@ const updateprofile = asynchandler(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
- 
+
   res.status(200).json({
     message: "Account is updated",
   });
@@ -116,14 +117,13 @@ const deleteprofile = asynchandler(async (req, res, next) => {
 /////////////////////////user login///////////////
 const login = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
- 
+
   let missingValues = [];
 
   if (!email || typeof email == "number") missingValues.push("Email ");
   if (!password) missingValues.push("password ");
 
   if (missingValues.length > 0) {
-    
     return next(
       new AppError(
         `required  values : ${missingValues} is neccessary to be filled`,
@@ -133,7 +133,7 @@ const login = asynchandler(async (req, res, next) => {
   }
 
   const existinguser = await User.findOne({ email: email }).select("+password");
-  
+
   if (!existinguser) {
     return res.status(404).json({
       message: "user  is not found",
@@ -143,6 +143,7 @@ const login = asynchandler(async (req, res, next) => {
     req.body.password,
     existinguser.password
   );
+
 
   if (verifypassword) {
     const token = jwt.sign(
@@ -158,14 +159,11 @@ const login = asynchandler(async (req, res, next) => {
       message: "Account is login",
     });
   } else {
-   
     return res.status(404).json({
       message: "Email or password wrong",
     });
   }
 });
-
-
 
 //////get Booking of user by id/////////////
 const getBookingsOfUser = asynchandler(async (req, res, next) => {
@@ -182,10 +180,60 @@ const getBookingsOfUser = asynchandler(async (req, res, next) => {
   return res.status(200).json({ bookings });
 });
 
+const forgotpassword = asynchandler(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new AppError("There is no user with email address.", 404));
+  }
+
+  const resetToken = user.createpaswordresettoken();
+  await user.save({ validateBeforeSave: false });
+
+  const resetUrl = `${req.protocol}://localhost:3000/resetpassword/${resetToken}`;
+  const message = `Forgot your password? submit a patch request with your new password and password confirm to: ${resetUrl}  . \n if you didn't forgot your password,please ignore this email!`;
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "reset token",
+      message,
+    });
+    res.status(200).json({
+      email: user.email,
+      subject: "Your Password reset token ",
+      message,
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+  }
+});
+
+const resetpassword = asynchandler(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new AppError("Token is invalid or has error"));
+  }
 
 
+  user.password = req.body.password.newPassword
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  user.passwordchangeat = new Date();
+  await user.save();
 
-
+  res.status(200).json({
+    status: "success",
+  });
+});
 
 module.exports = {
   getAllusers,
@@ -195,4 +243,6 @@ module.exports = {
   login,
   getBookingsOfUser,
   getuserbyid,
+  resetpassword,
+  forgotpassword,
 };

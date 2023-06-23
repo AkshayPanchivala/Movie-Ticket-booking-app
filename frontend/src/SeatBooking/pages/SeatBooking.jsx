@@ -162,9 +162,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
       }
     };
     handlePayment();
-    // navigate("/payment", {
-    //   state: data,
-    // });
+
   }
   const price =
     SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;

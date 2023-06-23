@@ -45,7 +45,7 @@ const signupAdmin = asynchandler(async (req, res, next) => {
 /////////////////////////login Admin///////////////////////////
 const loginAdmin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
+
   let missingValues = [];
 
   if (!email || typeof email == "number") missingValues.push("Email ");
@@ -102,4 +102,5 @@ const loginAdmin = asynchandler(async (req, res, next) => {
 module.exports = {
   signupAdmin,
   loginAdmin,
+ 
 };

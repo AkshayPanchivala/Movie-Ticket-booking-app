@@ -27,7 +27,7 @@ function Theaterlogin() {
   };
   return (
     <div>
-      {/* <AuthForm onSubmit={getData} isAdmin={false} /> */}
+
       <Theaterloginform onSubmit={getData} />
     </div>
   );

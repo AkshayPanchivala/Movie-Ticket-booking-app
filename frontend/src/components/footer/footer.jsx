@@ -1,5 +1,5 @@
 import React from "react";
-// import { makeStyles } from "@material-ui/core/styles";
+
 import { Box, Container, Grid, Typography, Link } from "@material-ui/core";
 import {
   makeStyles,
@@ -9,16 +9,16 @@ import {
 
 const theme = createTheme({
   palette: {
-    type: "light", // Change to 'dark' for a dark theme
+    type: "light", 
     primary: {
-      main: "#007BFF", // Customize the primary color
+      main: "#007BFF", 
     },
     secondary: {
-      main: "#FFC107", // Customize the secondary color
+      main: "#FFC107", 
     },
   },
   typography: {
-    fontFamily: "Roboto, sans-serif", // Customize the default font family
+    fontFamily: "Roboto, sans-serif", 
   },
 });
 
@@ -82,14 +82,7 @@ const ListHeader = ({ children }) => {
   );
 };
 
-const SocialButton = ({ children, label, href }) => {
-  const classes = useStyles();
-  return (
-    <a className={classes.socialButton} href={href} aria-label={label}>
-      {children}
-    </a>
-  );
-};
+
 
 export default function Footer() {
   const classes = useStyles();
@@ -116,22 +109,8 @@ export default function Footer() {
                 <Link href="#">Community Guidelines</Link>
               </div>
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <div>
-                <ListHeader>Legal</ListHeader>
-                <Link href="#">Cookies Policy</Link>
-                <Link href="#">Privacy Policy</Link>
-                <Link href="#">Terms of Service</Link>
-                <Link href="#">Law Enforcement</Link>
-              </div>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <div>
-                <ListHeader>Install App</ListHeader>
-                <div>{/* Render AppStoreBadge component here */}</div>
-                <div>{/* Render PlayStoreBadge component here */}</div>
-              </div>
-            </Grid>
+            
+         
           </Grid>
         </Container>
         <Box className={classes.borderTop}>
@@ -145,7 +124,7 @@ export default function Footer() {
             >
               <Grid item xs={12} md={6}>
                 <Typography className={classes.footerText}>
-                  © 2022 Chakra Templates. All rights reserved
+                  © 2022 TicketCinema. All rights reserved
                 </Typography>
               </Grid>
             </Grid>

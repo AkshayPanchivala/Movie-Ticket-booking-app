@@ -5,13 +5,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Typography } from "@mui/material";
 import {
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   ListGroup,
   ListGroupItem,
-  Row,
-  Col,
   Label,
 } from "reactstrap";
 import jsPDF from "jspdf";
@@ -21,6 +16,8 @@ import ShowTime from "./../SeatBooking/constants/ShowTime";
 import { getpdf } from "../api-helpers/api-helper";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
+
 const style = {
   position: "absolute",
   top: "50%",

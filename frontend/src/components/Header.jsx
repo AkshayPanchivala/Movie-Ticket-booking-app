@@ -12,20 +12,24 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Autocomplete, TextField } from "@mui/material";
 import { getAllMovies } from "../api-helpers/api-helper";
 import { adminActions, theaterActions, userActions } from "../store";
 
+
+
 const pages = ["Add Movie", "Add Theater"];
+
+const Adminsettings = ["All Theater", "Logout"];
 const settings = ["Profile", "Logout"];
 const initialsetting = ["Admin", "Theater", "User"];
+
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [movies, setMovies] = React.useState([]);
-
 
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -53,28 +57,27 @@ function Header() {
     setAnchorElUser(null);
   };
   const handlechange = (e, val) => {
-    // setselectedmovie(val);
     const movie = movies.find((m) => m.title === val);
 
-if(movie){
-
-
-    if (isuserLoggedIn) {
-      navigate(`/booking/${movie._id}`);
+    if (movie) {
+      if (isuserLoggedIn) {
+        navigate(`/booking/${movie._id}`);
+      } else {
+        navigate("/Auth");
+      }
     } else {
-      navigate("/Auth");
+      navigate(`/`);
     }
-  }else{
-    navigate(`/`);
-  };}
+  };
   const handleadminSettingClick = (setting) => {
     handleCloseUserMenu();
     switch (setting) {
-      case "Profile":
-        navigate("/admin"); // Replace "/profile" with the actual path for the profile page
+      case "All Theater":
+    
+        navigate("/all");
         break;
       case "Logout":
-        dispatch(adminActions.logout()); // Replace "/logout" with the actual path for the logout functionality
+        dispatch(adminActions.logout());
         navigate("/");
         break;
 
@@ -87,10 +90,10 @@ if(movie){
     handleCloseUserMenu();
     switch (clickedPage) {
       case "Add Movie":
-        navigate("/add"); 
+        navigate("/add");
         break;
       case "Add Theater":
-        navigate("/theater"); 
+        navigate("/theater");
         break;
 
       default:
@@ -103,7 +106,7 @@ if(movie){
     console.log(setting);
     switch (setting) {
       case "Profile":
-        navigate("/user"); // Replace "/profile" with the actual path for the profile page
+        navigate("/user");
         break;
       case "Logout":
         dispatch(userActions.logout());
@@ -133,19 +136,19 @@ if(movie){
     }
   };
   const handleInitialSettingClick = (setting) => {
-    handleCloseUserMenu(); // Close the settings menu
+    handleCloseUserMenu();
     switch (setting) {
       case "Admin":
-        navigate("/admin"); // Replace "/profile" with the actual path for the profile page
+        navigate("/admin");
         break;
       case "Theater":
-        navigate("/theater/login"); // Replace "/logout" with the actual path for the logout functionality
+        navigate("/theater/login");
         break;
       case "User":
-        navigate("/Auth"); // Replace "/logout" with the actual path for the logout functionality
+        navigate("/Auth");
         break;
       default:
-        // Handle other settings if needed
+        navigate("/");
         break;
     }
   };
@@ -154,7 +157,6 @@ if(movie){
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
             <Typography
               variant="h6"
               noWrap
@@ -170,7 +172,7 @@ if(movie){
                 textDecoration: "none",
               }}
             >
-              LOGO
+              TicketCinema
             </Typography>
             <Box
               sx={{
@@ -231,7 +233,7 @@ if(movie){
                 textDecoration: "none",
               }}
             >
-              LOGO
+             TicketCinema
             </Typography>
           </Box>
           {!isadminLoggedIn && (
@@ -309,7 +311,7 @@ if(movie){
               onClose={handleCloseUserMenu}
             >
               {isadminLoggedIn &&
-                settings.map((setting) => (
+               Adminsettings.map((setting) => (
                   <MenuItem
                     key={setting}
                     onClick={() => handleadminSettingClick(setting)}

@@ -40,6 +40,9 @@ const theaterSlice = createSlice({
     logout(state) {
       localStorage.removeItem("adminId");
       localStorage.removeItem("token");
+      localStorage.removeItem("rzp_device_id");
+      localStorage.removeItem("rzp_checkout_anon_id");
+      localStorage.removeItem("rzp_checkout_user_id");
       toast.success(`Logout successfull`, {
         position: "top-right",
         autoClose: 5000,
@@ -64,6 +67,9 @@ const adminSlice = createSlice({
     logout(state) {
       localStorage.removeItem("adminid");
       localStorage.removeItem("token");
+      localStorage.removeItem("rzp_device_id");
+      localStorage.removeItem("rzp_checkout_anon_id");
+      localStorage.removeItem("rzp_checkout_user_id");
       toast.success(`Logout successfull`, {
         position: "top-right",
         autoClose: 5000,

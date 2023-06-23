@@ -8,4 +8,5 @@ const AdminRouter = express.Router();
 AdminRouter.route("/signup").post(signupAdmin);
 AdminRouter.route("/login").post(loginAdmin);
 
+
 module.exports = AdminRouter;

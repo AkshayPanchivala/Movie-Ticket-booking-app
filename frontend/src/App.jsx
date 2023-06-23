@@ -11,15 +11,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import TheaterProfile from "./profile/TheaterProfile";
 import Authlogin from "./components/Auth/Authlogin";
 import Authsignup from "./components/Auth/Authsignup";
-import UpdateProfile from "./profile/UpdateProfile";
+import "react-toastify/dist/ReactToastify.css";
 import Theatersignup from "./components/Theater/Theatersignup";
 import Theaterlogin from "./components/Theater/Theaterlogin";
 import Getdatabboking from "./profile/Getdatabboking";
 import { ToastContainer } from "react-toastify";
 import Adminlogin from "./components/Admin/Adminlogin";
 import SeatSelection from "./SeatBooking/SeatSelection";
-import Movies from "./GridWithAddToCartButton/Movies";
+import Movies from "./Movies/Movies";
 import Footer from "./components/footer/footer";
+import Forgot from "./components/Auth/Forgotpassword";
+import ResetPassword from "./components/Auth/ResetPassword";
+import AllTheater from "./components/Theater/AllTheater";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +60,11 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/Admin" element={<Adminlogin />} />
+          <Route path="/all" element={<AllTheater />} />
+
+          <Route path="/forgotpassword" element={<Forgot />} />
+          <Route path="/resetpassword/:token" element={<ResetPassword />} />
+
           {!isuserLoggedIn && !isTheaterLoggedIn && (
             <>
               <Route path="/theater/login" element={<Theaterlogin />} />
@@ -72,9 +80,7 @@ function App() {
           {!isTheaterLoggedIn && isuserLoggedIn && (
             <Route path="/user" element={<UserProfile />} />
           )}
-          {!isTheaterLoggedIn && isuserLoggedIn && (
-            <Route path="/updateprofile" element={<UpdateProfile />} />
-          )}
+
           {isadminLoggedIn && (
             <>
               <Route path="/add" element={<AddMovies />} />{" "}

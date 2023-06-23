@@ -4,12 +4,10 @@ const AppError = require("../arrorhandler/Apperror");
 
 const Movie = require("../models/Movie");
 
-
-
 /////////////////////add Movies ////////////////////////////
 const addMovies = asynchandler(async (req, res, next) => {
   const { description, language, admin, posterUrl, title } = req.body;
- 
+
   let missingValues = [];
   if (!title || typeof title == "number") missingValues.push("Title  ");
 
@@ -41,17 +39,9 @@ const addMovies = asynchandler(async (req, res, next) => {
       title: req.body.title,
     });
 
-    
-
     return res.status(201).json({ message: "Movie added" });
   }
 });
-
-
-
-
-
-
 
 ////////////////////////////Get All Movies ////////////////////////////
 const getMovies = asynchandler(async (req, res, next) => {
@@ -68,6 +58,7 @@ const getMovies = asynchandler(async (req, res, next) => {
   movies = await Movie.find()
     .skip((page - 1) * limit)
     .limit(limit)
+    .sort({ createdAt: -1 })
     .populate({
       path: "likescount",
     })
@@ -95,10 +86,6 @@ const getMovies = asynchandler(async (req, res, next) => {
   return res.status(200).json({ movies: movieList, totalpages: totalPages });
 });
 
-
-
-
-
 /////////////////////Movie Get By Id /////////////////////////////
 const getById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
@@ -111,7 +98,7 @@ const getById = asynchandler(async (req, res, next) => {
     .populate({
       path: "comment",
       options: {
-        sort: { createdAt: -1 }, 
+        sort: { createdAt: -1 },
       },
     });
 
@@ -138,12 +125,4 @@ const deleteMovie = asynchandler(async (req, res, next) => {
   });
 });
 
-
-
-
-
-
-
-
-
-module.exports = { addMovies, getMovies, getById,deleteMovie };
+module.exports = { addMovies, getMovies, getById, deleteMovie };

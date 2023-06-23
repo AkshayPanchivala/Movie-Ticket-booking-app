@@ -59,7 +59,7 @@ const newBooking = asynchandler(async (req, res, next) => {
     theater,
     paymentId,
   } = req.body;
-  
+
   let missingValues = [];
 
   if (!movie || typeof movie == "number") missingValues.push("movie");
@@ -167,7 +167,7 @@ Akshay panchivala`;
   return res.status(201).json({ booking });
 });
 
-///get booking by userID
+///get booking by userID///////////////////
 
 const getBookingById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
@@ -182,7 +182,7 @@ const getBookingById = asynchandler(async (req, res, next) => {
   const totalPages = Math.ceil(totalBookingsCount / limit);
 
   booking = await Booking.find({ user: id })
-    .sort({ date: 1 })
+    .sort({ date: -1 })
     .skip((page - 1) * limit)
     .limit(limit)
     .populate("movie", "title")
@@ -195,7 +195,7 @@ const getBookingById = asynchandler(async (req, res, next) => {
   return res.status(200).json({ booking, totalPages });
 });
 
-///////delete Booking by User
+///////delete Booking by User////////////////////
 const deleteBooking = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
@@ -223,7 +223,7 @@ const deleteBooking = asynchandler(async (req, res, next) => {
   });
 });
 
-////////////////Not available seat
+////////////////Not available seat////////////////////////
 
 const notAvailableSeat = asynchandler(async (req, res, next) => {
   const movieid = req.params.movieid;
@@ -241,7 +241,7 @@ const notAvailableSeat = asynchandler(async (req, res, next) => {
   });
 
   seat.map((e) => {
-    console.log(e.seatNumber);
+   
     e.seatNumber.map((e) => {
       blocked.push(e);
     });
@@ -251,7 +251,7 @@ const notAvailableSeat = asynchandler(async (req, res, next) => {
   });
 });
 
-////////get Booking by theater
+////////get Booking by theater//////////
 
 const getbookingbyadmin = asynchandler(async (req, res, next) => {
   const date = new Date(req.body.date).toLocaleString().split(",")[0];
@@ -270,10 +270,12 @@ const getbookingbyadmin = asynchandler(async (req, res, next) => {
       message: "any booking not found",
     });
   }
+
   res.status(200).json({
     booking: booking,
   });
 });
+
 module.exports = {
   order,
   verify,

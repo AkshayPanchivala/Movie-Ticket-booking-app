@@ -468,10 +468,13 @@ export const getMoviesbyid = async (id) => {
 };
 
 ////////////////////////Get all theater/////////////////
-export const getAlladmin = async () => {
-  const res = await axios.get(`http://localhost:5000/theater`).catch((err) => {
-    return err.response;
-  });
+export const getAlladmin = async (currentPage) => {
+  console.log(currentPage);
+  const res = await axios
+    .get(`http://localhost:5000/theater?page=${currentPage}`)
+    .catch((err) => {
+      return err.response;
+    });
   if (res.status !== 200) {
     return toast.error(`Something Went wrong`, {
       position: "top-right",
@@ -512,7 +515,6 @@ export const getMovieDetails = async (id) => {
 };
 
 export const newBooking = async (data, id) => {
-  console.log(id);
   const res = await axios
     .post(
       "http://localhost:5000/booking",
@@ -535,9 +537,7 @@ export const newBooking = async (data, id) => {
     .catch((err) => {
       return err.response;
     });
-  console.log(res);
-  console.log(res.status);
-  console.log(res.status);
+
   if (res.status === 400) {
     return toast.error(`${res.message}`, {
       position: "top-right",
@@ -833,7 +833,7 @@ export const getTheaterbycity = async (city, page) => {
 
 export const createlike = async (movieid, rating) => {
   const userId = localStorage.getItem("userId");
-  const res = await axios
+ await axios
     .post(
       `http://localhost:5000/movie/like`,
       {
@@ -852,7 +852,6 @@ export const createlike = async (movieid, rating) => {
 export const getlikebyuser = async (id) => {
   const movieid = id;
 
-  // const userId = localStorage.getItem("userId");
   const res = await axios
     .get(`http://localhost:5000/movie/getlike/${movieid}`, {
       headers: {
@@ -888,7 +887,7 @@ export const gettopMovies = async () => {
 
 export const createcomment = async (comment, id) => {
   const userId = localStorage.getItem("userId");
-  const res = await axios
+ await axios
     .post(
       `http://localhost:5000/movie/comment/${id}`,
       {

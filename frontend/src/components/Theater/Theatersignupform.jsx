@@ -15,6 +15,9 @@ import {
 } from "firebase/storage";
 import { pincodefetch } from "../../api-helpers/api-helper";
 import { toast } from "react-toastify";
+
+
+
 function Theatersignupform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -63,7 +66,7 @@ function Theatersignupform({ onSubmit }) {
 
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
+   
     event.preventDefault();
     if (inputs.password !== inputs.confirmpassword) {
       return toast.error("Password and confirm password not match", {
@@ -77,10 +80,7 @@ function Theatersignupform({ onSubmit }) {
         theme: "light",
       });
     }
-    // if (form.checkValidity() === false) {
-    //   event.stopPropagation();
-    // }
-
+  
     setValidated(true);
 
 
@@ -94,7 +94,7 @@ function Theatersignupform({ onSubmit }) {
       setstate("");
       setcity("");
     }
-    // if(===6)
+ 
   };
   useEffect(() => {
     pincodefetch(pincode)

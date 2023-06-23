@@ -75,15 +75,13 @@ function Authsignupform({ onSubmit }) {
         theme: "light",
       });
     }
-    // if (form.checkValidity() === false) {
-    //   event.stopPropagation();
-    // }
+
 
     setValidated(true);
-    // if (validated === true && passwordMatch) {
+
     event.preventDefault();
     onSubmit({ inputs }, images, state, city, pincode);
-    // }
+ 
   };
   const pincodehandleChange = (event) => {
     if (event.target.value.length === 6) {
@@ -92,7 +90,7 @@ function Authsignupform({ onSubmit }) {
       setstate("");
       setcity("");
     }
-    // if(===6)
+
   };
   useEffect(() => {
     pincodefetch(pincode)

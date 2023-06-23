@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
 import Row from "react-bootstrap/Row";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Authloginform({ onSubmit }) {
   const navigate = useNavigate();
@@ -22,8 +22,7 @@ function Authloginform({ onSubmit }) {
 
     setValidated(true);
 
-      onSubmit({ inputs });
-
+    onSubmit({ inputs });
   };
   const handleChange = (e) => {
     setInputs((prevState) => ({
@@ -80,10 +79,18 @@ function Authloginform({ onSubmit }) {
                 Please provide a valid Password.
               </Form.Control.Feedback>
             </Form.Group>
-            <Col md="6">
+            <Col md="12">
               <Form.Group controlId="validationCustom03">
-                <Box marginTop={5}>
+                <Box
+                  marginTop={5}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
                   <Button type="submit">Login</Button>
+                  <Link to="/forgotpassword" style={{ marginLeft: "30px" }}>
+                    Forgot Password
+                  </Link>
                 </Box>
               </Form.Group>
             </Col>

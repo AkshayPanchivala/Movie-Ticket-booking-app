@@ -1,5 +1,5 @@
 import { PaginationItem, PaginationLink } from "reactstrap";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 export default function SingleSeat({
   selected = false,
   updateSelected,
@@ -11,7 +11,7 @@ export default function SingleSeat({
 }) {
   const [active, setActive] = useState(selected);
 
-  const [row1, setRow1] = useState([]);
+
 
 
   function handleSelected() {

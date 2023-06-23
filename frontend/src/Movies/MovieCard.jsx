@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Button, Typography, Stack, useTheme } from "@mui/material";
-import { Rating } from "./Rating";
+import HalfRating from "./Rating";
 
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link } from "react-router-dom";
+
 import {
-  createlike,
-  getlikebyuser,
+  
   movieDelete,
 } from "../api-helpers/api-helper";
 
+
 export const MovieCard = (props) => {
   const { Movie, rootProps } = props;
-  const { language, posterUrl, description, rating, title, likescount } = Movie;
+  const { language, posterUrl,  rating, title, likescount } = Movie;
 
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
@@ -47,8 +47,8 @@ export const MovieCard = (props) => {
             e.target.onerror = null;
           }}
         />
-        <Stack direction="row" alignItems="center" marginLeft={1}>
-          <Rating defaultValue={rating} id={id} size="small" />
+        <Stack direction="row" alignItems="center" marginLeft={0}>
+          <HalfRating defaultValue={rating} id={id}  />
           <Typography
             variant="body2"
             fontSize="body2.fontSize"
@@ -126,15 +126,7 @@ export const MovieCard = (props) => {
               Delete Movie
             </Button>
 
-            {/* <Button
-              variant="contained"
-              color="secondary"
-              style={{ marginLeft: "8px" }}
-              // Add the necessary props and event handlers for the second button
-              fullWidth
-            >
-              Delete Movie
-            </Button> */}
+            
           </div>
         )}
         {istheaterLoggedIn && (

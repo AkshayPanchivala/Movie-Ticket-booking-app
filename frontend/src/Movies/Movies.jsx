@@ -14,6 +14,8 @@ import { getAllMovies, gettopMovies } from "../api-helpers/api-helper";
 import { useLocation } from "react-router-dom";
 
 
+
+
 export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [searchlanguage, setsearchlanguage] = useState(false);
@@ -124,4 +126,4 @@ export default function Movies() {
     </>
   );
 }
-// export default Movi;
+
