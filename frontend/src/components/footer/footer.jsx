@@ -24,7 +24,7 @@ const theme = createTheme({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.type === "light" ? "#F8F9FA" : "#212121",
+    backgroundColor: theme.palette.type === "light" ? "black" : "#212121",
     color: theme.palette.type === "light" ? "#333333" : "#F5F5F5",
     paddingTop: theme.spacing(10),
     paddingBottom: theme.spacing(4),
@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   listHeader: {
     fontWeight: 500,
     fontSize: "18px",
+    color:"white",
     marginBottom: theme.spacing(2),
   },
   link: {
@@ -123,7 +124,7 @@ export default function Footer() {
               spacing={6}
             >
               <Grid item xs={12} md={6}>
-                <Typography className={classes.footerText}>
+                <Typography className={classes.footerText}     style={{ color:"white"}}>
                   © 2022 TicketCinema. All rights reserved
                 </Typography>
               </Grid>

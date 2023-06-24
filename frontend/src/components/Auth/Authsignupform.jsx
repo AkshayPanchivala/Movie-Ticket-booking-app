@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import storage from "../../utils/firebase";
 import {
   ref as addRef,
@@ -76,12 +76,10 @@ function Authsignupform({ onSubmit }) {
       });
     }
 
-
     setValidated(true);
 
     event.preventDefault();
     onSubmit({ inputs }, images, state, city, pincode);
- 
   };
   const pincodehandleChange = (event) => {
     if (event.target.value.length === 6) {
@@ -90,7 +88,6 @@ function Authsignupform({ onSubmit }) {
       setstate("");
       setcity("");
     }
-
   };
   useEffect(() => {
     pincodefetch(pincode)
@@ -101,9 +98,6 @@ function Authsignupform({ onSubmit }) {
       .catch((err) => console.log(err));
   }, [pincode]);
 
-  const loginhandler = () => {
-    navigate("/Auth/login");
-  };
   const handleBackdropClick = () => {
     navigate("/");
   };
@@ -240,7 +234,7 @@ function Authsignupform({ onSubmit }) {
               <Form.Group md="6" controlId="validationCustom03">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="password"
                   placeholder="password"
                   minLength={6}
                   maxLength={8}
@@ -259,7 +253,7 @@ function Authsignupform({ onSubmit }) {
             <Form.Group md="6" controlId="validationCustom03">
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
-                type="text"
+                type="password"
                 placeholder="confirmpassword"
                 minLength={6}
                 maxLength={8}
@@ -299,31 +293,27 @@ function Authsignupform({ onSubmit }) {
               </>
             </Form.Group>
 
+            <Row className="mb-3">
+       
+                <Col md="6">
+                  <Form.Group
+                    controlId="validationCustom03"
+                    textDecoration="none"
+                  >
+                    <Box marginTop={3}>
+                      <Link to="/Auth/login" style={{ textDecoration: 'none' }}>If you have Account?</Link>
+                    </Box>
+                  </Form.Group>
+                </Col>
+              
+            </Row>
             <Col md="6">
               <Form.Group controlId="validationCustom03">
-                <Box marginTop={5}>
+                <Box marginTop={5} justifyContent="center" marginLeft={20}>
                   <Button type="submit">Register</Button>
                 </Box>
               </Form.Group>
             </Col>
-            <Row className="mb-3">
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={3}>
-                    <Typography alignContent={"center"}>
-                      If you have Account?
-                    </Typography>
-                  </Box>
-                </Form.Group>
-              </Col>
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={2}>
-                    <Button onClick={loginhandler}>Login</Button>
-                  </Box>
-                </Form.Group>
-              </Col>
-            </Row>
           </Form>
         </Box>
       </Dialog>

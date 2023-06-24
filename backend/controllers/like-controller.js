@@ -43,6 +43,11 @@ const getlikebyuser = asyncHandler(async (req, res, next) => {
   const like = await Like.find({ user: id, movie: moid }).select(
     "-_id -user -movie"
   );
+  if (!like) {
+    res.status(200).json({
+      msg: "successfully liked this movie",
+    });
+  }
 
   res.status(200).json({
     likes: like,
@@ -50,7 +55,6 @@ const getlikebyuser = asyncHandler(async (req, res, next) => {
     msg: "successfully liked this movie",
   });
 });
-
 
 // //////////////////////////////////////////////////
 // ///get most liked Movie//////////////

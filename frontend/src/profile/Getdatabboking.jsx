@@ -74,12 +74,12 @@ function Getdatabboking() {
       doc.text(x + 350, y - 50, " Date: " + bookingdata[0].date);
       doc.text(x, y, "Name");
       doc.text(x + 150, y, "Email");
-      doc.text(x + 500, y, "Seat Type");
+      doc.text(x + 400, y, "Seat Type");
       doc.text(x + 600, y, "Seat Number");
       bookingdata.forEach((booking, index) => {
         doc.text(x, y + 40, "" + booking.user.name);
         doc.text(x + 150, y + 40, "" + booking.user.email);
-        doc.text(x + 500, y + 40, "" + booking.SeatType);
+        doc.text(x + 400, y + 40, "" + booking.SeatType);
         doc.text(x + 600, y + 40, "" + booking.seatNumber);
 
         y += 20;

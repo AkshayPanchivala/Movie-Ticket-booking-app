@@ -10,7 +10,7 @@ function Authlogin() {
   const dispatch = useDispatch();
   const onResReceived = (res) => {
     const data = res.data;
-    console.log(res);
+    
     if (res.status === 200) {
       dispatch(userActions.login());
       localStorage.setItem("userId", data.user._id);

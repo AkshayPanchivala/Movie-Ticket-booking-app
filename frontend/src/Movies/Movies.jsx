@@ -29,6 +29,12 @@ export default function Movies() {
   const path = state.pathname === "/movies";
 
   useEffect(() => {
+    // gettopMovies()
+    // .then((res) => {
+   
+    //   settop8Movies(res);
+    // })
+    // .catch((err) => console.log(err));
     getAllMovies(currentPage)
       .then((data) => {
         setMovies(data.movies);
@@ -36,13 +42,22 @@ export default function Movies() {
         settotalPages(data.totalpages);
       })
       .catch((err) => console.log(err));
+  
+  }, [currentPage, searchlanguage,path]);
+
+
+
+  useEffect(() => {
     gettopMovies()
-      .then((res) => {
-     
-        settop8Movies(res);
-      })
-      .catch((err) => console.log(err));
-  }, [currentPage, searchlanguage]);
+    .then((res) => {
+   
+      settop8Movies(res);
+    })
+    .catch((err) => console.log(err));
+   
+  
+  }, []);
+
 
   const handlechange = (e, val) => {
 
@@ -102,7 +117,7 @@ export default function Movies() {
           </Grid>
         </Container>
       )}
-      {!path && (
+      {!path && top8movies &&  (
         <Container maxWidth="lg" sx={{ paddingTop: "24px" }}>
           <Grid container spacing={3}>
             {top8movies.map((Movie) => (

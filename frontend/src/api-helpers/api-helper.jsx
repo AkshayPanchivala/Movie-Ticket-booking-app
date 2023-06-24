@@ -469,7 +469,6 @@ export const getMoviesbyid = async (id) => {
 
 ////////////////////////Get all theater/////////////////
 export const getAlladmin = async (currentPage) => {
-  console.log(currentPage);
   const res = await axios
     .get(`http://localhost:5000/theater?page=${currentPage}`)
     .catch((err) => {
@@ -833,7 +832,7 @@ export const getTheaterbycity = async (city, page) => {
 
 export const createlike = async (movieid, rating) => {
   const userId = localStorage.getItem("userId");
- await axios
+  await axios
     .post(
       `http://localhost:5000/movie/like`,
       {
@@ -870,16 +869,7 @@ export const gettopMovies = async () => {
       return err.response;
     });
   if (res.status !== 200) {
-    return toast.error(`Something Went wrong`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    console.log(res);
   }
 
   return res.data.mostlikedmovie;
@@ -887,7 +877,7 @@ export const gettopMovies = async () => {
 
 export const createcomment = async (comment, id) => {
   const userId = localStorage.getItem("userId");
- await axios
+  await axios
     .post(
       `http://localhost:5000/movie/comment/${id}`,
       {
@@ -923,4 +913,28 @@ export const movieDelete = async (id) => {
     });
   }
   return res;
+};
+
+// export const
+export const getAlladminCity = async () => {
+  const res = await axios
+    .get(`http://localhost:5000/theater/theatercity`)
+    .catch((err) => {
+      return err.response;
+    });
+  if (res.status !== 200) {
+    return toast.error(`Something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+  const resData = await res;
+
+  return resData;
 };

@@ -256,7 +256,7 @@ function Theatersignupform({ onSubmit }) {
             <Form.Group md="6" controlId="validationCustom03">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type="text"
+                    type="password"
                 placeholder="password"
                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 minLength={6}
@@ -273,7 +273,7 @@ function Theatersignupform({ onSubmit }) {
             <Form.Group md="6" controlId="validationCustom03">
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
-                type="text"
+                  type="password"
                 placeholder="confirmpassword"
                 minLength={6}
                 maxLength={8}

@@ -2,19 +2,18 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Autocomplete,
   Card,
- 
   Pagination,
   Stack,
   TextField,
   Typography,
-
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { Link,  useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   createcomment,
   getAlladmin,
+  getAlladminCity,
   getlikebyuser,
   getMovieDetails,
   getTheaterbycity,
@@ -30,8 +29,6 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 
-
-
 function Booking() {
   const [movie, setMovie] = useState();
   const [Theatre, setTheatre] = useState();
@@ -46,16 +43,11 @@ function Booking() {
   const [Comment, setComment] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [resComment, setresComment] = useState("");
-  const [createComment,setcreateComment]=useState(false)
+  const [createComment, setcreateComment] = useState(false);
   const [rating, setrating] = useState(0);
   const [showComent, setshowComent] = useState(false);
 
-
-
   const id = useParams().id;
-
-
-  
 
   useEffect(() => {
     getMovieDetails(id)
@@ -71,19 +63,17 @@ function Booking() {
         } else {
           setrating(0);
         }
-
-   
       })
       .catch((err) => console.log(err));
     getTheaterbypagination(currentPage)
       .then((res) => {
-     
         settotalPages(res.data.totalPages);
         setTheatre(res.data.theater);
       })
-      .catch((err) => console.log(err));
-    getAlladmin()
+    .catch((err) => console.log(err));
+    getAlladminCity()
       .then((res) => {
+        console.log(res);
         setCity(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -92,7 +82,7 @@ function Booking() {
 
       setcitytotalPages(res.data.totalPages);
     });
-  }, [id, currentPage, searchedCity,createComment]);
+  }, [id, currentPage, searchedCity, createComment]);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -111,7 +101,7 @@ function Booking() {
   };
   const commenthandler = () => {
     createcomment(Comment, id);
-    setcreateComment(!createComment)
+    setcreateComment(!createComment);
     setComment("");
   };
   const viewmorehandler = () => {
@@ -136,7 +126,6 @@ function Booking() {
       </Box>
       {movie && (
         <>
-         
           <Box
             display={"flex"}
             justifyContent={"center"}
@@ -196,7 +185,6 @@ function Booking() {
                       </AspectRatio>
                     </CardOverflow>
                   </Card>
-                 
 
                   <Stack direction="row" alignItems="center" marginLeft={5}>
                     <Rating defaultValue={rating} id={id} size="small" />
@@ -219,53 +207,70 @@ function Booking() {
                       </Typography>
                     </Box>
                   </Box>
-               
-                  <Box sx={{ display: "flex", gap: 1.0, }}>
-                    <Box style={{ marginLeft: "35px" ,width:"400px"}}>
-                    {resComment.length>0  &&<Typography>
-                        {" "}
-                        <strong>Reviews </strong>
-                      </Typography>}
-                   
-                      {resComment.length>0 && (
-                        <>
-                          {!showComent&&resComment.slice(0, 3).map((commen) => (
-                            <Card sx={{ maxWidth: 520, marginBottom: "15px" }}>
-                              <CardHeader
-                                avatar={
-                                  <Avatar
-                                    src={commen.user.profilephoto}
-                                    sx={{ bgcolor: red[500] }}
-                                  ></Avatar>
-                                }
-                                title={commen.user.name}
-                                subheader={commen.comment}
-                              />
-                            </Card>
-                          ))}{" "}
-                         { resComment.length>3 &&!showComent &&<Link onClick={viewmorehandler} color="text.primary">
-                            View More
-                          </Link>}
-                          {showComent && resComment.map((commen) => (
-                            <Card sx={{ maxWidth: 520, marginBottom: "15px" }}>
-                              <CardHeader
-                                avatar={
-                                  <Avatar
-                                    src={commen.user.profilephoto}
-                                    sx={{ bgcolor: red[500] }}
-                                  ></Avatar>
-                                }
-                                title={commen.user.name}
-                                subheader={commen.comment}
-                              />
-                            </Card>
-                          ))}
-                          { showComent &&<Link onClick={viewmorehandler} color="text.primary">
-                            Less comment
-                          </Link>}
-                        </>
+
+                  <Box sx={{ display: "flex", gap: 1.0 }}>
+                    <Box style={{ marginLeft: "35px", width: "400px" }}>
+                      {resComment.length > 0 && (
+                        <Typography>
+                          {" "}
+                          <strong>Reviews </strong>
+                        </Typography>
                       )}
 
+                      {resComment.length > 0 && (
+                        <>
+                          {!showComent &&
+                            resComment.slice(0, 3).map((commen) => (
+                              <Card
+                                sx={{ maxWidth: 520, marginBottom: "15px" }}
+                              >
+                                <CardHeader
+                                  avatar={
+                                    <Avatar
+                                      src={commen.user.profilephoto}
+                                      sx={{ bgcolor: red[500] }}
+                                    ></Avatar>
+                                  }
+                                  title={commen.user.name}
+                                  subheader={commen.comment}
+                                />
+                              </Card>
+                            ))}{" "}
+                          {resComment.length > 3 && !showComent && (
+                            <Link
+                              onClick={viewmorehandler}
+                              color="text.primary"
+                            >
+                              View More
+                            </Link>
+                          )}
+                          {showComent &&
+                            resComment.map((commen) => (
+                              <Card
+                                sx={{ maxWidth: 520, marginBottom: "15px" }}
+                              >
+                                <CardHeader
+                                  avatar={
+                                    <Avatar
+                                      src={commen.user.profilephoto}
+                                      sx={{ bgcolor: red[500] }}
+                                    ></Avatar>
+                                  }
+                                  title={commen.user.name}
+                                  subheader={commen.comment}
+                                />
+                              </Card>
+                            ))}
+                          {showComent && (
+                            <Link
+                              onClick={viewmorehandler}
+                              color="text.primary"
+                            >
+                              Less comment
+                            </Link>
+                          )}
+                        </>
+                      )}
                     </Box>
                   </Box>
                   <div
@@ -310,7 +315,6 @@ function Booking() {
                       </Link>
                     </div>
                   </div>
-
                 </Box>
               </Card>
             </Box>
@@ -332,7 +336,6 @@ function Booking() {
                 theaterbycity &&
                 theaterbycity.map((Theater, index) => (
                   <>
-                   
                     <Theatrecard
                       key={Theater._id}
                       profilepicture={Theater.profilephoto}

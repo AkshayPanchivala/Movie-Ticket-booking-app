@@ -66,7 +66,7 @@ function Adminloginform({ onSubmit }) {
             <Form.Group md="7" controlId="validationCustom03">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type="text"
+                   type="password"
                 placeholder="password"
                 required
                 onChange={handleChange}

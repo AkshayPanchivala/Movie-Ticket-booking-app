@@ -37,7 +37,7 @@ export default function Homepage() {
                     zIndex: -1,
                   }}
                 >
-                  Gaddar 2
+                  Gadar 2
                 </Box>
                 <br />
               </Typography>

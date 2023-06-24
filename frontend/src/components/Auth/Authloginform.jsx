@@ -68,7 +68,7 @@ function Authloginform({ onSubmit }) {
             <Form.Group md="7" controlId="validationCustom03">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type="text"
+                type="password"
                 placeholder="password"
                 required
                 onChange={handleChange}
@@ -88,7 +88,7 @@ function Authloginform({ onSubmit }) {
                   alignItems="center"
                 >
                   <Button type="submit">Login</Button>
-                  <Link to="/forgotpassword" style={{ marginLeft: "30px" }}>
+                  <Link to="/forgotpassword" style={{ marginLeft: "30px",textDecoration: "none" }}>
                     Forgot Password
                   </Link>
                 </Box>
@@ -98,16 +98,9 @@ function Authloginform({ onSubmit }) {
               <Col md="6">
                 <Form.Group controlId="validationCustom03">
                   <Box marginTop={3}>
-                    <Typography alignContent={"center"}>
+                    <Link to="/auth" style={{ textDecoration: "none" }}>
                       create Account?
-                    </Typography>
-                  </Box>
-                </Form.Group>
-              </Col>
-              <Col md="6">
-                <Form.Group controlId="validationCustom03">
-                  <Box marginTop={2}>
-                    <Button onClick={signuphandler}>SignUp</Button>
+                    </Link>
                   </Box>
                 </Form.Group>
               </Col>
