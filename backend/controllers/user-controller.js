@@ -7,8 +7,13 @@ const AppError = require("./../arrorhandler/Apperror");
 const Booking = require("../models/Booking");
 const sendEmail = require("../utill/email");
 
+
+////////////////////////Get all user////////////////////////////
 const getAllusers = asynchandler(async (req, res, next) => {
   const user = await User.find();
+  if (!user) {
+    return next(new AppError('No User found', 404));
+  }
   res.status(200).json({
     user: user,
   });
@@ -74,17 +79,28 @@ const signup = asynchandler(async (req, res, next) => {
     message: "Account is created",
   });
 });
+
+
+
+
+
+////////////////////////////////////////get user By Id////////////////////////////////
 const getuserbyid = asynchandler(async (req, res, next) => {
   const id = req.params.id;
   if (!req.params.id || req.params.id.length !== 24) {
     return next(new AppError(`Wrong id`, 400));
   }
   const user = await User.findById(id);
-
+  if (!user) {
+    return next(new AppError('No User found', 404));
+  }
   res.status(200).json({
     user: user,
   });
 });
+
+
+/////////////////////////////////user update profile//////////////////////////////
 const updateprofile = asynchandler(async (req, res, next) => {
   const id = req.params.id;
   if (!req.params.id || req.params.id.length !== 24) {
@@ -95,12 +111,16 @@ const updateprofile = asynchandler(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-
+  if(!user){
+    return next(new AppError(`User not found`, 404));
+  }
   res.status(200).json({
     message: "Account is updated",
   });
 });
 
+
+/////////////////////////Delete profile////////////////////////////
 const deleteprofile = asynchandler(async (req, res, next) => {
   const id = req.params.id;
   if (!req.params.id || req.params.id.length !== 24) {
@@ -108,6 +128,9 @@ const deleteprofile = asynchandler(async (req, res, next) => {
   }
 
   const user = await User.findByIdAndDelete(id);
+  if(!user){
+    return next(new AppError(`User not found`, 404));
+  }
   res.status(200).json({
     user: user,
     message: "Account is deleted",
@@ -180,6 +203,9 @@ const getBookingsOfUser = asynchandler(async (req, res, next) => {
   return res.status(200).json({ bookings });
 });
 
+
+
+///////////////////////////user forgot password//////////////////////////////////
 const forgotpassword = asynchandler(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
@@ -208,6 +234,8 @@ const forgotpassword = asynchandler(async (req, res, next) => {
   }
 });
 
+
+/////////////////////////////////////user reset password/////////////////////////////////////////
 const resetpassword = asynchandler(async (req, res, next) => {
   const hashedToken = crypto
     .createHash("sha256")
@@ -234,6 +262,12 @@ const resetpassword = asynchandler(async (req, res, next) => {
     status: "success",
   });
 });
+
+
+
+
+
+
 
 module.exports = {
   getAllusers,

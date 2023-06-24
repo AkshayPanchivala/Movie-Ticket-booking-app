@@ -8,11 +8,13 @@ const {
   getTheaterById,
   getTheaterbypagination,
   gettheaterbyCity,
+  getallTheater
 } = require("./../controllers/theater-controller");
 const Adminprotect = require("./../Auth/Adminprotect");
 
 theaterRouter.route("/signup").post(Adminprotect, TheaterSignup);
 theaterRouter.route("/login").post(TheaterLogin);
+theaterRouter.route("/theatercity").get(getallTheater);
 theaterRouter.route("/").get(getTheater).post(gettheaterbyCity);
 theaterRouter.route("/getTheaterbypagination").post(getTheaterbypagination);
 theaterRouter.route("/:id").get(getTheaterById);

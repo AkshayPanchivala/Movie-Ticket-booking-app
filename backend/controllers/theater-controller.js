@@ -99,7 +99,7 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
     req.body.password,
     existingtheater.password
   );
-  // const verifypassword = true;
+  
 
   if (verifypassword) {
     const token = jwt.sign(
@@ -122,9 +122,12 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
   }
 });
 
+
+
+/////////////////Get all theater//////////////////////
 const getTheater = asynchandler(async (req, res, next) => {
   let admins;
-  
+
   const page = req.query.page || 1;
   const limit = req.query.limit || 6;
 
@@ -139,7 +142,20 @@ const getTheater = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ data: admins, totalPages: totalPages });
 });
+const getallTheater = asynchandler(async (req, res, next) => {
+  let admins;
 
+
+
+
+  admins = await Theater.find()
+
+  if (!admins) {
+    return res.status(404).json({ message: "Not found data" });
+  }
+  return res.status(200).json({ data: admins});
+});
+//////////////////////////get Theater by user register city//////////////////////
 const getTheaterbypagination = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 4;
@@ -158,6 +174,9 @@ const getTheaterbypagination = asynchandler(async (req, res, next) => {
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
 
+
+
+////////////////////////////////Get theater by theater Id////////////////////////////////////////////
 const getTheaterById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
   const admin = await Theater.findById(id);
@@ -169,6 +188,12 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ admin: admin });
 });
+
+
+
+
+
+////////////////////////////////get theater by city//////////////////////////////////
 const gettheaterbyCity = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 4;
@@ -185,6 +210,13 @@ const gettheaterbyCity = asynchandler(async (req, res, next) => {
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
 
+
+
+
+
+
+
+
 module.exports = {
   TheaterSignup,
   TheaterLogin,
@@ -192,4 +224,5 @@ module.exports = {
   getTheaterById,
   getTheaterbypagination,
   gettheaterbyCity,
+  getallTheater
 };
