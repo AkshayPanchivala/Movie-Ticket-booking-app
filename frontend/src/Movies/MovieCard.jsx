@@ -5,30 +5,28 @@ import HalfRating from "./Rating";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import {
-  
-  movieDelete,
-} from "../api-helpers/api-helper";
-
+import { movieDelete } from "../api-helpers/api-helper";
 
 export const MovieCard = (props) => {
-  const { Movie, rootProps } = props;
-  const { language, posterUrl,  rating, title, likescount } = Movie;
+  const { Movie } = props;
+
+  // console.log(rootProps);, rootProps
+  const { language, posterUrl, rating, title, likescount } = Movie;
 
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const istheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
 
   let id = Movie._id;
   const theme = useTheme();
 
-  const istheaterLoggedIn = useSelector((state) => state.theater.isLoggedIn);
   const Moviedeletehandler = (id) => {
-    movieDelete(id)
-    window.location.reload()
-    
+    movieDelete(id);
+    window.location.reload();
   };
   return (
-    <Stack spacing={{ base: 4, md: 1 }} {...rootProps}>
+    // <Stack spacing={{ base: 4, md: 1 }} {...rootProps}>
+    <Stack spacing={{ base: 4, md: 1 }}>
       <Box position="relative">
         <Box
           component="img"
@@ -48,7 +46,7 @@ export const MovieCard = (props) => {
           }}
         />
         <Stack direction="row" alignItems="center" marginLeft={0}>
-          <HalfRating defaultValue={rating} id={id}  />
+          <HalfRating defaultValue={rating} id={id} />
           <Typography
             variant="body2"
             fontSize="body2.fontSize"
@@ -125,8 +123,6 @@ export const MovieCard = (props) => {
             >
               Delete Movie
             </Button>
-
-            
           </div>
         )}
         {istheaterLoggedIn && (

@@ -17,8 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Autocomplete, TextField } from "@mui/material";
 import { getAllMovies } from "../api-helpers/api-helper";
 import { adminActions, theaterActions, userActions } from "../store";
-
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const pages = ["Add Movie", "Add Theater"];
 
@@ -32,6 +31,9 @@ function Header() {
   const [movies, setMovies] = React.useState([]);
 
   const dispatch = useDispatch();
+  const name = localStorage.getItem("Name");
+  // console.log(name.slice(0,1));
+
   React.useEffect(() => {
     getAllMovies()
       .then((data) => setMovies(data.movies))
@@ -73,7 +75,6 @@ function Header() {
     handleCloseUserMenu();
     switch (setting) {
       case "All Theater":
-    
         navigate("/all");
         break;
       case "Logout":
@@ -233,7 +234,7 @@ function Header() {
                 textDecoration: "none",
               }}
             >
-             TicketCinema
+              TicketCinema
             </Typography>
           </Box>
           {!isadminLoggedIn && (
@@ -287,11 +288,18 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, ml: 2 }}>
-                <Avatar
+                {/* <Avatar
                   sx={{ p: 2 }}
                   alt="Remy Sharp"
                   src="/static/images/avatar/2.jpg"
-                />
+                /> */}
+                <Avatar sx={{ p: 2 }}>
+                  {name ? (
+                    name.slice(0, 1).toUpperCase()
+                  ) : (
+                    <AccountCircleIcon />
+                  )}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -311,7 +319,7 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               {isadminLoggedIn &&
-               Adminsettings.map((setting) => (
+                Adminsettings.map((setting) => (
                   <MenuItem
                     key={setting}
                     onClick={() => handleadminSettingClick(setting)}

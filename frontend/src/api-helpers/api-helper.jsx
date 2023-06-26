@@ -938,3 +938,97 @@ export const getAlladminCity = async () => {
 
   return resData;
 };
+
+export const SendForgotpasswordLink = async (data) => {
+  const email = data.inputs.email;
+
+  const res = axios
+    .post("http://localhost:5000/user/forgotpassword", {
+      email: email,
+    })
+    .then((res) => {
+      toast.success(`Email sent successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      return "Success";
+    })
+    .catch((err) => {
+      toast.error(`Something Went wrong`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+
+  return res;
+};
+
+export const Resetpassword = async (data, token) => {
+  const password = data.inputs.password;
+
+  axios
+    .patch(
+      `http://localhost:5000/user/resetpassword/${token}`,
+      {
+        password: password,
+      },
+      { "Content-type": "application/json" }
+    )
+    .then((res) => {
+      toast.success(`Password reset successfully!`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    })
+    .catch((err) => {
+      toast.error(`Something Went wrong`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+};
+
+// axios
+//         .patch(
+//           `http://localhost:5000/user/resetpassword/${token}`,
+//           {
+//             password: newPassword,
+//             passwordConfirm: confirmPassword,
+//           },
+//           { "Content-type": "application/json" }
+//         )
+//         .then((res) => {
+//           toast.success("Password reset successfully!");
+//           formik.resetForm();
+//         })
+//         .catch((err) => {
+//           toast.error(err.response.data.error);
+//         });
+//     } else if (newPassword !== null && confirmPassword !== null) {
+//       toast.error("Both fields are required.");
+//     }
+//   }, [newPassword, confirmPassword]);

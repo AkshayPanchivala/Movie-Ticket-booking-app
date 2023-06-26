@@ -1,4 +1,4 @@
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, CircularProgress, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import React, { useEffect, useState } from "react";
 import { getAdminById } from "../api-helpers/api-helper";
@@ -6,14 +6,30 @@ import { Card } from "@mui/material";
 
 function TheaterProfile() {
   const [Theater, setTheater] = useState();
+  const [Loader, setLoader] = useState(true);
   useEffect(() => {
     getAdminById()
-      .then((res) => setTheater(res.admin))
+      .then((res) => {
+        setTheater(res.admin);
+        setLoader(false);
+      })
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <>
+      {Loader && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "10%",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
       {Theater && (
         <>
           <Card

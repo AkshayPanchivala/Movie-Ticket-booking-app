@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import {
   Card,
-
   Box,
   Typography,
   Stack,
- 
   CardContent,
   CardMedia,
   Grid,
   Pagination,
+  CircularProgress,
 } from "@mui/material";
 import { getAlladmin } from "../../api-helpers/api-helper";
-
 
 function AllTheater() {
   const [Theater, SetTheater] = useState("");
   const [totalPages, settotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [Loader, setLoader] = useState(true);
   useEffect(() => {
     getAlladmin(currentPage)
       .then((res) => {
         settotalPages(res.data.totalPages);
         SetTheater(res.data.data);
+        setLoader(false);
       })
 
       .catch((err) => console.log(err));
@@ -32,6 +32,18 @@ function AllTheater() {
   };
   return (
     <>
+      {Loader && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "10%",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
@@ -69,13 +81,11 @@ function AllTheater() {
                           <strong>Theater Name:</strong> {theater.name}
                         </Typography>
                         <Typography>
-                     
                           <strong>Email:</strong>
                           {theater.email}
                         </Typography>
 
                         <Typography>
-                      
                           <strong>Address:</strong>
                           {theater.address}
                         </Typography>

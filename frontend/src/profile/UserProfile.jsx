@@ -1,4 +1,3 @@
-
 import {
   Box,
   Card,
@@ -7,6 +6,7 @@ import {
   Avatar,
   Pagination,
   Stack,
+  CircularProgress,
 } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
@@ -16,8 +16,7 @@ import BookingCard from "./BookingCard";
 const UserProfile = () => {
   const [User, setUser] = useState();
   const [currentPage, setCurrentPage] = useState(1);
-
-
+  const [Loader, setLoader] = useState(true);
 
   const [Bookings, setBookings] = useState();
   const [totalPages, settotalPages] = useState("");
@@ -28,7 +27,12 @@ const UserProfile = () => {
       setBookings(res.data.booking);
     });
     const user = getUserbyid();
-    user.then((res) => setUser(res)).catch((err) => console.log(err));
+    user
+      .then((res) => {
+        setUser(res);
+        setLoader(false);
+      })
+      .catch((err) => console.log(err));
   }, [currentPage]);
 
   const handlePageChange = (event, page) => {
@@ -36,6 +40,18 @@ const UserProfile = () => {
   };
   return (
     <>
+      {Loader && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "10%",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
       {User && (
         <>
           <Box
@@ -68,8 +84,8 @@ const UserProfile = () => {
               >
                 <Avatar
                   sx={{
-                    width: 120,
-                    height: 120,
+                    width: 170,
+                    height: 170,
                     marginBottom: "20px",
                     marginTop: "25px",
                     backgroundColor: "white",
@@ -180,7 +196,7 @@ const UserProfile = () => {
                       />
                     </>
                   ))}
-                  <Stack spacing={2} marginLeft={50}>
+                  <Stack spacing={2} marginLeft={80}>
                     <Pagination
                       count={totalPages}
                       color="primary"

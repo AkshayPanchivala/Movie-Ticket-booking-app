@@ -7,6 +7,7 @@ import SingleSeat from "../library/SingleSeat";
 import { newBooking, notAvailable } from "../../api-helpers/api-helper";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { CircularProgress } from "@mui/material";
 
 export default function SeatBooking({ onNext, seatSelection }) {
   const params = useParams();
@@ -18,10 +19,10 @@ export default function SeatBooking({ onNext, seatSelection }) {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
   const [notAvailableSeat, setnotAvailableSeat] = useState([]);
+  const [Loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
-
-  const not = () => {
+  useEffect(() => {
     const data = {
       movieid,
       theatreid,
@@ -29,8 +30,8 @@ export default function SeatBooking({ onNext, seatSelection }) {
       ShowTime: seatSelection.Showtime,
     };
     notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
-  };
-  not();
+  });
+
 
   function handleUpdateSelection(seatKey) {
     if (seatSelection.seatCount <= selectedSeats.length) {
@@ -109,6 +110,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
 
     /////////////////////////////////////////////
     const handlePayment = async () => {
+      setLoader(true)
       const onResReceived = (res) => {
         const data = res.data;
         const status = res.status;
@@ -116,7 +118,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
           navigate("/movies");
         }
       };
-      navigate("/movies");
+      navigate("/loader");
       const initPayment = (data) => {
         const options = {
           key: "rzp_test_XjLr3daSU0JSug",
@@ -155,7 +157,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
       try {
         const orderUrl = "http://localhost:5000/booking/orders";
         const { data } = await axios.post(orderUrl, { amount: data1.price });
-        console.log(data);
+
         initPayment(data.data);
       } catch (error) {
         console.log(error);
@@ -166,7 +168,20 @@ export default function SeatBooking({ onNext, seatSelection }) {
   }
   const price =
     SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;
-  return (
+  return (<>
+ 
+    {Loader && (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "10%",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    )}
     <Row>
       <Col>
         <Label>Select your desired seat</Label>
@@ -191,5 +206,6 @@ export default function SeatBooking({ onNext, seatSelection }) {
         </Col>
       </Row>
     </Row>
+    </>
   );
 }

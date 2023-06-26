@@ -4,11 +4,7 @@ import Modal from "@mui/material/Modal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Typography } from "@mui/material";
-import {
-  ListGroup,
-  ListGroupItem,
-  Label,
-} from "reactstrap";
+import { ListGroup, ListGroupItem, Label } from "reactstrap";
 import jsPDF from "jspdf";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
@@ -16,7 +12,6 @@ import ShowTime from "./../SeatBooking/constants/ShowTime";
 import { getpdf } from "../api-helpers/api-helper";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
 
 const style = {
   position: "absolute",
@@ -48,6 +43,7 @@ function Getdatabboking() {
     getpdf(selectedDate, Showtime, id)
       .then((res) => {
         showbookingdata(res.data.booking);
+
         if (res.data.message === "any booking not found") {
           return toast.error("any booking not found", {
             position: "top-right",
@@ -60,9 +56,13 @@ function Getdatabboking() {
             theme: "light",
           });
         }
+        pdfconvert();
       })
       .catch((err) => console.log(err));
 
+    // navigate("/movies");
+  }
+  const pdfconvert = () => {
     if (bookingdata.length > 0) {
       var doc = new jsPDF("p", "pt", "a3");
       doc.setFont("courier");
@@ -91,7 +91,7 @@ function Getdatabboking() {
       });
       doc.save(`${bookingdata[0].movie.title}.pdf`);
     }
-  }
+  };
   const handleBackdropClick = () => {
     navigate("/");
   };

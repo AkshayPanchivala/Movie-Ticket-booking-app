@@ -9,16 +9,16 @@ import {
 
 const theme = createTheme({
   palette: {
-    type: "light", 
+    type: "light",
     primary: {
-      main: "#007BFF", 
+      main: "#007BFF",
     },
     secondary: {
-      main: "#FFC107", 
+      main: "#FFC107",
     },
   },
   typography: {
-    fontFamily: "Roboto, sans-serif", 
+    fontFamily: "Roboto, sans-serif",
   },
 });
 
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   listHeader: {
     fontWeight: 500,
     fontSize: "18px",
-    color:"white",
+    color: "white",
     marginBottom: theme.spacing(2),
   },
   link: {
@@ -83,19 +83,17 @@ const ListHeader = ({ children }) => {
   );
 };
 
-
-
 export default function Footer() {
   const classes = useStyles();
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box className={classes.root} style={{ marginTop: "5%" }}>
+    <ThemeProvider theme={theme} style={{contain: "strict"}}>
+      <Box className={classes.root} style={{ marginTop: "5%"}}>
         <Container className={classes.container}>
           <Grid container spacing={8}>
             <Grid item xs={12} sm={6} md={3}>
-              <div>
-                <ListHeader>Company</ListHeader>
+              <div style={{ textAlign: "left" }}>
+                <ListHeader style={{ marginRight:"50px"}}>Company</ListHeader>
                 <Link href="#">About Us</Link>
                 <Link href="#">Blog</Link>
                 <Link href="#">Careers</Link>
@@ -103,15 +101,13 @@ export default function Footer() {
               </div>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <div>
+              <div style={{ textAlign: "left", marginRight: "0px" }}>
                 <ListHeader>Support</ListHeader>
                 <Link href="#">Help Center</Link>
                 <Link href="#">Safety Center</Link>
                 <Link href="#">Community Guidelines</Link>
               </div>
             </Grid>
-            
-         
           </Grid>
         </Container>
         <Box className={classes.borderTop}>
@@ -123,8 +119,11 @@ export default function Footer() {
               alignItems="center"
               spacing={6}
             >
-              <Grid item xs={12} md={6}>
-                <Typography className={classes.footerText}     style={{ color:"white"}}>
+              <Grid item xs={12}>
+                <Typography
+                  className={classes.footerText}
+                  style={{ color: "white", textAlign: "center" }}
+                >
                   © 2022 TicketCinema. All rights reserved
                 </Typography>
               </Grid>

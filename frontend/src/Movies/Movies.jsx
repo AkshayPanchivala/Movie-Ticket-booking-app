@@ -9,12 +9,9 @@ import {
   TextField,
 } from "@mui/material";
 import { MovieCard } from "./MovieCard";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import { getAllMovies, gettopMovies } from "../api-helpers/api-helper";
 import { useLocation } from "react-router-dom";
-
-
-
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
@@ -24,43 +21,38 @@ export default function Movies() {
   const [totalPages, settotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [top8movies, settop8Movies] = useState([]);
-
+  const [Loader, setLoader] = useState(true);
   const state = useLocation();
-  const path = state.pathname === "/movies";
-
+  console.log(state);
+  let path = state.pathname === "/movies";
+  // console.log(path);
   useEffect(() => {
-    // gettopMovies()
-    // .then((res) => {
-   
-    //   settop8Movies(res);
-    // })
-    // .catch((err) => console.log(err));
     getAllMovies(currentPage)
       .then((data) => {
         setMovies(data.movies);
 
         settotalPages(data.totalpages);
+        if (path === true) {
+          setLoader(false);
+        }
       })
       .catch((err) => console.log(err));
-  
-  }, [currentPage, searchlanguage,path]);
-
-
+  }, [currentPage, searchlanguage, path]);
 
   useEffect(() => {
     gettopMovies()
-    .then((res) => {
-   
-      settop8Movies(res);
-    })
-    .catch((err) => console.log(err));
-   
-  
-  }, []);
-
+      .then((res) => {
+        settop8Movies(res);
+        console.log(res);
+        if (path === false) {
+          setLoader(false);
+        }
+       
+      })
+      .catch((err) => console.log(err));
+  }, [path]);
 
   const handlechange = (e, val) => {
-
     setsearchlanguage(true);
     if (val === null) {
       setsearchlanguage(false);
@@ -70,16 +62,29 @@ export default function Movies() {
       movie.language.includes(val)
     );
     Setmoviesbylanguage(filteredMovies);
- 
-
+    setLoader(false);
   };
- 
+
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
   const language = ["Hindi", "English", "Gujarati"];
   return (
     <>
+    
+      {Loader && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "10%",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
+
       {path && (
         <Box marginTop={4}>
           <Box width={"20%"} marginLeft={"80%"}>
@@ -117,7 +122,7 @@ export default function Movies() {
           </Grid>
         </Container>
       )}
-      {!path && top8movies &&  (
+      {!path && top8movies && (
         <Container maxWidth="lg" sx={{ paddingTop: "24px" }}>
           <Grid container spacing={3}>
             {top8movies.map((Movie) => (
@@ -137,8 +142,6 @@ export default function Movies() {
           />
         </Stack>
       )}
-    
     </>
   );
 }
-

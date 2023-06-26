@@ -15,6 +15,7 @@ function Theaterlogin() {
     if (res.status === 200) {
       dispatch(theaterActions.login());
       localStorage.setItem("adminId", data.theater._id);
+      localStorage.setItem("Name", data.theater.name);
       localStorage.setItem("token", data.token);
       navigate("/", { state: res.status });
     }

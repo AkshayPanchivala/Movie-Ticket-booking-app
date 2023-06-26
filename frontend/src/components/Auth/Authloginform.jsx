@@ -30,9 +30,7 @@ function Authloginform({ onSubmit }) {
       [e.target.name]: e.target.value,
     }));
   };
-  const signuphandler = () => {
-    navigate("/Auth");
-  };
+
   const handleBackdropClick = () => {
     navigate("/");
   };

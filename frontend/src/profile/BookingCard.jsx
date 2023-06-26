@@ -3,12 +3,13 @@ import Card from "react-bootstrap/Card";
 import { Col, Row } from "reactstrap";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteBooking } from "../api-helpers/api-helper";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+// import { toast } from "react-toastify";
 
 export default function BookingCard(props) {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-
+  const navigate = useNavigate();
   const currentDate = new Date().toLocaleDateString();
   const currentTime = new Date().toLocaleTimeString([], {
     hour: "2-digit",
@@ -35,18 +36,8 @@ export default function BookingCard(props) {
     if (isClicked && isHovered) {
       deleteBooking(id)
         .then((res) => {
-          if (res.status === 200) {
-            toast.success("your booking is cancel", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-          }
+        navigate("/")
+        
         })
         
         .catch((err) => console.log(err));

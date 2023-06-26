@@ -2,6 +2,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Autocomplete,
   Card,
+  CircularProgress,
   Pagination,
   Stack,
   TextField,
@@ -46,7 +47,7 @@ function Booking() {
   const [createComment, setcreateComment] = useState(false);
   const [rating, setrating] = useState(0);
   const [showComent, setshowComent] = useState(false);
-
+  const [Loader, setLoader] = useState(false);
   const id = useParams().id;
 
   useEffect(() => {
@@ -54,6 +55,7 @@ function Booking() {
       .then((res) => {
         setresComment(res.movie.comment);
         setMovie(res.movie);
+        setLoader(true)
       })
       .catch((err) => console.log(err));
     getlikebyuser(id)
@@ -70,7 +72,7 @@ function Booking() {
         settotalPages(res.data.totalPages);
         setTheatre(res.data.theater);
       })
-    .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
     getAlladminCity()
       .then((res) => {
         console.log(res);
@@ -79,9 +81,9 @@ function Booking() {
       .catch((err) => console.log(err));
     getTheaterbycity(searchedCity, currentPage).then((res) => {
       Settheaterbycity(res.data.theater);
-
       setcitytotalPages(res.data.totalPages);
     });
+    // setLoader(true);
   }, [id, currentPage, searchedCity, createComment]);
 
   const handlePageChange = (event, page) => {
@@ -108,266 +110,280 @@ function Booking() {
     setshowComent(!showComent);
   };
   return (
-    <div>
-      <Box display="flex" marginTop={"2%"}>
-        {city && (
-          <Box width={"20%"} marginLeft={170} border={"darkgrey"}>
-            <Autocomplete
-              id="free-solo-demo"
-              freeSolo
-              options={[...new Set(city.map((option) => option.city))]}
-              renderInput={(params) => (
-                <TextField {...params} label="City Select" />
-              )}
-              onChange={handlechange}
-            />
-          </Box>
-        )}
-      </Box>
-      {movie && (
-        <>
-          <Box
-            display={"flex"}
-            justifyContent={"center"}
-            marginLeft="5%"
-            borderRadius={5}
-          >
-            <Box sx={{ minHeight: 300 }}>
-              <Card variant="elevation">
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 2,
-                    maxWidth: 520,
-                  }}
-                >
-                  <Box sx={{ display: "flex" }}>
-                    <div>
-                      <div sx={{ margin: "20px" }}>
-                        <Typography
-                          level="h2"
-                          variant="h6"
-                          sx={{
-                            fontSize: "24px",
-                            marginLeft: "220px",
-                            fontWeight: "550",
-                          }}
-                          mb={0.5}
-                        >
-                          {movie.title}
-                        </Typography>
-                      </div>
-                    </div>
-                  </Box>
-                  <Card
-                    marginRight={20}
-                    variant="outlined"
+    <>
+      {!Loader && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "10%",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
+      <div>
+        <Box display="flex" marginTop={"2%"}>
+          {city && (
+            <Box width={"20%"} marginLeft={170} border={"darkgrey"}>
+              <Autocomplete
+                id="free-solo-demo"
+                freeSolo
+                options={[...new Set(city.map((option) => option.city))]}
+                renderInput={(params) => (
+                  <TextField {...params} label="City Select" />
+                )}
+                onChange={handlechange}
+              />
+            </Box>
+          )}
+        </Box>
+        {movie && (
+          <>
+            <Box
+              display={"flex"}
+              justifyContent={"center"}
+              marginLeft="5%"
+              borderRadius={5}
+            >
+              <Box sx={{ minHeight: 300 }}>
+                <Card variant="elevation">
+                  <Box
                     sx={{
-                      width: 400,
-                      height: 533,
-                      boxShadow: isHovered
-                        ? "0 0 10px rgba(0, 0, 0, 0.3)"
-                        : "none",
-                      transform: isHovered ? "scale(1.05)" : "none",
-                      transition: "transform 0.2s, box-shadow 0.2s",
-                      marginLeft: 5,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                      maxWidth: 520,
                     }}
                   >
-                    <CardOverflow>
-                      <AspectRatio ratio="3/4">
-                        <img
-                          src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                          srcSet={`${movie.posterUrl}`}
-                          loading="lazy"
-                          alt=""
-                        />
-                      </AspectRatio>
-                    </CardOverflow>
-                  </Card>
-
-                  <Stack direction="row" alignItems="center" marginLeft={5}>
-                    <Rating defaultValue={rating} id={id} size="small" />
-                  </Stack>
-                  <Typography level="body2" sx={{ marginLeft: "35px" }}>
-                    <strong>Language:</strong>[{movie.language + " "}]
-                  </Typography>
-                  <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
-                    <Box style={{ marginLeft: "35px" }}>
-                      <Typography>
-                        {" "}
-                        <strong>About the movie:</strong>
-                      </Typography>
-                      <Typography
-                        fontWeight="lg"
-                        level="body2"
-                        sx={{ whiteSpace: "pre-wrap", marginLeft: "10px" }}
-                      >
-                        {movie.description}
-                      </Typography>
+                    <Box sx={{ display: "flex" }}>
+                      <div>
+                        <div sx={{ margin: "20px" }}>
+                          <Typography
+                            level="h2"
+                            variant="h6"
+                            sx={{
+                              fontSize: "24px",
+                              marginLeft: "220px",
+                              fontWeight: "550",
+                            }}
+                            mb={0.5}
+                          >
+                            {movie.title}
+                          </Typography>
+                        </div>
+                      </div>
                     </Box>
-                  </Box>
+                    <Card
+                      marginRight={20}
+                      variant="outlined"
+                      sx={{
+                        width: 400,
+                        height: 533,
+                        boxShadow: isHovered
+                          ? "0 0 10px rgba(0, 0, 0, 0.3)"
+                          : "none",
+                        transform: isHovered ? "scale(1.05)" : "none",
+                        transition: "transform 0.2s, box-shadow 0.2s",
+                        marginLeft: 5,
+                      }}
+                    >
+                      <CardOverflow>
+                        <AspectRatio ratio="3/4">
+                          <img
+                            src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
+                            srcSet={`${movie.posterUrl}`}
+                            loading="lazy"
+                            alt=""
+                          />
+                        </AspectRatio>
+                      </CardOverflow>
+                    </Card>
 
-                  <Box sx={{ display: "flex", gap: 1.0 }}>
-                    <Box style={{ marginLeft: "35px", width: "400px" }}>
-                      {resComment.length > 0 && (
+                    <Stack direction="row" alignItems="center" marginLeft={5}>
+                      <Rating defaultValue={rating} id={id} size="small" />
+                    </Stack>
+                    <Typography level="body2" sx={{ marginLeft: "35px" }}>
+                      <strong>Language:</strong>[{movie.language + " "}]
+                    </Typography>
+                    <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
+                      <Box style={{ marginLeft: "35px" }}>
                         <Typography>
                           {" "}
-                          <strong>Reviews </strong>
+                          <strong>About the movie:</strong>
                         </Typography>
-                      )}
-
-                      {resComment.length > 0 && (
-                        <>
-                          {!showComent &&
-                            resComment.slice(0, 3).map((commen) => (
-                              <Card
-                                sx={{ maxWidth: 520, marginBottom: "15px" }}
-                              >
-                                <CardHeader
-                                  avatar={
-                                    <Avatar
-                                      src={commen.user.profilephoto}
-                                      sx={{ bgcolor: red[500] }}
-                                    ></Avatar>
-                                  }
-                                  title={commen.user.name}
-                                  subheader={commen.comment}
-                                />
-                              </Card>
-                            ))}{" "}
-                          {resComment.length > 3 && !showComent && (
-                            <Link
-                              onClick={viewmorehandler}
-                              color="text.primary"
-                            >
-                              View More
-                            </Link>
-                          )}
-                          {showComent &&
-                            resComment.map((commen) => (
-                              <Card
-                                sx={{ maxWidth: 520, marginBottom: "15px" }}
-                              >
-                                <CardHeader
-                                  avatar={
-                                    <Avatar
-                                      src={commen.user.profilephoto}
-                                      sx={{ bgcolor: red[500] }}
-                                    ></Avatar>
-                                  }
-                                  title={commen.user.name}
-                                  subheader={commen.comment}
-                                />
-                              </Card>
-                            ))}
-                          {showComent && (
-                            <Link
-                              onClick={viewmorehandler}
-                              color="text.primary"
-                            >
-                              Less comment
-                            </Link>
-                          )}
-                        </>
-                      )}
+                        <Typography
+                          fontWeight="lg"
+                          level="body2"
+                          sx={{ whiteSpace: "pre-wrap", marginLeft: "10px" }}
+                        >
+                          {movie.description}
+                        </Typography>
+                      </Box>
                     </Box>
-                  </Box>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      width: " 88%",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <IconButton
-                      size="sm"
-                      variant="plain"
-                      color="neutral"
-                      sx={{ ml: 3 }}
-                    >
-                      <Face />
-                    </IconButton>
-                    <Input
-                      variant="plain"
-                      size="xs"
-                      value={Comment}
-                      placeholder="Add a Review…"
-                      sx={{
-                        flexGrow: 1,
-                        mr: 1,
-                        "--Input-focusedThickness": "0px",
-                      }}
-                      onChange={handleInputChange}
-                    />
+
+                    <Box sx={{ display: "flex", gap: 1.0 }}>
+                      <Box style={{ marginLeft: "35px", width: "400px" }}>
+                        {resComment.length > 0 && (
+                          <Typography>
+                            {" "}
+                            <strong>Reviews </strong>
+                          </Typography>
+                        )}
+
+                        {resComment.length > 0 && (
+                          <>
+                            {!showComent &&
+                              resComment.slice(0, 3).map((commen) => (
+                                <Card
+                                  sx={{ maxWidth: 520, marginBottom: "15px" }}
+                                >
+                                  <CardHeader
+                                    avatar={
+                                      <Avatar
+                                        src={commen.user.profilephoto}
+                                        sx={{ bgcolor: red[500] }}
+                                      ></Avatar>
+                                    }
+                                    title={commen.user.name}
+                                    subheader={commen.comment}
+                                  />
+                                </Card>
+                              ))}{" "}
+                            {resComment.length > 3 && !showComent && (
+                              <Link
+                                onClick={viewmorehandler}
+                                color="text.primary"
+                              >
+                                View More
+                              </Link>
+                            )}
+                            {showComent &&
+                              resComment.map((commen) => (
+                                <Card
+                                  sx={{ maxWidth: 520, marginBottom: "15px" }}
+                                >
+                                  <CardHeader
+                                    avatar={
+                                      <Avatar
+                                        src={commen.user.profilephoto}
+                                        sx={{ bgcolor: red[500] }}
+                                      ></Avatar>
+                                    }
+                                    title={commen.user.name}
+                                    subheader={commen.comment}
+                                  />
+                                </Card>
+                              ))}
+                            {showComent && (
+                              <Link
+                                onClick={viewmorehandler}
+                                color="text.primary"
+                              >
+                                Less comment
+                              </Link>
+                            )}
+                          </>
+                        )}
+                      </Box>
+                    </Box>
                     <div
                       style={{
                         display: "flex",
                         flexDirection: "row",
-                        textDecoration: "none",
-                        marginBottom: "15px",
-                        marginLeft: "20px",
+                        width: " 88%",
+                        marginBottom: "20px",
                       }}
                     >
-                      <Link disabled role="button" onClick={commenthandler}>
-                        Post
-                      </Link>
+                      <IconButton
+                        size="sm"
+                        variant="plain"
+                        color="neutral"
+                        sx={{ ml: 3 }}
+                      >
+                        <Face />
+                      </IconButton>
+                      <Input
+                        variant="plain"
+                        size="xs"
+                        value={Comment}
+                        placeholder="Add a Review…"
+                        sx={{
+                          flexGrow: 1,
+                          mr: 1,
+                          "--Input-focusedThickness": "0px",
+                        }}
+                        onChange={handleInputChange}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          textDecoration: "none",
+                          marginBottom: "15px",
+                          marginLeft: "20px",
+                        }}
+                      >
+                        <Link disabled role="button" onClick={commenthandler}>
+                          Post
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </Box>
-              </Card>
-            </Box>
+                  </Box>
+                </Card>
+              </Box>
 
-            <Box width={"50%"} paddingTop={3} marginRight={"7%"}>
-              {!searchcity &&
-                Theatre &&
-                Theatre.map((Theater, index) => (
-                  <Theatrecard
-                    key={Theater._id}
-                    name={Theater.name}
-                    id={Theater._id}
-                    profilepicture={Theater.profilephoto}
-                    Address={Theater.address}
-                  />
-                ))}
-
-              {searchcity &&
-                theaterbycity &&
-                theaterbycity.map((Theater, index) => (
-                  <>
+              <Box width={"50%"} paddingTop={3} marginRight={"7%"}>
+                {!searchcity &&
+                  Theatre &&
+                  Theatre.map((Theater, index) => (
                     <Theatrecard
                       key={Theater._id}
-                      profilepicture={Theater.profilephoto}
-                      Address={Theater.address}
                       name={Theater.name}
                       id={Theater._id}
+                      profilepicture={Theater.profilephoto}
+                      Address={Theater.address}
                     />
-                  </>
-                ))}
-              {!searchcity && (
-                <Stack spacing={2} marginLeft={50}>
-                  <Pagination
-                    count={totalPages}
-                    color="primary"
-                    onChange={handlePageChange}
-                  />
-                </Stack>
-              )}
-              {searchcity && (
-                <Stack spacing={2} marginLeft={50}>
-                  <Pagination
-                    count={citytotalPages}
-                    color="primary"
-                    onChange={handlePageChange}
-                  />
-                </Stack>
-              )}
+                  ))}
+
+                {searchcity &&
+                  theaterbycity &&
+                  theaterbycity.map((Theater, index) => (
+                    <>
+                      <Theatrecard
+                        key={Theater._id}
+                        profilepicture={Theater.profilephoto}
+                        Address={Theater.address}
+                        name={Theater.name}
+                        id={Theater._id}
+                      />
+                    </>
+                  ))}
+                {!searchcity && (
+                  <Stack spacing={2} marginLeft={50}>
+                    <Pagination
+                      count={totalPages}
+                      color="primary"
+                      onChange={handlePageChange}
+                    />
+                  </Stack>
+                )}
+                {searchcity && (
+                  <Stack spacing={2} marginLeft={50}>
+                    <Pagination
+                      count={citytotalPages}
+                      color="primary"
+                      onChange={handlePageChange}
+                    />
+                  </Stack>
+                )}
+              </Box>
             </Box>
-          </Box>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

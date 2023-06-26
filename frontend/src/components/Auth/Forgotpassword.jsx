@@ -1,146 +1,90 @@
-import { Box, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
+import React from "react";
+import { Box, Dialog, Typography } from "@mui/material";
+import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
 
-const validationSchema = yup.object({
-  email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
-});
+import { Link, useNavigate } from "react-router-dom";
+import { SendForgotpasswordLink } from "../../api-helpers/api-helper";
 
-const Forgotpassword = () => {
-  const [email, setEmail] = useState({});
+function Forgotpassword() {
+  const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
+  const [inputs, setInputs] = useState({ email: "" });
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values, actions) => {
-      setEmail({ email: values.email });
-      actions.resetForm();
-    },
-  });
-
-  useEffect(() => {
-    if (Object.keys(email).length !== 0) {
-      axios
-        .post("http://localhost:5000/user/forgotpassword", email)
-        .then((res) => {
-          console.log(res);
-          toast.success("Email sent successfully!");
-        })
-        .catch((err) => {
-          console.log(err.response.data);
-          toast.error(err.response.data.error);
-        });
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
     }
-  }, [email]);
 
+    setValidated(true);
+
+    SendForgotpasswordLink({ inputs }).then((res) => {
+      if (res === "Success") {
+        navigate("/auth/login");
+      }
+    });
+  };
+  const handleChange = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleBackdropClick = () => {
+    navigate("/");
+  };
   return (
     <>
-      <Box
-        sx={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          pt: 4,
+      <Dialog
+        PaperProps={{
+          style: { borderRadius: 15, width: "500px", height: "auto" },
         }}
+        open={true}
+        onClose={handleBackdropClick}
       >
-        <Box
-          onSubmit={formik.handleSubmit}
-          component="form"
-          className="form_style border-style"
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            <Typography variant="h5" component="h2" sx={{ pb: 3 }}>
-              Reset password
-            </Typography>
-            <TextField
-              sx={{ mb: 3 }}
-              fullWidth
-              id="Resetpassword"
-              label="Enter your enail address"
-              name="email"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Resetpassword"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
+        <Typography variant="h4" textAlign={"center"} marginTop={1}>
+          Forgot Password
+        </Typography>
+        <Box padding={5}>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Group md="10" controlId="validationCustom02">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                required
+                type="email"
+                value={inputs.email}
+                onChange={handleChange}
+                placeholder="email"
+                name="email"
+              />
 
-            <Button fullWidth variant="contained" type="submit">
-              Send Mail
-            </Button>
-          </Box>
+              <Form.Control.Feedback type="invalid">
+                Please provide A valide Email.
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Col md="12">
+              <Form.Group controlId="validationCustom03">
+                <Box
+                  marginTop={5}
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Button type="submit">Send Mail</Button>
+                </Box>
+              </Form.Group>
+            </Col>
+          </Form>
         </Box>
-      </Box>
+      </Dialog>
     </>
   );
-};
+}
 
 export default Forgotpassword;
-
-// import * as React from "react";
-// import Button from "@mui/material/Button";
-// import TextField from "@mui/material/TextField";
-// import Dialog from "@mui/material/Dialog";
-// import DialogActions from "@mui/material/DialogActions";
-// import DialogContent from "@mui/material/DialogContent";
-// import DialogContentText from "@mui/material/DialogContentText";
-// import DialogTitle from "@mui/material/DialogTitle";
-
-// export default function Forgotpassword() {
-//   const [open, setOpen] = React.useState(false);
-
-  
-
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   return (
-//     <div>
-//       <Dialog  open={true}onClose={handleClose}>
-//         <DialogTitle>Forgot Password</DialogTitle>
-//         <DialogContent>
-//           <DialogContentText>
-//             To subscribe to this website, please enter your email address here.
-//             We will send updates occasionally.
-//           </DialogContentText>
-//           <TextField
-//             autoFocus
-//             margin="dense"
-//             id="name"
-//             label="Email Address"
-//             type="email"
-//             fullWidth
-//             variant="standard"
-//           />
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleClose}>Cancel</Button>
-//           <Button onClick={handleClose}>Subscribe</Button>
-//         </DialogActions>
-//       </Dialog>
-//     </div>
-//   );
-// }

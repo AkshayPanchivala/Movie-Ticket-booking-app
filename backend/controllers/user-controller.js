@@ -7,12 +7,11 @@ const AppError = require("./../arrorhandler/Apperror");
 const Booking = require("../models/Booking");
 const sendEmail = require("../utill/email");
 
-
 ////////////////////////Get all user////////////////////////////
 const getAllusers = asynchandler(async (req, res, next) => {
   const user = await User.find();
   if (!user) {
-    return next(new AppError('No User found', 404));
+    return next(new AppError("No User found", 404));
   }
   res.status(200).json({
     user: user,
@@ -80,10 +79,6 @@ const signup = asynchandler(async (req, res, next) => {
   });
 });
 
-
-
-
-
 ////////////////////////////////////////get user By Id////////////////////////////////
 const getuserbyid = asynchandler(async (req, res, next) => {
   const id = req.params.id;
@@ -92,13 +87,12 @@ const getuserbyid = asynchandler(async (req, res, next) => {
   }
   const user = await User.findById(id);
   if (!user) {
-    return next(new AppError('No User found', 404));
+    return next(new AppError("No User found", 404));
   }
   res.status(200).json({
     user: user,
   });
 });
-
 
 /////////////////////////////////user update profile//////////////////////////////
 const updateprofile = asynchandler(async (req, res, next) => {
@@ -111,14 +105,13 @@ const updateprofile = asynchandler(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
-  if(!user){
+  if (!user) {
     return next(new AppError(`User not found`, 404));
   }
   res.status(200).json({
     message: "Account is updated",
   });
 });
-
 
 /////////////////////////Delete profile////////////////////////////
 const deleteprofile = asynchandler(async (req, res, next) => {
@@ -128,7 +121,7 @@ const deleteprofile = asynchandler(async (req, res, next) => {
   }
 
   const user = await User.findByIdAndDelete(id);
-  if(!user){
+  if (!user) {
     return next(new AppError(`User not found`, 404));
   }
   res.status(200).json({
@@ -167,7 +160,6 @@ const login = asynchandler(async (req, res, next) => {
     existinguser.password
   );
 
-
   if (verifypassword) {
     const token = jwt.sign(
       { id: existinguser._id },
@@ -203,8 +195,6 @@ const getBookingsOfUser = asynchandler(async (req, res, next) => {
   return res.status(200).json({ bookings });
 });
 
-
-
 ///////////////////////////user forgot password//////////////////////////////////
 const forgotpassword = asynchandler(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
@@ -232,8 +222,8 @@ const forgotpassword = asynchandler(async (req, res, next) => {
   } catch (err) {
     user.passwordResetToken = undefined;
   }
-});
 
+});
 
 /////////////////////////////////////user reset password/////////////////////////////////////////
 const resetpassword = asynchandler(async (req, res, next) => {
@@ -251,8 +241,7 @@ const resetpassword = asynchandler(async (req, res, next) => {
     return next(new AppError("Token is invalid or has error"));
   }
 
-
-  user.password = req.body.password.newPassword
+  user.password = req.body.password;
   user.passwordResetToken = undefined;
   user.passwordResetExpires = undefined;
   user.passwordchangeat = new Date();
@@ -262,12 +251,6 @@ const resetpassword = asynchandler(async (req, res, next) => {
     status: "success",
   });
 });
-
-
-
-
-
-
 
 module.exports = {
   getAllusers,

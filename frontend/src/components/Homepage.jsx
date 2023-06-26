@@ -95,7 +95,7 @@ export default function Homepage() {
                 <Box
                   component="img"
                   alt="Gaddar 2"
-                  src="https://static.spotboye.com/uploads/SINGLE_IMAGE_(9)_2021-10-15-6-34-18_thumbnail.jpg"
+                  src="https://video.fsetyt.com/wp-content/uploads/2019/08/1565724837_maxresdefault.jpg"
                   width="100%"
                   height="100%"
                   objectFit="cover"

@@ -23,6 +23,8 @@ import Footer from "./components/footer/footer";
 import Forgot from "./components/Auth/Forgotpassword";
 import ResetPassword from "./components/Auth/ResetPassword";
 import AllTheater from "./components/Theater/AllTheater";
+import Loaderpage from "./profile/Loaderpage";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -59,52 +61,55 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
-          <Route path="/Admin" element={<Adminlogin />} />
-          <Route path="/all" element={<AllTheater />} />
 
+          <Route path="/loader" element={<Loaderpage />} />
           <Route path="/forgotpassword" element={<Forgot />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
 
-          {!isuserLoggedIn && !isTheaterLoggedIn && (
+          {!isuserLoggedIn && !isTheaterLoggedIn && !isadminLoggedIn && (
             <>
               <Route path="/theater/login" element={<Theaterlogin />} />
-            </>
-          )}
-          {!isuserLoggedIn && !isTheaterLoggedIn && (
-            <>
               <Route path="/auth" element={<Authsignup />} />
               <Route path="/auth/login" element={<Authlogin />} />
+              <Route path="/Admin" element={<Adminlogin />} />
             </>
           )}
-
-          {!isTheaterLoggedIn && isuserLoggedIn && (
-            <Route path="/user" element={<UserProfile />} />
-          )}
-
-          {isadminLoggedIn && (
+          {/* {!isuserLoggedIn && !isadminLoggedIn && !isTheaterLoggedIn && (
             <>
-              <Route path="/add" element={<AddMovies />} />{" "}
-              <Route path="/theater" element={<Theatersignup />} />
+        
             </>
-          )}
-          {isTheaterLoggedIn && !isuserLoggedIn && (
-            <>
-              <Route path="/bookingdata/:id" element={<Getdatabboking />} />
-            </>
-          )}
-          {isTheaterLoggedIn && !isuserLoggedIn && (
-            <Route path="/user-admin" element={<TheaterProfile />} />
-          )}
+          )} */}
 
-          {!isTheaterLoggedIn && isuserLoggedIn && (
+          {!isTheaterLoggedIn && !isadminLoggedIn && isuserLoggedIn && (
             <>
+              <Route path="/user" element={<UserProfile />} />
+              <Route path="booking/:id" element={<Booking />} />
               <Route
                 path="/booking/seatbooking/:movieid/:theaterId"
                 element={<SeatSelection />}
               />
-              <Route path="booking/:id" element={<Booking />} />
             </>
           )}
+
+          {!isTheaterLoggedIn && isadminLoggedIn && !isuserLoggedIn && (
+            <>
+              <Route path="/add" element={<AddMovies />} />{" "}
+              <Route path="/theater" element={<Theatersignup />} />
+              <Route path="/all" element={<AllTheater />} />
+            </>
+          )}
+          {isTheaterLoggedIn && !isadminLoggedIn && !isuserLoggedIn && (
+            <>
+              <Route path="/bookingdata/:id" element={<Getdatabboking />} />
+              <Route path="/user-admin" element={<TheaterProfile />} />
+            </>
+          )}
+          {/* {isTheaterLoggedIn && !isuserLoggedIn && !isadminLoggedIn && (
+           
+          )} */}
+
+          {/* {!isTheaterLoggedIn && isuserLoggedIn && !isadminLoggedIn && <></>} */}
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />
       </section>

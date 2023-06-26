@@ -1,13 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  sendAdminlogin,
- 
-} from "../../api-helpers/api-helper";
+import { sendAdminlogin } from "../../api-helpers/api-helper";
 import { adminActions } from "../../store";
 import Adminloginform from "./AdminLoginform";
-
 
 function Adminlogin() {
   const navigate = useNavigate();
@@ -18,6 +14,7 @@ function Adminlogin() {
     if (res.status === 200) {
       dispatch(adminActions.login());
       localStorage.setItem("adminid", data.admin._id);
+      localStorage.setItem("Name", data.admin.name);
       localStorage.setItem("token", data.token);
       navigate("/");
     }
