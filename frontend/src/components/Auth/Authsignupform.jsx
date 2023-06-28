@@ -294,18 +294,18 @@ function Authsignupform({ onSubmit }) {
             </Form.Group>
 
             <Row className="mb-3">
-       
-                <Col md="6">
-                  <Form.Group
-                    controlId="validationCustom03"
-                    textDecoration="none"
-                  >
-                    <Box marginTop={3}>
-                      <Link to="/Auth/login" style={{ textDecoration: 'none' }}>If you have Account?</Link>
-                    </Box>
-                  </Form.Group>
-                </Col>
-              
+              <Col md="6">
+                <Form.Group
+                  controlId="validationCustom03"
+                  textDecoration="none"
+                >
+                  <Box marginTop={3}>
+                    <Link to="/Auth/login" style={{ textDecoration: "none" }}>
+                      If you have Account?
+                    </Link>
+                  </Box>
+                </Form.Group>
+              </Col>
             </Row>
             <Col md="6">
               <Form.Group controlId="validationCustom03">

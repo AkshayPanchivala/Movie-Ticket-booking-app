@@ -114,11 +114,13 @@ export default function SeatBooking({ onNext, seatSelection }) {
       const onResReceived = (res) => {
         const data = res.data;
         const status = res.status;
+        
         if (status === 201) {
+          
           navigate("/movies");
         }
       };
-      navigate("/loader");
+      navigate("/payment");
       const initPayment = (data) => {
         const options = {
           key: "rzp_test_XjLr3daSU0JSug",

@@ -31,11 +31,11 @@ function Getdatabboking() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [Showtime, setShowTime] = useState(null);
   const [bookingdata, showbookingdata] = useState([]);
+  const [pdfGenerated, setPdfGenerated] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const id = params.id;
-const status=useLocation();
-console.log(status)
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -43,6 +43,7 @@ console.log(status)
   function generatePdf() {
     getpdf(selectedDate, Showtime, id)
       .then((res) => {
+        console.log(res);
         showbookingdata(res.data.booking);
 
         if (res.data.message === "any booking not found") {
@@ -57,14 +58,15 @@ console.log(status)
             theme: "light",
           });
         }
-        pdfconvert();
+        setPdfGenerated(true);
       })
       .catch((err) => console.log(err));
 
-    // navigate("/movies");
   }
+
   const pdfconvert = () => {
-    if (bookingdata.length > 0) {
+   
+    if (bookingdata && bookingdata.length > 0) {
       var doc = new jsPDF("p", "pt", "a3");
       doc.setFont("courier");
 
@@ -93,6 +95,7 @@ console.log(status)
       doc.save(`${bookingdata[0].movie.title}.pdf`);
     }
   };
+  pdfconvert();
   const handleBackdropClick = () => {
     navigate("/");
   };

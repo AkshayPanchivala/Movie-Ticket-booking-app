@@ -1020,3 +1020,25 @@ export const getTodaybooking = async () => {
   console.log(res);
   return res;
 };
+
+export const Theaterdelete = async (id) => {
+  const res = await axios.delete(`http://localhost:5000/theater/${id}`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  if (res.status === 200) {
+    toast.success(`theater Delete successfully`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
+  return res;
+};

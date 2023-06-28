@@ -11,12 +11,10 @@ function Theatrecard(props) {
   const id = useParams();
   const movieid = id.id;
 
-  const BookingHandler = () => {
-    console.log("click");
-  };
+
   return (
     <Card
-      onClick={BookingHandler}
+
       variant="outlined"
       orientation="horizontal"
       sx={{

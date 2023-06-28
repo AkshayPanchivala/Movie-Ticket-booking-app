@@ -217,7 +217,7 @@ const deleteBooking = asynchandler(async (req, res, next) => {
     throw new AppError("User not found", 404);
   }
 
-  const movieDeleteion = await Movie.findByIdAndUpdate(
+  const movieDeletion = await Movie.findByIdAndUpdate(
     movie,
     { $pull: { bookings: id } },
     { new: true }
@@ -266,17 +266,19 @@ const notAvailableSeat = asynchandler(async (req, res, next) => {
 
 const getbookingbyadmin = asynchandler(async (req, res, next) => {
   const date = new Date(req.body.date).toLocaleString().split(",")[0];
-  const { theater, ShowTime, movie } = req.body;
+  const { theater, showtime, movie } = req.body;
 
   let missingValues = [];
 
   if (!movie || typeof movie == "number") missingValues.push("Movie");
+  
   if (!theater || typeof theater == "number") missingValues.push("Theater ");
 
-  if (!ShowTime || typeof ShowTime == "number") missingValues.push("ShowTime ");
-
+  if (!showtime || typeof showtime == "number") missingValues.push("ShowTime ");
+  
+ 
   if (missingValues.length > 0) {
-    return next(new AppError(`Something Went wrong`, 400));
+    throw new AppError(`Something Went wrong`, 400);
   }
 
   const booking = await Booking.find({

@@ -64,7 +64,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/movies" element={<Movies />} />
 
-          <Route path="/loader" element={<Loaderpage />} />
+          <Route path="/payment" element={<Loaderpage />} />
           <Route path="/forgotpassword" element={<Forgot />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
 
@@ -76,11 +76,7 @@ function App() {
               <Route path="/Admin" element={<Adminlogin />} />
             </>
           )}
-          {/* {!isuserLoggedIn && !isadminLoggedIn && !isTheaterLoggedIn && (
-            <>
-        
-            </>
-          )} */}
+         
 
           {!isTheaterLoggedIn && !isadminLoggedIn && isuserLoggedIn && (
             <>
@@ -111,11 +107,7 @@ function App() {
 
             </>
           )}
-          {/* {isTheaterLoggedIn && !isuserLoggedIn && !isadminLoggedIn && (
-           
-          )} */}
 
-          {/* {!isTheaterLoggedIn && isuserLoggedIn && !isadminLoggedIn && <></>} */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Footer />

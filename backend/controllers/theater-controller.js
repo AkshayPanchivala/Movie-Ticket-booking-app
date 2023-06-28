@@ -141,6 +141,10 @@ const getTheater = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ data: admins, totalPages: totalPages });
 });
+
+
+
+
 const getallTheater = asynchandler(async (req, res, next) => {
   let admins;
 
@@ -270,6 +274,24 @@ const gettodaybooking = asynchandler(async (req, res, next) => {
     message: "Account is updated",
   });
 });
+///////////////////////////delete Theater////////////////
+const deletetheater = asynchandler(async (req, res, next) => {
+  const id = req.params.id;
+  if (!req.params.id || req.params.id.length !== 24) {
+    return next(new AppError(`Wrong id`, 400));
+  }
+
+  const theater = await Theater.findByIdAndDelete(id);
+  if (!theater) {
+    return next(new AppError(`Theater not found`, 404));
+  }
+  res.status(200).json({
+    theater: theater,
+    message: "Theater is deleted",
+  });
+});
+
+
 
 module.exports = {
   TheaterSignup,
@@ -281,4 +303,5 @@ module.exports = {
   getallTheater,
   updateprofile,
   gettodaybooking,
+  deletetheater 
 };

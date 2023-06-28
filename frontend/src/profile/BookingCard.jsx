@@ -34,6 +34,7 @@ export default function BookingCard(props) {
     setIsHovered(!isHovered);
 
     if (isClicked && isHovered) {
+
       deleteBooking(id)
         .then((res) => {
         navigate("/")
