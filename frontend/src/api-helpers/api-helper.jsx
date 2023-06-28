@@ -711,18 +711,18 @@ export const pincodefetch = async (data) => {
 };
 
 //////////////////////////
-export const updateprofile = async ({ inputs }, state, city, pincode) => {
-  const userId = localStorage.getItem("userId");
+export const updateprofile = async (inputs, state, city, pincode) => {
+  const id = localStorage.getItem("adminId");
 
   const data = inputs;
-
+  console.log(data);
   const res = await axios
-    .put(`http://localhost:5000/user/${userId}`, {
+    .put(`http://localhost:5000/theater/${id}`, {
       name: data.name,
       email: data.email,
       password: data.password,
       phonenumber: data.phonenumber,
-
+      address: data.address,
       state: state,
       city: city,
       pincode: pincode,
@@ -770,7 +770,7 @@ export const getpdf = async (selectedDate, Showtime, id) => {
 
   return resData;
 };
-
+///////////////////////////////Delete Booking///////////////////////////////////////////////
 export const deleteBooking = async (id) => {
   const res = await axios
     .delete(`http://localhost:5000/booking/${id}`, {
@@ -795,7 +795,7 @@ export const deleteBooking = async (id) => {
     });
   }
   if (res.status === 200) {
-    return toast.error(`Booking is deleted`, {
+    return toast.success(`Booking is deleted`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -1012,23 +1012,11 @@ export const Resetpassword = async (data, token) => {
     });
 };
 
-// axios
-//         .patch(
-//           `http://localhost:5000/user/resetpassword/${token}`,
-//           {
-//             password: newPassword,
-//             passwordConfirm: confirmPassword,
-//           },
-//           { "Content-type": "application/json" }
-//         )
-//         .then((res) => {
-//           toast.success("Password reset successfully!");
-//           formik.resetForm();
-//         })
-//         .catch((err) => {
-//           toast.error(err.response.data.error);
-//         });
-//     } else if (newPassword !== null && confirmPassword !== null) {
-//       toast.error("Both fields are required.");
-//     }
-//   }, [newPassword, confirmPassword]);
+export const getTodaybooking = async () => {
+  const theaterId = localStorage.getItem("adminId");
+  const res = await axios.get(
+    `http://localhost:5000/theater/todaybooking/${theaterId}`
+  );
+  console.log(res);
+  return res;
+};

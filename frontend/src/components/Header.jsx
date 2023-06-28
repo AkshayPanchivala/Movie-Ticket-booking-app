@@ -22,6 +22,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const pages = ["Add Movie", "Add Theater"];
 
 const Adminsettings = ["All Theater", "Logout"];
+
+const Theatersettings = ["Today Booking","Profile", "Logout"];
 const settings = ["Profile", "Logout"];
 const initialsetting = ["Admin", "Theater", "User"];
 
@@ -125,6 +127,9 @@ function Header() {
     switch (setting) {
       case "Profile":
         navigate("user-admin");
+        break;
+      case "Today Booking":
+        navigate("todaybooking");
         break;
       case "Logout":
         dispatch(theaterActions.logout());
@@ -337,7 +342,7 @@ function Header() {
                   </MenuItem>
                 ))}
               {istheaterLoggedIn &&
-                settings.map((setting) => (
+                Theatersettings.map((setting) => (
                   <MenuItem
                     key={setting}
                     onClick={() => handletheaterSettingClick(setting)}

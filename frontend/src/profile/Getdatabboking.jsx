@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import ShowTime from "./../SeatBooking/constants/ShowTime";
 import { getpdf } from "../api-helpers/api-helper";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const style = {
@@ -34,7 +34,8 @@ function Getdatabboking() {
   const navigate = useNavigate();
   const params = useParams();
   const id = params.id;
-
+const status=useLocation();
+console.log(status)
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };

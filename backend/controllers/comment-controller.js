@@ -12,7 +12,7 @@ const comment=asyncHandler(async(req,res,next) => {
             const movies = await Movie.findById(id);
            
             if (!movies) {
-              return next(new AppError("bike does not exists", 404));
+              return next(new AppError("Movie does not exists", 404));
             }
           if(!req.body.comment||typeof(req.body.comment)=='number'){
             return next(new AppError("please add a comment", 404));

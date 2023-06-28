@@ -1,12 +1,14 @@
-import { Avatar, CircularProgress, Typography } from "@mui/material";
+import { Avatar, Button, CircularProgress, Typography } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import React, { useEffect, useState } from "react";
-import { getAdminById } from "../api-helpers/api-helper";
+import { getAdminById, getTodaybooking } from "../api-helpers/api-helper";
 import { Card } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function TheaterProfile() {
   const [Theater, setTheater] = useState();
   const [Loader, setLoader] = useState(true);
+  const [Todaybooking,setTodaybooking]=useState()
   useEffect(() => {
     getAdminById()
       .then((res) => {
@@ -14,6 +16,9 @@ function TheaterProfile() {
         setLoader(false);
       })
       .catch((err) => console.log(err));
+      getTodaybooking().then((res)=>{
+        console.log(res.data.booking)
+      })
   }, []);
 
   return (
@@ -111,7 +116,16 @@ function TheaterProfile() {
               <strong> City:</strong>
               {Theater.city}
             </Typography>
-            <Stack spacing={4} direction="row" margin={2}></Stack>
+            <Stack spacing={4} direction="row" margin={2}>
+              <Link
+                to={{
+                  pathname: "/update-profile",
+               
+                }}
+              >
+                <Button variant="contained">Update Profile</Button>
+              </Link>
+            </Stack>
           </Card>
         </>
       )}

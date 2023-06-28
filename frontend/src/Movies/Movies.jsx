@@ -25,6 +25,7 @@ export default function Movies() {
   const state = useLocation();
   console.log(state);
   let path = state.pathname === "/movies";
+
   // console.log(path);
   useEffect(() => {
     getAllMovies(currentPage)
@@ -43,7 +44,7 @@ export default function Movies() {
     gettopMovies()
       .then((res) => {
         settop8Movies(res);
-        console.log(res);
+      
         if (path === false) {
           setLoader(false);
         }

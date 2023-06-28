@@ -6,14 +6,13 @@ const xss=require('xss-clean');
 const cors=require('cors');
 
 const db = require("./utill/connection");
-
-const userRouter = require("./routes/user-routes");
-
-const movieRouter = require("./routes/movie-routes");
-const BookingRouter = require("./routes/booking-routes");
-
 const globalErrorHandler=require('./arrorhandler/globalerrorhandler');
 const AppError=require('./arrorhandler/Apperror');
+
+
+const userRouter = require("./routes/user-routes");
+const movieRouter = require("./routes/movie-routes");
+const BookingRouter = require("./routes/booking-routes");
 const theaterRouter = require("./routes/theater-routes");
 const AdminRouter = require("./routes/admin-routes");
 
@@ -24,7 +23,8 @@ const app = express();
 app.use(express.json());
 app.use(mongosanitize());
 app.use(xss());
-app.use(cors({}))
+app.use(cors());
+
 app.use("/user", userRouter);
 app.use("/theater", theaterRouter);
 app.use("/movie",movieRouter);

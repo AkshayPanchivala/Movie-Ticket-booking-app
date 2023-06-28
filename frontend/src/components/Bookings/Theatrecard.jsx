@@ -5,7 +5,7 @@ import Card from "@mui/joy/Card";
 
 import Typography from "@mui/joy/Typography";
 import { useParams } from "react-router-dom";
-
+import { Box } from "@mui/system";
 
 function Theatrecard(props) {
   const id = useParams();
@@ -29,7 +29,6 @@ function Theatrecard(props) {
         },
       }}
     >
-    
       <AspectRatio ratio="1" sx={{ width: 90 }}>
         <img
           src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
@@ -38,7 +37,7 @@ function Theatrecard(props) {
           alt=""
         />
       </AspectRatio>
-      <div>
+      <Box>
         <Typography
           level="h2"
           fontSize="lg"
@@ -61,11 +60,9 @@ function Theatrecard(props) {
             sx={{ color: "text.tertiary" }}
           >
             {props.Address}
-          
           </Link>
         </Typography>
-       
-      </div>
+      </Box>
     </Card>
   );
 }

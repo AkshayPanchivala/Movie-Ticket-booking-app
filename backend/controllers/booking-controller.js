@@ -190,8 +190,9 @@ const getBookingById = asynchandler(async (req, res, next) => {
     .exec();
 
   if (!booking) {
-    return res.status(500).json({ message: "Unexpected Error" });
+    return res.status(400).json({ message: "Booking not found" });
   }
+
   return res.status(200).json({ booking, totalPages });
 });
 
@@ -200,6 +201,9 @@ const deleteBooking = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
   const booking = await Booking.findById(id);
+  if (!booking) {
+    throw new AppError("Booking not found", 404);
+  }
 
   const movie = booking.movie;
   const userid = booking.user;
@@ -209,14 +213,22 @@ const deleteBooking = asynchandler(async (req, res, next) => {
     { $pull: { bookings: id } },
     { new: true }
   );
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
 
   const movieDeleteion = await Movie.findByIdAndUpdate(
     movie,
     { $pull: { bookings: id } },
     { new: true }
   );
-
+  if (!movieDeletion) {
+    throw new AppError("Movie not found", 404);
+  }
   const bookingDeletion = await Booking.findByIdAndDelete(id);
+  if (!bookingDeletion) {
+    throw new AppError("Failed to delete booking", 500);
+  }
 
   return res.status(200).json({
     message: "booking deleted",
@@ -241,7 +253,6 @@ const notAvailableSeat = asynchandler(async (req, res, next) => {
   });
 
   seat.map((e) => {
-   
     e.seatNumber.map((e) => {
       blocked.push(e);
     });
@@ -255,6 +266,18 @@ const notAvailableSeat = asynchandler(async (req, res, next) => {
 
 const getbookingbyadmin = asynchandler(async (req, res, next) => {
   const date = new Date(req.body.date).toLocaleString().split(",")[0];
+  const { theater, ShowTime, movie } = req.body;
+
+  let missingValues = [];
+
+  if (!movie || typeof movie == "number") missingValues.push("Movie");
+  if (!theater || typeof theater == "number") missingValues.push("Theater ");
+
+  if (!ShowTime || typeof ShowTime == "number") missingValues.push("ShowTime ");
+
+  if (missingValues.length > 0) {
+    return next(new AppError(`Something Went wrong`, 400));
+  }
 
   const booking = await Booking.find({
     theater: req.body.theater,

@@ -30,15 +30,12 @@ function AddmoviesForm({ onSubmit }) {
 
   const handleCheckbox1Change = (event) => {
     setIsHindi(event.target.checked);
-    
   };
   const handleCheckbox2Change = (event) => {
     setisEnglish(event.target.checked);
-   
   };
   const handleCheckbox3Change = (event) => {
     setisGujarati(event.target.checked);
-    
   };
   const language = [];
 
@@ -122,7 +119,7 @@ function AddmoviesForm({ onSubmit }) {
         onClose={handleBackdropClick}
       >
         <Typography variant="h4" textAlign={"center"} marginTop={1}>
-          AddMovies
+          Add Movies
         </Typography>
         <Box padding={3}>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -137,7 +134,7 @@ function AddmoviesForm({ onSubmit }) {
                   placeholder="title"
                   name="title"
                 />
-               
+
                 <Form.Control.Feedback type="invalid">
                   Please provide A valid Title.
                 </Form.Control.Feedback>
@@ -152,7 +149,6 @@ function AddmoviesForm({ onSubmit }) {
                   placeholder="description"
                   name="description"
                 />
-                
 
                 <Form.Control.Feedback type="invalid">
                   Please provide A valid Description.
@@ -160,7 +156,7 @@ function AddmoviesForm({ onSubmit }) {
               </Form.Group>
 
               <Form.Group md="4" controlId="validationCustomUsername">
-                <Form.Label>ProfilePhoto</Form.Label>
+                <Form.Label>Poster Photo</Form.Label>
                 <InputGroup hasValidation>
                   <InputGroup.Text id="inputGroupPrepend">
                     <AccountCircleIcon />
@@ -189,8 +185,6 @@ function AddmoviesForm({ onSubmit }) {
                   label="Hindi"
                   checked={isHindi}
                   onChange={handleCheckbox1Change}
-           
-                 
                 />
 
                 <Form.Check
@@ -199,7 +193,6 @@ function AddmoviesForm({ onSubmit }) {
                   label="English"
                   checked={isEnglish}
                   onChange={handleCheckbox2Change}
-                 
                 />
 
                 <Form.Check
@@ -208,7 +201,6 @@ function AddmoviesForm({ onSubmit }) {
                   label="Gujarati"
                   checked={isGujarati}
                   onChange={handleCheckbox3Change}
-                  
                 />
                 {isError && (
                   <Alert variant="danger" color="red">

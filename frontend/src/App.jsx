@@ -25,6 +25,8 @@ import ResetPassword from "./components/Auth/ResetPassword";
 import AllTheater from "./components/Theater/AllTheater";
 import Loaderpage from "./profile/Loaderpage";
 import PageNotFound from "./components/PageNotFound";
+import UpdateProfile from "./profile/Updateprofile";
+import TodayBooking from "./profile/TodayBooking";
 
 function App() {
   const dispatch = useDispatch();
@@ -102,6 +104,11 @@ function App() {
             <>
               <Route path="/bookingdata/:id" element={<Getdatabboking />} />
               <Route path="/user-admin" element={<TheaterProfile />} />
+              <Route path="/update-profile" element={<UpdateProfile />} />
+              <Route path="/todaybooking" element={<TodayBooking />} />
+
+              
+
             </>
           )}
           {/* {isTheaterLoggedIn && !isuserLoggedIn && !isadminLoggedIn && (
