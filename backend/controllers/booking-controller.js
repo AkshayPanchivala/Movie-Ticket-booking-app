@@ -173,7 +173,7 @@ const getBookingById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
   const page = req.query.page || 1;
-  const limit = req.query.limit || 4;
+  const limit = req.query.limit || 3;
 
   let booking;
 
@@ -186,7 +186,7 @@ const getBookingById = asynchandler(async (req, res, next) => {
     .skip((page - 1) * limit)
     .limit(limit)
     .populate("movie", "title")
-    .populate("theater", "name")
+    .populate("theater", "name address city state pincode")
     .exec();
 
   if (!booking) {
@@ -271,12 +271,11 @@ const getbookingbyadmin = asynchandler(async (req, res, next) => {
   let missingValues = [];
 
   if (!movie || typeof movie == "number") missingValues.push("Movie");
-  
+
   if (!theater || typeof theater == "number") missingValues.push("Theater ");
 
   if (!showtime || typeof showtime == "number") missingValues.push("ShowTime ");
-  
- 
+
   if (missingValues.length > 0) {
     throw new AppError(`Something Went wrong`, 400);
   }

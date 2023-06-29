@@ -47,6 +47,7 @@ function Booking() {
   const [createComment, setcreateComment] = useState(false);
   const [rating, setrating] = useState(0);
   const [showComent, setshowComent] = useState(false);
+  const [Commenthandler, setCommenthandler] = useState(false);
   const [Loader, setLoader] = useState(false);
   const id = useParams().id;
 
@@ -55,7 +56,7 @@ function Booking() {
       .then((res) => {
         setresComment(res.movie.comment);
         setMovie(res.movie);
-        setLoader(true)
+        setLoader(true);
       })
       .catch((err) => console.log(err));
     getlikebyuser(id)
@@ -84,14 +85,17 @@ function Booking() {
       setcitytotalPages(res.data.totalPages);
     });
     // setLoader(true);
-  }, [id, currentPage, searchedCity, createComment]);
+  }, [id, currentPage, searchedCity, createComment,Commenthandler]);
 
   const handlePageChange = (event, page) => {
+
     setCurrentPage(page);
   };
 
   const handlechange = (e, val) => {
+
     setsearchcity(true);
+    setCurrentPage(1);
     if (val === null) {
       setsearchcity(false);
     }
@@ -102,15 +106,22 @@ function Booking() {
     setComment(e.target.value);
   };
   const commenthandler = () => {
-    createcomment(Comment, id);
-    setcreateComment(!createComment);
-    setComment("");
+    createcomment(Comment, id).then(
+      ()=>{
+
+        setcreateComment(!createComment)
+        setComment("")
+        setCommenthandler(!Commenthandler)
+      }
+    );
+  
   };
   const viewmorehandler = () => {
     setshowComent(!showComent);
   };
   return (
     <>
+    {/* {console.log(theaterbycity)} */}
       {!Loader && (
         <div
           style={{
@@ -344,6 +355,9 @@ function Booking() {
                       id={Theater._id}
                       profilepicture={Theater.profilephoto}
                       Address={Theater.address}
+                      city={Theater.city}
+                      state={Theater.state}
+                      pincode={Theater.pincode}
                     />
                   ))}
 
@@ -357,6 +371,9 @@ function Booking() {
                         Address={Theater.address}
                         name={Theater.name}
                         id={Theater._id}
+                        city={Theater.city}
+                        state={Theater.state}
+                        pincode={Theater.pincode}
                       />
                     </>
                   ))}

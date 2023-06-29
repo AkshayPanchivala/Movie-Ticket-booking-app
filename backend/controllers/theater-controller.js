@@ -155,6 +155,12 @@ const getallTheater = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ data: admins });
 });
+
+
+
+
+
+
 //////////////////////////get Theater by user register city//////////////////////
 const getTheaterbypagination = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
@@ -174,6 +180,8 @@ const getTheaterbypagination = asynchandler(async (req, res, next) => {
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
 
+
+
 ////////////////////////////////Get theater by theater Id////////////////////////////////////////////
 const getTheaterById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
@@ -186,6 +194,11 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ admin: admin });
 });
+
+
+
+
+
 
 ////////////////////////////////get theater by city//////////////////////////////////
 const gettheaterbyCity = asynchandler(async (req, res, next) => {
@@ -203,6 +216,12 @@ const gettheaterbyCity = asynchandler(async (req, res, next) => {
     .limit(limit);
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
+
+
+
+
+
+
 
 /////////////////////////////////Theater update profile//////////////////////////////
 const updateprofile = asynchandler(async (req, res, next) => {
@@ -223,7 +242,21 @@ const updateprofile = asynchandler(async (req, res, next) => {
     message: "Account is updated",
   });
 });
-//////////////////////get booking by id/////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////get booking by id////////////////////////////
 const gettodaybooking = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
@@ -274,6 +307,18 @@ const gettodaybooking = asynchandler(async (req, res, next) => {
     message: "Account is updated",
   });
 });
+
+
+
+
+
+
+
+
+
+
+
+
 ///////////////////////////delete Theater////////////////
 const deletetheater = asynchandler(async (req, res, next) => {
   const id = req.params.id;

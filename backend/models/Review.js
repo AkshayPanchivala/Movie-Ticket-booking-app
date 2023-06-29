@@ -8,7 +8,7 @@ const riviewschema = new mongoose.Schema({
   movie: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Movie",
-  }, 
+  },
   rating: {
     type: Number,
     required,

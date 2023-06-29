@@ -3,7 +3,9 @@ import Card from "react-bootstrap/Card";
 import { Col, Row } from "reactstrap";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { deleteBooking } from "../api-helpers/api-helper";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Box } from "@mui/system";
 // import { toast } from "react-toastify";
 
 export default function BookingCard(props) {
@@ -66,9 +68,28 @@ export default function BookingCard(props) {
       <Card>
         <Card.Header>{props.Title}</Card.Header>
         <Card.Body style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ flexGrow: 1 }}>
+          <Box style={{ flexGrow: 1 }}>
             <Card.Title>{props.TheaterName}</Card.Title>
-            <Row>
+            <Link
+            overlay
+            underline="none"
+            href={`https://www.google.com/maps/search/?api=1&query=123+${props.Address}%2C+${props.city}%2C+India` }
+            target="_blank"
+            
+            style={{ color: "text.tertiary",textDecoration:"none"  }}
+          >
+            <LocationOnIcon /> {props.Address}
+            {","}
+            {props.city}
+            {","}
+            {props.state}
+            {","}
+            {props.pincode}
+          </Link>
+          <Box marginTop={3}>
+
+      
+            <Row >
               <Col xs={12} sm={4}>
                 <Card.Text>
                   <strong>ShowDate:</strong>
@@ -88,7 +109,8 @@ export default function BookingCard(props) {
                 </Card.Text>
               </Col>
             </Row>
-          </div>
+            </Box>
+          </Box>
           {(shouldRenderDeleteIcon ||
             (p === "am" && currentDate <= formattedDate) ||
             renderdate) && (

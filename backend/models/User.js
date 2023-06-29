@@ -48,6 +48,19 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+
+
+
+userSchema.methods.changedPasswordAfter=function(JWTTimestamp){
+  if(this.passwordchangeat){
+      const changedTimestamp=this.passwordchangeat.getTime()/1000;
+
+      console.log(changedTimestamp,JWTTimestamp);
+ 
+      return JWTTimestamp<changedTimestamp;
+  }
+  return false;
+}
 userSchema.methods.createpaswordresettoken=function(){
   
 

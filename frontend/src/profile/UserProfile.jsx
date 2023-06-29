@@ -23,6 +23,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUserBooking(currentPage).then((res) => {
+      console.log(res.data)
       settotalPages(res.data.totalPages);
       setBookings(res.data.booking);
     });
@@ -193,6 +194,11 @@ const UserProfile = () => {
                         SeatNumber={e.seatNumber}
                         ShowTime={e.ShowTime}
                         TheaterName={e.theater?.name}
+                        Address={e.theater?.address}
+                        city={e.theater?.city}
+                        state={e.theater?.state}
+                        pincode={e.theater?.pincode}
+
                       />
                     </>
                   ))}

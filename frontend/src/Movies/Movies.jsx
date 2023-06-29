@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { MovieCard } from "./MovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getAllMovies, gettopMovies } from "../api-helpers/api-helper";
-import { useLocation } from "react-router-dom";
+import { getAllMovies, gettopMovies, getUpcommingmovie } from "../api-helpers/api-helper";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
@@ -25,9 +25,14 @@ export default function Movies() {
   const state = useLocation();
   console.log(state);
   let path = state.pathname === "/movies";
+  // const navigator = useNavigate();
+  
 
+
+ 
   // console.log(path);
   useEffect(() => {
+    getUpcommingmovie()
     getAllMovies(currentPage)
       .then((data) => {
         setMovies(data.movies);
@@ -44,11 +49,10 @@ export default function Movies() {
     gettopMovies()
       .then((res) => {
         settop8Movies(res);
-      
+
         if (path === false) {
           setLoader(false);
         }
-       
       })
       .catch((err) => console.log(err));
   }, [path]);
@@ -72,7 +76,8 @@ export default function Movies() {
   const language = ["Hindi", "English", "Gujarati"];
   return (
     <>
-    
+
+
       {Loader && (
         <div
           style={{

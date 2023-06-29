@@ -1,20 +1,26 @@
 import * as React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
-import Link from "@mui/joy/Link";
+// import Link from "@mui/joy/Link";
 import Card from "@mui/joy/Card";
 
 import Typography from "@mui/joy/Typography";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Box } from "@mui/system";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Button } from "@mui/material";
 
 function Theatrecard(props) {
   const id = useParams();
+  const navigate = useNavigate();
   const movieid = id.id;
-
-
+  console.log(props.city);  
+  console.log(props.state);
+  console.log(props.pincode);
+  const handleBookNow = () => {
+    navigate(`/booking/seatbooking/${movieid}/${props.id}`);
+  };
   return (
     <Card
-
       variant="outlined"
       orientation="horizontal"
       sx={{
@@ -45,21 +51,38 @@ function Theatrecard(props) {
         >
           {props.name}
         </Typography>
+
         <Typography
           fontSize="sm"
           aria-describedby="card-description"
           mb={1}
           ml={2}
+          mt={1}
         >
           <Link
             overlay
             underline="none"
-            href={`seatbooking/${movieid}/${props.id}`}
-            sx={{ color: "text.tertiary" }}
+            to={`https://www.google.com/maps/search/?api=1&query=123+${props.Address}%2C+${props.city}%2C+India`}
+            target="_blank"
+            style={{ color: "text.tertiary", textDecoration: "none" }}
           >
-            {props.Address}
+            <LocationOnIcon /> {props.Address}
+            {","}
+            {props.city}
+            {","}
+            {props.state}
+            {","}
+            {props.pincode}
           </Link>
         </Typography>
+        <Button
+          variant="contained"
+          color="inherit"
+          sx={{ marginLeft: "520px" }}
+          onClick={handleBookNow}
+        >
+          Book Now
+        </Button>
       </Box>
     </Card>
   );

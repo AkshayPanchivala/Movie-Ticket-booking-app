@@ -25,7 +25,7 @@ export const MovieCard = (props) => {
     window.location.reload();
   };
   return (
-    // <Stack spacing={{ base: 4, md: 1 }} {...rootProps}>
+
     <Stack spacing={{ base: 4, md: 1 }}>
       <Box position="relative">
         <Box

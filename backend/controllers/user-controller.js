@@ -252,6 +252,18 @@ const resetpassword = asynchandler(async (req, res, next) => {
   });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports = {
   getAllusers,
   signup,

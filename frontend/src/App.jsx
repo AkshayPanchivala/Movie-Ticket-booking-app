@@ -27,6 +27,8 @@ import Loaderpage from "./profile/Loaderpage";
 import PageNotFound from "./components/PageNotFound";
 import UpdateProfile from "./profile/Updateprofile";
 import TodayBooking from "./profile/TodayBooking";
+import UpcomingMovie from "./Movies/UpcomingMovie";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -67,7 +69,8 @@ function App() {
           <Route path="/payment" element={<Loaderpage />} />
           <Route path="/forgotpassword" element={<Forgot />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
-
+          <Route path="/upcomingmovie" element={<UpcomingMovie />} />
+  
           {!isuserLoggedIn && !isTheaterLoggedIn && !isadminLoggedIn && (
             <>
               <Route path="/theater/login" element={<Theaterlogin />} />

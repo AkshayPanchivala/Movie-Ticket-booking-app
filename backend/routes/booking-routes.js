@@ -17,7 +17,7 @@ BookingRouter.route("/orders").post(order);
 BookingRouter.route("/verify").post(verify);
 BookingRouter.route("/").post(Userprotect, newBooking);
 
-BookingRouter.route("/download").post(Theaterprotect,getbookingbyadmin);
+BookingRouter.route("/download").post(Theaterprotect, getbookingbyadmin);
 BookingRouter.route("/notavailableseat/:movieid/:theatreid").post(
   notAvailableSeat
 );
