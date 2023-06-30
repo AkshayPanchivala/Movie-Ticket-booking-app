@@ -14,11 +14,12 @@ const {
   deletetheater,
 } = require("./../controllers/theater-controller");
 const Adminprotect = require("./../Auth/Adminprotect");
+const Theaterprotect = require("./../Auth/Theaterprotect");
 
 theaterRouter.route("/signup").post(Adminprotect, TheaterSignup);
 theaterRouter.route("/login").post(TheaterLogin);
 
-theaterRouter.route("/todaybooking/:id").get(gettodaybooking);
+theaterRouter.route("/todaybooking/:id").get(Theaterprotect, gettodaybooking);
 
 theaterRouter.route("/theatercity").get(getallTheater);
 theaterRouter.route("/").get(getTheater).post(gettheaterbyCity);
@@ -26,7 +27,7 @@ theaterRouter.route("/getTheaterbypagination").post(getTheaterbypagination);
 theaterRouter
   .route("/:id")
   .get(getTheaterById)
-  .put(updateprofile)
-  .delete(deletetheater);
+  .put(Theaterprotect, updateprofile)
+  .delete(Adminprotect, deletetheater);
 
 module.exports = theaterRouter;

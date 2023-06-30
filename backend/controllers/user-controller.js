@@ -72,6 +72,8 @@ const signup = asynchandler(async (req, res, next) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
+  user.password=undefined
+
   res.status(201).json({
     user: user,
     token: token,
@@ -159,6 +161,7 @@ const login = asynchandler(async (req, res, next) => {
     req.body.password,
     existinguser.password
   );
+  existinguser.password = undefined;
 
   if (verifypassword) {
     const token = jwt.sign(
@@ -222,7 +225,6 @@ const forgotpassword = asynchandler(async (req, res, next) => {
   } catch (err) {
     user.passwordResetToken = undefined;
   }
-
 });
 
 /////////////////////////////////////user reset password/////////////////////////////////////////
@@ -251,18 +253,6 @@ const resetpassword = asynchandler(async (req, res, next) => {
     status: "success",
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = {
   getAllusers,

@@ -30,12 +30,14 @@ export default function SeatBooking({ onNext, seatSelection }) {
       ShowTime: seatSelection.Showtime,
     };
     notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
-  });
+  }, []);
 
-
+  console.log(seatSelection.seatType);
   function handleUpdateSelection(seatKey) {
     if (seatSelection.seatCount <= selectedSeats.length) {
       const ssss = [...selectedSeats, seatKey];
+      console.log(seatKey);
+
       ssss.shift();
       setSelectedSeats(ssss);
     } else {
@@ -110,13 +112,12 @@ export default function SeatBooking({ onNext, seatSelection }) {
 
     /////////////////////////////////////////////
     const handlePayment = async () => {
-      setLoader(true)
+      setLoader(true);
       const onResReceived = (res) => {
         const data = res.data;
         const status = res.status;
-        
+
         if (status === 201) {
-          
           navigate("/movies");
         }
       };
@@ -135,7 +136,7 @@ export default function SeatBooking({ onNext, seatSelection }) {
             try {
               const verifyUrl = "http://localhost:5000/booking/verify";
               const { data } = await axios.post(verifyUrl, response);
-              console.log(data.message);
+
               if (data.message === "Payment verified successfully") {
                 newBooking(data1, id)
                   .then(onResReceived)
@@ -166,48 +167,50 @@ export default function SeatBooking({ onNext, seatSelection }) {
       }
     };
     handlePayment();
-
   }
   const price =
     SEATS.SEAT_PRICE[seatSelection.seatType] * seatSelection.seatCount;
-  return (<>
- 
-    {Loader && (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "10%",
-        }}
-      >
-        <CircularProgress />
-      </div>
-    )}
-    <Row>
-      <Col>
-        <Label>Select your desired seat</Label>
-        {SEATS.SEAT_TYPE.map((item) => (
-          <Row key={`${item.type}_type`}>
-            <Label>{item.title}</Label>
-            {SEATS.SEAT_STRUCTURE[item.type].map((itemRow) => (
-              <Row key={itemRow.row}>
-                <Pagination aria-label="Page navigation example">
-                  <RenderSeatsRow structure={itemRow} />
-                </Pagination>
-              </Row>
-            ))}
-          </Row>
-        ))}
-      </Col>
-      <Label>Price : ₹{price}.00</Label>
+  return (
+    <>
+      {Loader && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "10%",
+          }}
+        >
+          <CircularProgress />
+        </div>
+      )}
       <Row>
         <Col>
-          <Button onClick={() => onNext(TAB_OPTIONS.SEAT_TYPE)} title="Prev" />{" "}
-          <Button onClick={handleNext} title="Pay" />
+          <Label>Select your desired seat</Label>
+          {SEATS.SEAT_TYPE.map((item) => (
+            <Row key={`${item.type}_type`}>
+              <Label>{item.title}</Label>
+              {SEATS.SEAT_STRUCTURE[item.type].map((itemRow) => (
+                <Row key={itemRow.row}>
+                  <Pagination aria-label="Page navigation example">
+                    <RenderSeatsRow structure={itemRow} />
+                  </Pagination>
+                </Row>
+              ))}
+            </Row>
+          ))}
         </Col>
+        <Label>Price : ₹{price}.00</Label>
+        <Row>
+          <Col>
+            <Button
+              onClick={() => onNext(TAB_OPTIONS.SEAT_TYPE)}
+              title="Prev"
+            />{" "}
+            <Button onClick={handleNext} title="Pay" />
+          </Col>
+        </Row>
       </Row>
-    </Row>
     </>
   );
 }

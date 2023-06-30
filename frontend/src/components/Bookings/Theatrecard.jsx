@@ -13,7 +13,7 @@ function Theatrecard(props) {
   const id = useParams();
   const navigate = useNavigate();
   const movieid = id.id;
-  console.log(props.city);  
+  console.log(props.city);
   console.log(props.state);
   console.log(props.pincode);
   const handleBookNow = () => {
@@ -24,8 +24,9 @@ function Theatrecard(props) {
       variant="outlined"
       orientation="horizontal"
       sx={{
-        width: 800,
-        marginLeft: "15%",
+        width: 600,
+        marginLeft: "8%",
+        marginRight: "25%",
         marginBottom: "2%",
         "&:hover": {
           boxShadow: "md",
@@ -33,14 +34,6 @@ function Theatrecard(props) {
         },
       }}
     >
-      <AspectRatio ratio="1" sx={{ width: 90 }}>
-        <img
-          src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
-          srcSet={`${props.profilepicture}`}
-          loading="lazy"
-          alt=""
-        />
-      </AspectRatio>
       <Box>
         <Typography
           level="h2"
@@ -75,17 +68,37 @@ function Theatrecard(props) {
             {props.pincode}
           </Link>
         </Typography>
+      </Box>{" "}
+      <div>
+        <AspectRatio ratio="5/3" sx={{ width: 150 }}>
+          <img
+            src="https://images.unsplash.com/photo-1507833423370-a126b89d394b?auto=format&fit=crop&w=90"
+            srcSet={`${props.profilepicture}`}
+            loading="lazy"
+            alt=""
+          />
+        </AspectRatio>
         <Button
           variant="contained"
           color="inherit"
-          sx={{ marginLeft: "520px" }}
+          sx={{ width: "150px", height: "30px", marginTop: "10px" }}
           onClick={handleBookNow}
         >
           Book Now
         </Button>
-      </Box>
+      </div>
     </Card>
   );
 }
 
 export default Theatrecard;
+{
+  /* <Button
+          variant="contained"
+          color="inherit"
+          sx={{ marginLeft: "280px", marginTop: "50px" }}
+          onClick={handleBookNow}
+        >
+          Book Now
+        </Button> */
+}

@@ -71,13 +71,14 @@ function AllTheater() {
                         flexDirection: { xs: "column", sm: "row" },
                         overflow: "hidden",
                         margin: "10px",
+                        minHeight:"250px"
                       }}
                       variant="outlined"
                     >
                       <CardMedia
                         component="img"
                         sx={{
-                          maxWidth: { xs: "100%", sm: "200px" },
+                          maxWidth: { xs: "90%", sm: "200px" },
                           objectFit: "cover",
                         }}
                         src={`${theater.profilephoto}`}
@@ -87,7 +88,7 @@ function AllTheater() {
                       <Stack sx={{ flex: 1 }}>
                         {console.log(theater._id)}
                         <CardContent>
-                          <Typography variant="h6" component="div">
+                          <Typography variant="h10" component="div">
                             <strong>Theater Name:</strong> {theater.name}
                           </Typography>
                           <Typography>
@@ -113,8 +114,8 @@ function AllTheater() {
                           color="error"
                           sx={{
                             width: "150px",
-                            marginLeft: "530px",
-                            marginBottom: "10px",
+                            marginLeft: "240px",
+                            marginTop:"30px",
                             height: "30px",
                           }}
                           onClick={() => {
@@ -134,7 +135,7 @@ function AllTheater() {
         </Grid>
       </Box>
 
-      <Stack spacing={2} marginLeft={100} marginTop={10}>
+      <Stack spacing={2} marginLeft={65} marginTop={10}>
         <Pagination
           count={totalPages}
           color="primary"

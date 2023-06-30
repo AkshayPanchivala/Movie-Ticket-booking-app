@@ -36,19 +36,16 @@ export default function BookingCard(props) {
     setIsHovered(!isHovered);
 
     if (isClicked && isHovered) {
-
       deleteBooking(id)
         .then((res) => {
-        navigate("/")
-        
+          navigate("/");
         })
-        
+
         .catch((err) => console.log(err));
     }
 
     setIsHovered(!isHovered);
     setIsClicked(!isClicked);
-
   };
 
   const shouldRenderDeleteIcon =
@@ -56,12 +53,11 @@ export default function BookingCard(props) {
 
   const renderdate = currentDate < formattedDate;
 
-
   return (
     <div
       style={{
-        marginLeft: "300px",
-        marginRight: "100px",
+        marginLeft: "75px",
+        marginRight: "80px",
         marginBottom: "20px",
       }}
     >
@@ -71,44 +67,41 @@ export default function BookingCard(props) {
           <Box style={{ flexGrow: 1 }}>
             <Card.Title>{props.TheaterName}</Card.Title>
             <Link
-            overlay
-            underline="none"
-            href={`https://www.google.com/maps/search/?api=1&query=123+${props.Address}%2C+${props.city}%2C+India` }
-            target="_blank"
-            
-            style={{ color: "text.tertiary",textDecoration:"none"  }}
-          >
-            <LocationOnIcon /> {props.Address}
-            {","}
-            {props.city}
-            {","}
-            {props.state}
-            {","}
-            {props.pincode}
-          </Link>
-          <Box marginTop={3}>
-
-      
-            <Row >
-              <Col xs={12} sm={4}>
+              overlay
+              underline="none"
+              href={`https://www.google.com/maps/search/?api=1&query=123+${props.Address}%2C+${props.city}%2C+India`}
+              target="_blank"
+              style={{ color: "text.tertiary", textDecoration: "none" }}
+            >
+              <LocationOnIcon /> {props.Address}
+              {","}
+              {props.city}
+              {","}
+              {props.state}
+              {","}
+              {props.pincode}
+            </Link>
+            <Box marginTop={3}>
+              <Row>
+                <Col xs={12} sm={4}>
+                  <Card.Text>
+                    <strong>ShowDate:</strong>
+                    {formattedDate}
+                  </Card.Text>
+                </Col>
+                <Col xs={12} sm={4}>
+                  <Card.Text>
+                    <strong>ShowTime:</strong>
+                    {props.ShowTime}
+                  </Card.Text>
+                </Col>
+              </Row>{" "}
+              <Row style={{marginTop:"2px"}}>
                 <Card.Text>
-                  <strong>ShowDate:</strong>
-                  {formattedDate}
+                  <strong>SeatNumber:</strong>
+                  {props.SeatNumber.join(",")}
                 </Card.Text>
-              </Col>
-              <Col xs={12} sm={4}>
-                <Card.Text>
-                  <strong>ShowTime:</strong>
-                  {props.ShowTime}
-                </Card.Text>
-              </Col>
-              <Col xs={12} sm={4}>
-                <Card.Text>
-                  <strong>seatNumber:</strong>
-                  {props.SeatNumber+","}
-                </Card.Text>
-              </Col>
-            </Row>
+              </Row>
             </Box>
           </Box>
           {(shouldRenderDeleteIcon ||

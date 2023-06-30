@@ -1,5 +1,5 @@
 const SEATS = {
-  SEAT_TYPE: [
+  SEAT_TYPE: [   
     { type: "EXECUTIVE", title: "Executive" },
     { type: "PREMUIM_ECONOMY", title: "Premium Economy" },
     { type: "ECONOMY", title: "Economy" },

@@ -20,6 +20,8 @@ import { adminActions, theaterActions, userActions } from "../store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const pages = ["Add Movie", "Add Theater"];
+const Allpages= ["All Movies", "Upcoming Movies"];
+
 
 const Adminsettings = ["All Theater", "Logout"];
 
@@ -104,9 +106,24 @@ function Header() {
         break;
     }
   };
+  const handlePageClick = (clickedPage) => {
+    handleCloseUserMenu();
+    switch (clickedPage) {
+      case "All Movies":
+        navigate("/movies");
+        break;
+      case "Upcoming Movies":
+        navigate("/upcomingmovie");
+        break;
+
+      default:
+        navigate("/");
+        break;
+    }
+  };
   const handleuserSettingClick = (setting) => {
     handleCloseUserMenu();
-    console.log(setting);
+    // console.log(setting);
     switch (setting) {
       case "Profile":
         navigate("/user");
@@ -266,6 +283,24 @@ function Header() {
               justifyContent: "flex-end",
             }}
           >
+            {Allpages.map((page) => (
+                  <Button
+                    key={page}
+                    onClick={() => handlePageClick(page)}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      display: "block",
+                      "&:hover": {
+                        backgroundColor: "red",
+                        color: "black",
+                        borderRadius: "10",
+                      },
+                    }}
+                  >
+                    {page}
+                  </Button>
+                ))}
             {isadminLoggedIn && (
               <>
                 {pages.map((page) => (

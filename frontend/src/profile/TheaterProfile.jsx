@@ -43,7 +43,7 @@ function TheaterProfile() {
               flexDirection: "column",
               alignItems: "center",
               padding: "20px",
-              marginLeft: "550px",
+              marginLeft: "330px",
               marginTop: "70px",
               backgroundColor: "whitesmoke",
               borderRadius: "20px",

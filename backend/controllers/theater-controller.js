@@ -66,6 +66,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
   const token = jwt.sign({ id: theater._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
+  theater.password = undefined;
 
   res.status(201).json({
     theater: theater,
@@ -91,7 +92,9 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
       )
     );
   }
-  const existingtheater = await Theater.findOne({ email: email });
+  const existingtheater = await Theater.findOne({ email: email }).select(
+    "+password"
+  );
   if (!existingtheater) {
     res.status(404).json({
       message: "Not Found",
@@ -101,7 +104,7 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
     req.body.password,
     existingtheater.password
   );
-
+  existingtheater.password = undefined;
   if (verifypassword) {
     const token = jwt.sign(
       { id: existingtheater._id },
@@ -142,9 +145,6 @@ const getTheater = asynchandler(async (req, res, next) => {
   return res.status(200).json({ data: admins, totalPages: totalPages });
 });
 
-
-
-
 const getallTheater = asynchandler(async (req, res, next) => {
   let admins;
 
@@ -155,11 +155,6 @@ const getallTheater = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ data: admins });
 });
-
-
-
-
-
 
 //////////////////////////get Theater by user register city//////////////////////
 const getTheaterbypagination = asynchandler(async (req, res, next) => {
@@ -180,8 +175,6 @@ const getTheaterbypagination = asynchandler(async (req, res, next) => {
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
 
-
-
 ////////////////////////////////Get theater by theater Id////////////////////////////////////////////
 const getTheaterById = asynchandler(async (req, res, next) => {
   const id = req.params.id;
@@ -194,11 +187,6 @@ const getTheaterById = asynchandler(async (req, res, next) => {
   }
   return res.status(200).json({ admin: admin });
 });
-
-
-
-
-
 
 ////////////////////////////////get theater by city//////////////////////////////////
 const gettheaterbyCity = asynchandler(async (req, res, next) => {
@@ -216,12 +204,6 @@ const gettheaterbyCity = asynchandler(async (req, res, next) => {
     .limit(limit);
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
-
-
-
-
-
-
 
 /////////////////////////////////Theater update profile//////////////////////////////
 const updateprofile = asynchandler(async (req, res, next) => {
@@ -242,19 +224,6 @@ const updateprofile = asynchandler(async (req, res, next) => {
     message: "Account is updated",
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //////////////////////get booking by id////////////////////////////
 const gettodaybooking = asynchandler(async (req, res, next) => {
@@ -300,24 +269,11 @@ const gettodaybooking = asynchandler(async (req, res, next) => {
     movies.push(movieList[0]);
   }
 
-
-
   res.status(200).json({
     booking: movies,
     message: "Account is updated",
   });
 });
-
-
-
-
-
-
-
-
-
-
-
 
 ///////////////////////////delete Theater////////////////
 const deletetheater = asynchandler(async (req, res, next) => {
@@ -336,8 +292,6 @@ const deletetheater = asynchandler(async (req, res, next) => {
   });
 });
 
-
-
 module.exports = {
   TheaterSignup,
   TheaterLogin,
@@ -348,5 +302,5 @@ module.exports = {
   getallTheater,
   updateprofile,
   gettodaybooking,
-  deletetheater 
+  deletetheater,
 };

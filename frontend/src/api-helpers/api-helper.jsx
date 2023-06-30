@@ -1015,7 +1015,11 @@ export const Resetpassword = async (data, token) => {
 export const getTodaybooking = async () => {
   const theaterId = localStorage.getItem("adminId");
   const res = await axios.get(
-    `http://localhost:5000/theater/todaybooking/${theaterId}`
+    `http://localhost:5000/theater/todaybooking/${theaterId}`,{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
   );
   console.log(res);
   return res;
@@ -1047,7 +1051,7 @@ export const Theaterdelete = async (id) => {
 
 
 export const getUpcommingmovie = async () => {
-  const theaterId = localStorage.getItem("adminId");
+
   const array=[]
   for(let i=1;i<17;i++){
 
@@ -1068,7 +1072,7 @@ array.push(e)
   }
   )))
   .catch(err => console.error('error:' + err));
-  // return res;
+  
 }
 console.log(array)
 return array

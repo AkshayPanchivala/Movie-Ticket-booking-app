@@ -77,6 +77,7 @@ function Booking() {
     getAlladminCity()
       .then((res) => {
         console.log(res);
+        // console.log(res);
         setCity(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -85,15 +86,13 @@ function Booking() {
       setcitytotalPages(res.data.totalPages);
     });
     // setLoader(true);
-  }, [id, currentPage, searchedCity, createComment,Commenthandler]);
+  }, [id, currentPage, searchedCity, createComment, Commenthandler]);
 
   const handlePageChange = (event, page) => {
-
     setCurrentPage(page);
   };
 
   const handlechange = (e, val) => {
-
     setsearchcity(true);
     setCurrentPage(1);
     if (val === null) {
@@ -106,22 +105,18 @@ function Booking() {
     setComment(e.target.value);
   };
   const commenthandler = () => {
-    createcomment(Comment, id).then(
-      ()=>{
-
-        setcreateComment(!createComment)
-        setComment("")
-        setCommenthandler(!Commenthandler)
-      }
-    );
-  
+    createcomment(Comment, id).then(() => {
+      setcreateComment(!createComment);
+      setComment("");
+      setCommenthandler(!Commenthandler);
+    });
   };
   const viewmorehandler = () => {
     setshowComent(!showComent);
   };
   return (
     <>
-    {/* {console.log(theaterbycity)} */}
+      {/* {console.log(theaterbycity)} */}
       {!Loader && (
         <div
           style={{
@@ -135,9 +130,9 @@ function Booking() {
         </div>
       )}
       <div>
-        <Box display="flex" marginTop={"2%"}>
+        <Box display="flex" marginTop={"2%"} marginLeft="950px" width={1000}>
           {city && (
-            <Box width={"20%"} marginLeft={170} border={"darkgrey"}>
+            <Box width={"20%"} marginLeft={0} border={"darkgrey"}>
               <Autocomplete
                 id="free-solo-demo"
                 freeSolo
@@ -158,7 +153,7 @@ function Booking() {
               marginLeft="5%"
               borderRadius={5}
             >
-              <Box sx={{ minHeight: 300 }}>
+              <Box sx={{ minHeight: 300, marginTop: "25px" }}>
                 <Card variant="elevation">
                   <Box
                     sx={{
@@ -378,7 +373,7 @@ function Booking() {
                     </>
                   ))}
                 {!searchcity && (
-                  <Stack spacing={2} marginLeft={50}>
+                  <Stack spacing={2} marginLeft={30}>
                     <Pagination
                       count={totalPages}
                       color="primary"
@@ -387,7 +382,7 @@ function Booking() {
                   </Stack>
                 )}
                 {searchcity && (
-                  <Stack spacing={2} marginLeft={50}>
+                  <Stack spacing={2} marginLeft={30}>
                     <Pagination
                       count={citytotalPages}
                       color="primary"

@@ -9,129 +9,13 @@ import { getMovieDetails } from "../api-helpers/api-helper";
 import CardOverflow from "@mui/joy/CardOverflow";
 
 function SeatSelection() {
-  const [movie, setMovie] = useState();
-
-  const [isHovered, setIsHovered] = useState(false);
-  const [Loader, setLoader] = useState(true);
-  const id = useParams().movieid;
-
-  useEffect(() => {
-    getMovieDetails(id)
-      .then((res) => {
-        setMovie(res.movie);
-        setLoader(false);
-      })
-      .catch((err) => console.log(err));
-  }, [id]);
-
   return (
     <>
-      {Loader && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "10%",
-          }}
-        >
-          <CircularProgress />
-        </div>
-      )}
-      <div style={{ display: "flex", marginTop: "50px" }}>
-        <div style={{ flex: 1 }}>
-          <div>
-            {movie && (
-              <>
-                <Box display={"flex"} justifyContent={"center"} marginLeft="5%">
-                  <Box sx={{ minHeight: 300 }}>
-                    <Card variant="elevation">
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 2,
-                          maxWidth: 500,
-                        }}
-                      >
-                        <Box sx={{ display: "flex" }}>
-                          <div>
-                            <div sx={{ margin: "20px" }}>
-                              <Typography
-                                level="h2"
-                                variant="h6"
-                                sx={{
-                                  fontSize: "24px",
-                                  marginLeft: "220px",
-                                  fontWeight: "450",
-                                }}
-                                mb={0.5}
-                              >
-                                {movie.title}
-                              </Typography>
-                            </div>
-                          </div>
-                        </Box>
-                        <Card
-                          marginRight={20}
-                          variant="outlined"
-                          sx={{
-                            width: 400,
-                            height: 533,
-                            boxShadow: isHovered
-                              ? "0 0 10px rgba(0, 0, 0, 0.3)"
-                              : "none",
-                            transform: isHovered ? "scale(1.05)" : "none",
-                            transition: "transform 0.2s, box-shadow 0.2s",
-                            marginLeft: 5,
-                          }}
-                        >
-                          <CardOverflow>
-                            <AspectRatio ratio="3/4">
-                              <img
-                                src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                                srcSet={`${movie.posterUrl}`}
-                                loading="lazy"
-                                alt=""
-                              />
-                            </AspectRatio>
-                          </CardOverflow>
-                        </Card>
-
-                        <Typography level="body2" sx={{ marginLeft: "33px" }}>
-                          <strong> Language:</strong>[{movie.language + " "}]
-                        </Typography>
-                        <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
-                          <Box style={{ marginLeft: "6%" }}>
-                            <Typography>
-                              <strong>About the movie:</strong>
-                            </Typography>
-                            <Typography
-                              fontWeight="lg"
-                              level="body2"
-                              sx={{
-                                whiteSpace: "pre-wrap",
-                                marginLeft: "10px",
-                              }}
-                            >
-                              {movie.description}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      </Box>
-                    </Card>
-                  </Box>
-                </Box>
-              </>
-            )}
-          </div>
-        </div>
-        {!Loader && (
-          <div style={{ flex: 1 }}>
-            <Index></Index>
-          </div>
-        )}
+      
+      <div style={{ flex: 1  }}>
+        <Index></Index>
       </div>
+   
     </>
   );
 }

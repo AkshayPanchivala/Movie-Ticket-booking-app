@@ -189,7 +189,7 @@ const UserProfile = () => {
                       <BookingCard
                         key={e._id}
                         id={e._id}
-                        Title={e.movie.title}
+                        Title={e.movie?.title}
                         Date={e.date}
                         SeatNumber={e.seatNumber}
                         ShowTime={e.ShowTime}
@@ -202,7 +202,7 @@ const UserProfile = () => {
                       />
                     </>
                   ))}
-                  <Stack spacing={2} marginLeft={80}>
+                  <Stack spacing={2} marginLeft={40}>
                     <Pagination
                       count={totalPages}
                       color="primary"

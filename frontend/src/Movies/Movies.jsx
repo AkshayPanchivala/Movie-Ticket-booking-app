@@ -10,7 +10,11 @@ import {
 } from "@mui/material";
 import { MovieCard } from "./MovieCard";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getAllMovies, gettopMovies, getUpcommingmovie } from "../api-helpers/api-helper";
+import {
+  getAllMovies,
+  gettopMovies,
+  getUpcommingmovie,
+} from "../api-helpers/api-helper";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Movies() {
@@ -26,13 +30,10 @@ export default function Movies() {
   console.log(state);
   let path = state.pathname === "/movies";
   // const navigator = useNavigate();
-  
 
-
- 
   // console.log(path);
   useEffect(() => {
-    getUpcommingmovie()
+    getUpcommingmovie();
     getAllMovies(currentPage)
       .then((data) => {
         setMovies(data.movies);
@@ -46,8 +47,11 @@ export default function Movies() {
   }, [currentPage, searchlanguage, path]);
 
   useEffect(() => {
+  
     gettopMovies()
+
       .then((res) => {
+        console.log(res)
         settop8Movies(res);
 
         if (path === false) {
@@ -76,10 +80,9 @@ export default function Movies() {
   const language = ["Hindi", "English", "Gujarati"];
   return (
     <>
-
-
+      {console.log(movies)}
       {Loader && (
-        <div
+        <Box
           style={{
             display: "flex",
             justifyContent: "center",
@@ -88,12 +91,12 @@ export default function Movies() {
           }}
         >
           <CircularProgress />
-        </div>
+        </Box>
       )}
 
       {path && (
         <Box marginTop={4}>
-          <Box width={"20%"} marginLeft={"80%"}>
+          <Box width={"20%"} marginLeft={"75%"}>
             <Autocomplete
               id="free-solo-demo"
               freeSolo
@@ -140,7 +143,7 @@ export default function Movies() {
         </Container>
       )}
       {path && (
-        <Stack spacing={2} marginLeft={100} marginTop={10}>
+        <Stack spacing={2} marginLeft={70} marginTop={10}>
           <Pagination
             count={totalPages}
             color="primary"

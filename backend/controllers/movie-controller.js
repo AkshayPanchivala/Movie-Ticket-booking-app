@@ -1,8 +1,12 @@
 const asynchandler = require("express-async-handler");
 
 const AppError = require("../arrorhandler/Apperror");
+const Comment = require("../models/Comment");
+
+const Like = require("../models/Like");
 
 const Movie = require("../models/Movie");
+
 
 /////////////////////add Movies ////////////////////////////
 const addMovies = asynchandler(async (req, res, next) => {
@@ -119,6 +123,9 @@ const deleteMovie = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
   const Movieid = await Movie.findByIdAndDelete(id);
+
+const like=await Like.deleteMany({movie:id})
+const comment=await Comment.deleteMany({movie:id})
 
   return res.status(200).json({
     message: "booking deleted",

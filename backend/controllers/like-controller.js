@@ -73,7 +73,7 @@ const MostLiked = asyncHandler(async (req, res, next) => {
       $limit: 8,
     },
   ]).exec();
-
+ 
   if (likedmovie.length == 0) {
     return next(new AppError("Not found any like onmovie", 404));
   }
@@ -100,13 +100,13 @@ const MostLiked = asyncHandler(async (req, res, next) => {
   }
 
   movie.sort((a, b) => b.rating - a.rating);
-
+  
   if (movie) {
     res.json({
       mostlikedmovie: movie,
     });
   } else {
-    return next(new AppError("Bike is not found", 404));
+    return next(new AppError("Movie is not found", 404));
   }
 });
 
