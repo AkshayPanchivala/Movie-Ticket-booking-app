@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const slideStyles = {
   width: "100%",
@@ -45,11 +47,16 @@ const dotStyle = {
   margin: "0 3px",
   cursor: "pointer",
   fontSize: "20px",
+  color: "grey",
 };
-
+const activeDotStyle = {
+  ...dotStyle,
+  color: "black",
+};
 const ImageSlider = ({ slides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentdot, setdot] = useState(0);
+  const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
     const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
@@ -69,12 +76,9 @@ const ImageSlider = ({ slides }) => {
     backgroundImage: `url(${slides[currentIndex].url})`,
   };
 
-
-    const interval = setTimeout(() => {
-      goToNext();
-    }, 10000); // Change slide every 10 seconds
-
-    
+  const interval = setTimeout(() => {
+    goToNext();
+  }, 10000);
 
   return (
     <div style={sliderStyles}>
@@ -86,11 +90,17 @@ const ImageSlider = ({ slides }) => {
           ❱
         </div>
       </div>
-      <div style={slideStylesWidthBackground}></div>
+      <Link
+        to={
+          isuserLoggedIn ? `/booking/${slides[currentIndex].id}` : "/auth/login"
+        }
+      >
+        <div style={slideStylesWidthBackground} />
+      </Link>
       <div style={dotsContainerStyles}>
         {slides.map((slide, slideIndex) => (
           <div
-            style={dotStyle}
+            style={slideIndex === currentIndex ? activeDotStyle : dotStyle}
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
           >

@@ -562,7 +562,7 @@ export const newBooking = async (data, id) => {
     });
   }
   if (res.status === 201) {
-    toast.success(`Booking is created`, {
+    toast.success(`Successfully Book your Ticket`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -674,7 +674,7 @@ export const notAvailable = async (data) => {
     });
 
   if (res.status !== 200) {
-    return console.log("Unexpected Error Occurred");
+    return console.log("Something went wrong");
   }
 
   const resData = await res.data;
@@ -795,7 +795,7 @@ export const deleteBooking = async (id) => {
     });
   }
   if (res.status === 200) {
-    return toast.success(`Booking is deleted`, {
+    return toast.success(`Successfully Your ticket Cancel`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,

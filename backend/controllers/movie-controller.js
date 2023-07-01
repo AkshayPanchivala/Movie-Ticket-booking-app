@@ -1,12 +1,13 @@
 const asynchandler = require("express-async-handler");
 
 const AppError = require("../arrorhandler/Apperror");
+const Booking = require("../models/Booking");
 const Comment = require("../models/Comment");
 
 const Like = require("../models/Like");
 
 const Movie = require("../models/Movie");
-
+const User = require("../models/User");
 
 /////////////////////add Movies ////////////////////////////
 const addMovies = asynchandler(async (req, res, next) => {
@@ -121,14 +122,36 @@ const getById = asynchandler(async (req, res, next) => {
 ////////////////Delete Movie//////////////
 const deleteMovie = asynchandler(async (req, res, next) => {
   const id = req.params.id;
+  const today = new Date().toLocaleString();
 
+  const bookingsavailable = await Booking.find({
+    movie: id,
+    date: { $gte: today },
+  });
+  if (bookingsavailable.length >0) {
+    return res.status(400).json({
+      message: "Movie not deleted",
+    });
+  }
   const Movieid = await Movie.findByIdAndDelete(id);
 
-const like=await Like.deleteMany({movie:id})
-const comment=await Comment.deleteMany({movie:id})
+  const like = await Like.deleteMany({ movie: id });
+  const comment = await Comment.deleteMany({ movie: id });
+  const booking = await Booking.find({ movie: id });
 
+  for (let i = 0; i < booking.length; i++) {
+    const userid = booking[i].user;
+    const movieid= booking[i].movie
+    const user = await User.findByIdAndUpdate(
+      userid,
+      { $pull: { bookings: booking[i]._id } },
+      { new: true }
+    );
+ 
+  }
+  const bookings = await Booking.deleteMany({ movie: id });
   return res.status(200).json({
-    message: "booking deleted",
+    message: "Movie deleted",
   });
 });
 

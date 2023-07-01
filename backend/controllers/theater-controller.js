@@ -281,8 +281,35 @@ const deletetheater = asynchandler(async (req, res, next) => {
   if (!req.params.id || req.params.id.length !== 24) {
     return next(new AppError(`Wrong id`, 400));
   }
+  const today = new Date().toLocaleString();
 
+  const bookingsavailable = await Booking.find({
+    movie: id,
+    date: { $gte: today },
+  });
+  console.log(bookingsavailable);
+  if (bookingsavailable.length > 0) {
+    return res.status(400).json({
+      message: "Movie not deleted",
+    });
+  }
+  const booking = await Booking.find({ theater: id });
+  for (let i = 0; i < booking.length; i++) {
+    const userid = booking[i].user;
+    const movieid = booking[i].movie;
+    const user = await User.findByIdAndUpdate(
+      userid,
+      { $pull: { bookings: booking[i]._id } },
+      { new: true }
+    );
+    const movie = await Movie.findByIdAndUpdate(
+      movieid,
+      { $pull: { bookings: booking[i]._id } },
+      { new: true }
+    );
+  }
   const theater = await Theater.findByIdAndDelete(id);
+  const bookings = await Booking.deleteMany({ theater: id });
   if (!theater) {
     return next(new AppError(`Theater not found`, 404));
   }

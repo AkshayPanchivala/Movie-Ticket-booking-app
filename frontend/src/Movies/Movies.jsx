@@ -47,11 +47,9 @@ export default function Movies() {
   }, [currentPage, searchlanguage, path]);
 
   useEffect(() => {
-  
     gettopMovies()
-
       .then((res) => {
-        console.log(res)
+        console.log(res);
         settop8Movies(res);
 
         if (path === false) {

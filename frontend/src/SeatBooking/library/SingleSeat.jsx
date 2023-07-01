@@ -1,5 +1,6 @@
 import { PaginationItem, PaginationLink } from "reactstrap";
-import {  useState } from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 export default function SingleSeat({
   selected = false,
   updateSelected,
@@ -7,20 +8,56 @@ export default function SingleSeat({
   row,
   blank,
   available = true,
+
   seatType,
 }) {
   const [active, setActive] = useState(selected);
 
-
-
-
+  const EXECUTIVEsheat = ["K"];
+  const PREMUIM_ECONOMYsheat = ["F", "G", "H", "I", "J"];
+  const ECONOMYSheat = ["A", "B", , "C", "D", "E"];
   function handleSelected() {
-    if (available) {
-      setActive(!active);
-      updateSelected(`${row}${seatNumber}`);
+    if (seatType === "EXECUTIVE" && EXECUTIVEsheat.includes(row)) {
+      if (available) {
+        setActive(!active);
+        updateSelected(`${row}${seatNumber}`);
+      }
+    } else if (
+      seatType === "PREMUIM_ECONOMY" &&
+      PREMUIM_ECONOMYsheat.includes(row)
+    ) {
+      if (available) {
+        setActive(!active);
+        updateSelected(`${row}${seatNumber}`);
+      }
+    } else if (seatType === "ECONOMY" && ECONOMYSheat.includes(row)) {
+      if (available) {
+        setActive(!active);
+        updateSelected(`${row}${seatNumber}`);
+      }
+    } else {
+      
+      return toast.error(
+        `Please Select   ${seatType
+          .toLowerCase()
+          .replace("_", " ")} Sheats Only `,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+         
+        
+      );
     }
   }
   const activeClass = active ? `active-single-seat` : `single-seat`;
+
   if (blank) {
     return <div className="blank-seat"></div>;
   } else {
@@ -29,7 +66,6 @@ export default function SingleSeat({
         <PaginationItem>
           <PaginationLink
             onClick={handleSelected}
-            
             className={available ? activeClass : "not-available"}
           >
             {`${row}${seatNumber}`}

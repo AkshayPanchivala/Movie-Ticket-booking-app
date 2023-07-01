@@ -50,8 +50,8 @@ export default function BookingCard(props) {
 
   const shouldRenderDeleteIcon =
     currentDate === formattedDate && time > t[1] && p === "pm";
-
-  const renderdate = currentDate < formattedDate;
+  const renderdate = new Date(currentDate) < new Date(formattedDate);
+  console.log(shouldRenderDeleteIcon);
 
   return (
     <div
@@ -96,7 +96,7 @@ export default function BookingCard(props) {
                   </Card.Text>
                 </Col>
               </Row>{" "}
-              <Row style={{marginTop:"2px"}}>
+              <Row style={{ marginTop: "2px" }}>
                 <Card.Text>
                   <strong>SeatNumber:</strong>
                   {props.SeatNumber.join(",")}
@@ -104,8 +104,9 @@ export default function BookingCard(props) {
               </Row>
             </Box>
           </Box>
+
           {(shouldRenderDeleteIcon ||
-            (p === "am" && currentDate <= formattedDate) ||
+            (p === "am" && new Date(currentDate) <= new Date(formattedDate)) ||
             renderdate) && (
             <div
               style={{

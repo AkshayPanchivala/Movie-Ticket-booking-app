@@ -94,19 +94,19 @@ export default function Footer() {
           <Grid container spacing={8}>
             <Grid item xs={12} sm={6} md={3}>
               <div style={{ textAlign: "left" }}>
-                <ListHeader style={{ marginRight:"50px"}}>Company</ListHeader>
-                <Link href="#">About Us</Link>
-                <Link href="#">Blog</Link>
-                <Link href="#">Careers</Link>
-                <Link href="#">Contact Us</Link>
+                <ListHeader style={{ paddingRight: "0px",paddingBottom:"20px" }}>Company</ListHeader>
+                <Typography>About Us</Typography>
+                <Typography>Blog</Typography>
+                <Typography>Careers</Typography>
+           
               </div>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <div style={{ textAlign: "left", marginRight: "0px" }}>
+              <div style={{ textAlign: "left", paddingRight: "0px",paddingBottom:"20px" }}>
                 <ListHeader>Support</ListHeader>
-                <Link href="#">Help Center</Link>
-                <Link href="#">Safety Center</Link>
-                <Link href="#">Community Guidelines</Link>
+                <Typography>Help Center</Typography>
+                <Typography>Safety Center</Typography>
+                <Typography>Community Guidelines</Typography>
               </div>
             </Grid>
           </Grid>
@@ -123,9 +123,9 @@ export default function Footer() {
               <Grid item xs={12}>
                 <Typography
                   className={classes.footerText}
-                  style={{ color: "white", textAlign: "center" }}
+                  style={{ color: "white", textAlign: "center" ,paddingTop:"15px"}}
                 >
-                  © 2022 TicketCinema. All rights reserved
+                  © 2023 TicketCinema. All rights reserved
                 </Typography>
               </Grid>
             </Grid>

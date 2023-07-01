@@ -200,38 +200,38 @@ const getBookingById = asynchandler(async (req, res, next) => {
 const deleteBooking = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
-  const booking = await Booking.findById(id);
-  if (!booking) {
-    throw new AppError("Booking not found", 404);
-  }
+  // const booking = await Booking.findById(id);
+  // if (!booking) {
+  //   throw new AppError("Booking not found", 404);
+  // }
 
-  const movie = booking.movie;
-  const userid = booking.user;
+  // const movie = booking.movie;
+  // const userid = booking.user;
 
-  const user = await User.findByIdAndUpdate(
-    userid,
-    { $pull: { bookings: id } },
-    { new: true }
-  );
-  if (!user) {
-    throw new AppError("User not found", 404);
-  }
+  // const user = await User.findByIdAndUpdate(
+  //   userid,
+  //   { $pull: { bookings: id } },
+  //   { new: true }
+  // );
+  // if (!user) {
+  //   throw new AppError("User not found", 404);
+  // }
 
-  const movieDeletion = await Movie.findByIdAndUpdate(
-    movie,
-    { $pull: { bookings: id } },
-    { new: true }
-  );
-  if (!movieDeletion) {
-    throw new AppError("Movie not found", 404);
-  }
+  // const movieDeletion = await Movie.findByIdAndUpdate(
+  //   movie,
+  //   { $pull: { bookings: id } },
+  //   { new: true }
+  // );
+  // if (!movieDeletion) {
+  //   throw new AppError("Movie not found", 404);
+  // }
   const bookingDeletion = await Booking.findByIdAndDelete(id);
   if (!bookingDeletion) {
     throw new AppError("Failed to delete booking", 500);
   }
 
   return res.status(200).json({
-    message: "booking deleted",
+    message: "booking cancelled",
   });
 });
 

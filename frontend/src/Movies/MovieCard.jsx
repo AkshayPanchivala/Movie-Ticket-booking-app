@@ -25,8 +25,7 @@ export const MovieCard = (props) => {
     window.location.reload();
   };
   return (
-
-    <Stack spacing={{ base: 4, md: 1 }}>
+    <Stack spacing={{ base: 4, md: 1 }} style={{ position: "relative" }}>
       <Box position="relative">
         <Box
           component="img"
@@ -88,7 +87,7 @@ export const MovieCard = (props) => {
         </Stack>
       </Stack>
       <Stack align="center">
-        {isuserLoggedIn && (
+        {/* {isuserLoggedIn && (
           <Button
             variant="contained"
             color="inherit"
@@ -98,14 +97,15 @@ export const MovieCard = (props) => {
           >
             Book Now
           </Button>
-        )}
-        {!isuserLoggedIn && !isadminLoggedIn && !istheaterLoggedIn && (
+        )} */}
+        {!isadminLoggedIn && !istheaterLoggedIn && (
           <Button
             variant="contained"
             color="inherit"
             LinkComponent={Link}
             to={isuserLoggedIn ? `/booking/${id}` : "/auth/login"}
             fullWidth
+            style={{ position: "absolute", bottom: "0" }}
           >
             Book Now
           </Button>

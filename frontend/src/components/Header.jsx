@@ -20,12 +20,11 @@ import { adminActions, theaterActions, userActions } from "../store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const pages = ["Add Movie", "Add Theater"];
-const Allpages= ["All Movies", "Upcoming Movies"];
-
+const Allpages = ["All Movies", "Upcoming Movies"];
 
 const Adminsettings = ["All Theater", "Logout"];
 
-const Theatersettings = ["Today Booking","Profile", "Logout"];
+const Theatersettings = ["Today Booking", "Profile", "Logout"];
 const settings = ["Profile", "Logout"];
 const initialsetting = ["Admin", "Theater", "User"];
 
@@ -69,7 +68,7 @@ function Header() {
       if (isuserLoggedIn) {
         navigate(`/booking/${movie._id}`);
       } else {
-        navigate("/Auth");
+        navigate("/auth/login");
       }
     } else {
       navigate(`/`);
@@ -168,7 +167,7 @@ function Header() {
         navigate("/theater/login");
         break;
       case "User":
-        navigate("/Auth");
+        navigate("/auth/login");
         break;
       default:
         navigate("/");
@@ -284,23 +283,23 @@ function Header() {
             }}
           >
             {Allpages.map((page) => (
-                  <Button
-                    key={page}
-                    onClick={() => handlePageClick(page)}
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                      "&:hover": {
-                        backgroundColor: "red",
-                        color: "black",
-                        borderRadius: "10",
-                      },
-                    }}
-                  >
-                    {page}
-                  </Button>
-                ))}
+              <Button
+                key={page}
+                onClick={() => handlePageClick(page)}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  "&:hover": {
+                    backgroundColor: "red",
+                    color: "black",
+                    borderRadius: "10",
+                  },
+                }}
+              >
+                {page}
+              </Button>
+            ))}
             {isadminLoggedIn && (
               <>
                 {pages.map((page) => (

@@ -11,11 +11,9 @@ import CardOverflow from "@mui/joy/CardOverflow";
 function SeatSelection() {
   return (
     <>
-      
-      <div style={{ flex: 1  }}>
-        <Index></Index>
+      <div style={{ flex: 1 }}>
+        <Index />
       </div>
-   
     </>
   );
 }

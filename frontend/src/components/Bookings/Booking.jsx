@@ -116,7 +116,7 @@ function Booking() {
   };
   return (
     <>
-      {/* {console.log(theaterbycity)} */}
+    
       {!Loader && (
         <div
           style={{
@@ -130,9 +130,9 @@ function Booking() {
         </div>
       )}
       <div>
-        <Box display="flex" marginTop={"2%"} marginLeft="950px" width={1000}>
+        <Box display="flex" marginTop={"2%"} marginLeft="75.5%">
           {city && (
-            <Box width={"20%"} marginLeft={0} border={"darkgrey"}>
+            <Box width={"200px"} border={"darkgrey"}>
               <Autocomplete
                 id="free-solo-demo"
                 freeSolo
@@ -163,15 +163,20 @@ function Booking() {
                       maxWidth: 520,
                     }}
                   >
-                    <Box sx={{ display: "flex" }}>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
                       <div>
-                        <div sx={{ margin: "20px" }}>
+                        <div
+                          sx={{
+                            margin: "20px",
+                          }}
+                        >
                           <Typography
                             level="h2"
                             variant="h6"
                             sx={{
                               fontSize: "24px",
-                              marginLeft: "220px",
+
+                              
                               fontWeight: "550",
                             }}
                             mb={0.5}
@@ -182,7 +187,7 @@ function Booking() {
                       </div>
                     </Box>
                     <Card
-                      marginRight={20}
+                    
                       variant="outlined"
                       sx={{
                         width: 400,
@@ -192,7 +197,7 @@ function Booking() {
                           : "none",
                         transform: isHovered ? "scale(1.05)" : "none",
                         transition: "transform 0.2s, box-shadow 0.2s",
-                        marginLeft: 5,
+                        margin: "0 auto",
                       }}
                     >
                       <CardOverflow>

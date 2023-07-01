@@ -23,7 +23,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     getUserBooking(currentPage).then((res) => {
-      console.log(res.data)
+    
       settotalPages(res.data.totalPages);
       setBookings(res.data.booking);
     });
