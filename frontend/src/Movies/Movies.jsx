@@ -26,6 +26,11 @@ export default function Movies() {
   const [currentPage, setCurrentPage] = useState(1);
   const [top8movies, settop8Movies] = useState([]);
   const [Loader, setLoader] = useState(true);
+  const [SearchCategory, setsearchCategory] = useState(false);
+  const [MoviesCategory, SetmoviesbyCategory] = useState([]);
+  const [searchLanguagevalue, SetsearchLanguagevalue] = useState();
+  const [searchCatagaryvalue, SetsearchCatagaryvalue] = useState();
+
   const state = useLocation();
   console.log(state);
   let path = state.pathname === "/movies";
@@ -36,6 +41,7 @@ export default function Movies() {
     getUpcommingmovie();
     getAllMovies(currentPage)
       .then((data) => {
+        console.log(data.movies);
         setMovies(data.movies);
 
         settotalPages(data.totalpages);
@@ -44,7 +50,7 @@ export default function Movies() {
         }
       })
       .catch((err) => console.log(err));
-  }, [currentPage, searchlanguage, path]);
+  }, [currentPage, searchlanguage, path,SearchCategory]);
 
   useEffect(() => {
     gettopMovies()
@@ -61,6 +67,8 @@ export default function Movies() {
 
   const handlechange = (e, val) => {
     setsearchlanguage(true);
+    SetsearchLanguagevalue(val);
+    
     if (val === null) {
       setsearchlanguage(false);
     }
@@ -69,13 +77,44 @@ export default function Movies() {
       movie.language.includes(val)
     );
     Setmoviesbylanguage(filteredMovies);
+    settotalPages(1);
     setLoader(false);
   };
 
+  const handlecatogarychange = (e, val) => {
+    setsearchCategory(true);
+    SetsearchCatagaryvalue(val)
+    if (searchlanguage === true) {
+      const filteredMovies = movies.filter((movie) =>
+        movie.language.includes(searchLanguagevalue)
+      );
+      const filteredMovies2 = filteredMovies.filter(
+        (movie) => val === movie.category
+      );
+
+      SetmoviesbyCategory(filteredMovies2);
+      settotalPages(1);
+      if (val === null) {
+        setsearchCategory(false);
+      }
+
+    } else {
+      if (val === null) {
+        setsearchCategory(false);
+      }
+
+      const filteredMovies = movies.filter((movie) => val === movie.category);
+
+      SetmoviesbyCategory(filteredMovies);
+      settotalPages(1);
+    }
+    setLoader(false);
+  };
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
   const language = ["Hindi", "English", "Gujarati"];
+
   return (
     <>
       {console.log(movies)}
@@ -93,21 +132,40 @@ export default function Movies() {
       )}
 
       {path && (
-        <Box marginTop={4}>
-          <Box width={"20%"} marginLeft={"75%"}>
-            <Autocomplete
-              id="free-solo-demo"
-              freeSolo
-              options={language.map((option) => option)}
-              renderInput={(params) => (
-                <TextField {...params} label="LanguageSelect" />
-              )}
-              onChange={handlechange}
-            />
+        <>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+            marginTop={5}
+          >
+            <Box width={"20%"} marginLeft={17}>
+              <Autocomplete
+                id="free-solo-demo"
+                freeSolo
+                options={language.map((option) => option)}
+                renderInput={(params) => (
+                  <TextField {...params} label="LanguageSelect" />
+                )}
+                onChange={handlechange}
+              />
+            </Box>
+            <Box width={"20%"} marginRight={17}>
+              <Autocomplete
+                id="free-solo-demo"
+                freeSolo
+                options={[...new Set(movies.map((option) => option.category))]}
+                renderInput={(params) => (
+                  <TextField {...params} label="CategorySelect" />
+                )}
+                onChange={handlecatogarychange}
+              />
+            </Box>
           </Box>
-        </Box>
+        </>
       )}
-      {path && !searchlanguage && (
+
+      {path && !searchlanguage && !SearchCategory && (
         <Container maxWidth="lg" sx={{ paddingTop: "24px" }}>
           <Grid container spacing={3}>
             {movies.map((Movie) => (
@@ -118,10 +176,21 @@ export default function Movies() {
           </Grid>
         </Container>
       )}
-      {path && searchlanguage && (
+      {path && searchlanguage && !SearchCategory && (
         <Container maxWidth="lg" sx={{ paddingTop: "24px" }}>
           <Grid container spacing={3}>
             {moviesBylanguage.map((Movie) => (
+              <Grid item key={Movie.id} xs={12} sm={6} md={4} lg={3}>
+                <MovieCard Movie={Movie} />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
+      )}
+      {path && SearchCategory && (
+        <Container maxWidth="lg" sx={{ paddingTop: "24px" }}>
+          <Grid container spacing={3}>
+            {MoviesCategory.map((Movie) => (
               <Grid item key={Movie.id} xs={12} sm={6} md={4} lg={3}>
                 <MovieCard Movie={Movie} />
               </Grid>

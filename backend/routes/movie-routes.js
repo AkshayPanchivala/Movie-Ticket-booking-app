@@ -5,7 +5,7 @@ const {
   addMovies,
   getMovies,
   getById,
-  deleteMovie 
+  deleteMovie,updatemovie 
 } = require("../controllers/movie-controller");
 const {
   like,
@@ -28,6 +28,6 @@ movieRouter.route("/MostLiked").get(MostLiked);
 movieRouter.route("/getlike/:movieid").get(Userprotect, getlikebyuser);
 movieRouter.route("/delete/:id").delete(Adminprotect,deleteMovie );
 movieRouter.route("/comment/:id").post(Userprotect, comment);
-movieRouter.route("/:id").get(getById);
+movieRouter.route("/:id").get(getById).patch(updatemovie);
 
 module.exports = movieRouter;

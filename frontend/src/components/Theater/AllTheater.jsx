@@ -19,7 +19,7 @@ function AllTheater() {
   const [Theater, SetTheater] = useState("");
   const [totalPages, settotalPages] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [Delete,setDelete]=useState(true)
+  const [Delete, setDelete] = useState(true);
   const [Loader, setLoader] = useState(true);
   useEffect(() => {
     getAlladmin(currentPage)
@@ -30,15 +30,14 @@ function AllTheater() {
       })
 
       .catch((err) => console.log(err));
-  }, [currentPage,Delete]);
+  }, [currentPage, Delete]);
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
   const Theaterdeletehandler = (id) => {
     Theaterdelete(id);
-    setDelete(!Delete)
-   
+    setDelete(!Delete);
   };
   return (
     <>
@@ -71,7 +70,7 @@ function AllTheater() {
                         flexDirection: { xs: "column", sm: "row" },
                         overflow: "hidden",
                         margin: "10px",
-                        minHeight:"250px"
+                        minHeight: "230px",
                       }}
                       variant="outlined"
                     >
@@ -98,7 +97,7 @@ function AllTheater() {
 
                           <Typography>
                             <strong>Address:</strong>
-                            {theater.address}
+                            {theater.address}{","} {theater.city}{","} {theater.state}{","}{theater.pincode}
                           </Typography>
                           <Typography>
                             <strong>Pincode:</strong>
@@ -111,19 +110,14 @@ function AllTheater() {
                         </CardContent>
                         <Button
                           variant="contained"
-                          color="error"
-                          sx={{
-                            width: "150px",
-                            marginLeft: "240px",
-                            marginTop:"30px",
-                            height: "30px",
-                          }}
+                          color="inherit"
+                        
                           onClick={() => {
                             Theaterdeletehandler(theater._id);
                           }}
                         >
                           <IconButton color="default" aria-label="delete">
-                            <DeleteIcon sx={{ marginLeft: "0px" }} />
+                            <DeleteIcon />
                           </IconButton>
                         </Button>
                       </Stack>

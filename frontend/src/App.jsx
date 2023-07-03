@@ -28,6 +28,7 @@ import PageNotFound from "./components/PageNotFound";
 import UpdateProfile from "./profile/Updateprofile";
 import TodayBooking from "./profile/TodayBooking";
 import UpcomingMovie from "./Movies/UpcomingMovie";
+import UpdateMovie from "./components/Movies/UpdateMovie";
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           <Route path="/forgotpassword" element={<Forgot />} />
           <Route path="/resetpassword/:token" element={<ResetPassword />} />
           <Route path="/upcomingmovie" element={<UpcomingMovie />} />
+          <Route path="/updatemovie" element={<UpdateMovie/>} />
   
           {!isuserLoggedIn && !isTheaterLoggedIn && !isadminLoggedIn && (
             <>

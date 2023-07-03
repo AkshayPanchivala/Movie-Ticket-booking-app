@@ -207,7 +207,10 @@ const forgotpassword = asynchandler(async (req, res, next) => {
   }
 
   const resetToken = user.createpaswordresettoken();
-  await user.save({ validateBeforeSave: false });
+
+  await user.save({validateBeforeSave: false});
+
+
 
   const resetUrl = `${req.protocol}://localhost:3000/resetpassword/${resetToken}`;
   const message = `Forgot your password? submit a patch request with your new password and password confirm to: ${resetUrl}  . \n if you didn't forgot your password,please ignore this email!`;

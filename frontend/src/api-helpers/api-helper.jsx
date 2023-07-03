@@ -224,7 +224,8 @@ export const sendTheaterRequest = async (
 
 //////////Add Movie//////////////
 
-export const addMovie = async (data, images, language) => {
+export const addMovie = async (data, images, language, Category) => {
+ 
   const res = await axios
     .post(
       "http://localhost:5000/movie",
@@ -233,6 +234,7 @@ export const addMovie = async (data, images, language) => {
         description: data.description,
         posterUrl: images,
         language: language,
+        Category: Category,
         admin: localStorage.getItem("adminid"),
       },
       {
@@ -1015,7 +1017,8 @@ export const Resetpassword = async (data, token) => {
 export const getTodaybooking = async () => {
   const theaterId = localStorage.getItem("adminId");
   const res = await axios.get(
-    `http://localhost:5000/theater/todaybooking/${theaterId}`,{
+    `http://localhost:5000/theater/todaybooking/${theaterId}`,
+    {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1047,40 +1050,36 @@ export const Theaterdelete = async (id) => {
   return res;
 };
 
-
-
-
 export const getUpcommingmovie = async () => {
+  const array = [];
+  for (let i = 1; i < 17; i++) {
+    const res = await axios
+      .get(
+        `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${i}`,
+        {
+          headers: {
+            accept: "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzU4YWZkMDMyMzc1ZjI4Y2ZlMzBhZjY2YmE1YjQ3MiIsInN1YiI6IjY0NmUwMzRlOTY2MWZjMDEwMDUzYWI1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ad6z5wj6a6uyAMGs_cjMrGoS-W_-Z74FwWlLeAzbiVc",
+          },
+        }
+      )
+      .then((json) =>
+        json.data.results.map((e, index) => {
+          const moviereleasedate = new Date(e.release_date);
 
-  const array=[]
-  for(let i=1;i<17;i++){
-
-
-  const res = await axios.get(
-    `https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=${i}`,  {headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MzU4YWZkMDMyMzc1ZjI4Y2ZlMzBhZjY2YmE1YjQ3MiIsInN1YiI6IjY0NmUwMzRlOTY2MWZjMDEwMDUzYWI1MSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ad6z5wj6a6uyAMGs_cjMrGoS-W_-Z74FwWlLeAzbiVc'
-    }}
-  )
-  .then(json => (json.data.results.map((e,index)=>
-   { const moviereleasedate =new Date(e.release_date)
-
-
-   if (new Date(moviereleasedate)>new Date() && (e.original_language==="hi" ||e.original_language==="en")) {
-array.push(e)
-  } 
+          if (
+            new Date(moviereleasedate) > new Date() &&
+            (e.original_language === "hi" || e.original_language === "en")
+          ) {
+            array.push(e);
+          }
+        })
+      )
+      .catch((err) => console.error("error:" + err));
   }
-  )))
-  .catch(err => console.error('error:' + err));
-  
-}
-console.log(array)
-return array
+  console.log(array);
+  return array;
 };
 
 ///https://image.tmdb.org/t/p/w500${posterPath}
-
-
-
-
-

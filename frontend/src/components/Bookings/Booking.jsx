@@ -216,7 +216,10 @@ function Booking() {
                       <Rating defaultValue={rating} id={id} size="small" />
                     </Stack>
                     <Typography level="body2" sx={{ marginLeft: "35px" }}>
-                      <strong>Language:</strong>[{movie.language + " "}]
+                      <strong>Language:</strong>[{movie.language.join(",")}]
+                    </Typography>
+                    <Typography level="body2" sx={{ marginLeft: "35px" }}>
+                      <strong>Genres:</strong>[{movie.category}]
                     </Typography>
                     <Box sx={{ display: "flex", gap: 1.0, mt: "auto" }}>
                       <Box style={{ marginLeft: "35px" }}>

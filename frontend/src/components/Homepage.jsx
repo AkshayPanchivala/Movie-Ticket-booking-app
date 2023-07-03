@@ -26,8 +26,9 @@ export default function Homepage() {
   const containerstyles = {
     marginTop: "25px",
     marginBottom: "25px",
-
-    width: "1200px",
+    // marginRight:"100px",
+    marginLeft:"5px",
+    width: "1150px",
     height: "560px",
   };
   return (

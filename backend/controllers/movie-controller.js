@@ -11,7 +11,7 @@ const User = require("../models/User");
 
 /////////////////////add Movies ////////////////////////////
 const addMovies = asynchandler(async (req, res, next) => {
-  const { description, language, admin, posterUrl, title } = req.body;
+  const { description, language, admin, posterUrl, title, Category } = req.body;
 
   let missingValues = [];
   if (!title || typeof title == "number") missingValues.push("Title  ");
@@ -21,7 +21,7 @@ const addMovies = asynchandler(async (req, res, next) => {
   if (!language || typeof language == "number") missingValues.push("Language ");
   if (!posterUrl || typeof posterUrl == "number")
     missingValues.push("PosterUrl ");
-
+  if (!Category || typeof Category == "number") missingValues.push("Category");
   if (missingValues.length > 0) {
     return next(
       new AppError(
@@ -42,6 +42,7 @@ const addMovies = asynchandler(async (req, res, next) => {
       admin: req.body.admin,
       posterUrl: req.body.posterUrl,
       title: req.body.title,
+      category: req.body.Category,
     });
 
     return res.status(201).json({ message: "Movie added" });
@@ -54,6 +55,8 @@ const getMovies = asynchandler(async (req, res, next) => {
 
   const page = req.query.page || 1;
   const limit = req.query.limit || 16;
+  const language = req.query.language || {};
+  const category = req.query.category || {};
 
   let movies;
 
@@ -128,7 +131,7 @@ const deleteMovie = asynchandler(async (req, res, next) => {
     movie: id,
     date: { $gte: today },
   });
-  if (bookingsavailable.length >0) {
+  if (bookingsavailable.length > 0) {
     return res.status(400).json({
       message: "Movie not deleted",
     });
@@ -141,13 +144,12 @@ const deleteMovie = asynchandler(async (req, res, next) => {
 
   for (let i = 0; i < booking.length; i++) {
     const userid = booking[i].user;
-    const movieid= booking[i].movie
+    const movieid = booking[i].movie;
     const user = await User.findByIdAndUpdate(
       userid,
       { $pull: { bookings: booking[i]._id } },
       { new: true }
     );
- 
   }
   const bookings = await Booking.deleteMany({ movie: id });
   return res.status(200).json({
@@ -155,4 +157,25 @@ const deleteMovie = asynchandler(async (req, res, next) => {
   });
 });
 
-module.exports = { addMovies, getMovies, getById, deleteMovie };
+//////////////////////////////////////////////////movie update//////////////////
+
+const updatemovie = asynchandler(async (req, res, next) => {
+  const id = req.params.id;
+
+  if (!req.params.id || req.params.id.length !== 24) {
+    return next(new AppError(`Wrong id`, 400));
+  }
+
+  const movie = await Movie.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!movie) {
+    return next(new AppError(`Movie not found`, 404));
+  }
+  res.status(200).json({
+    message: "Movie is updated",
+  });
+});
+
+module.exports = { addMovies, getMovies, getById, deleteMovie, updatemovie };

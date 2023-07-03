@@ -1,3 +1,4 @@
+import React from "react";
 import { Alert, Box, Dialog, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -14,7 +15,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-function AddmoviesForm({ onSubmit }) {
+function UpdateMovie({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [images, setImages] = useState([]);
@@ -257,4 +258,4 @@ function AddmoviesForm({ onSubmit }) {
     </>
   );
 }
-export default AddmoviesForm;
+export default UpdateMovie;

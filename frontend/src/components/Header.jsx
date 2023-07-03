@@ -258,7 +258,7 @@ function Header() {
               TicketCinema
             </Typography>
           </Box>
-          {!isadminLoggedIn && (
+          {!isadminLoggedIn&&!istheaterLoggedIn && (
             <Box width={"30%"} margin={"auto"}>
               <Autocomplete
                 onChange={handlechange}
