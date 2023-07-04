@@ -15,7 +15,7 @@ export default function SingleSeat({
 
   const EXECUTIVEsheat = ["K"];
   const PREMUIM_ECONOMYsheat = ["F", "G", "H", "I", "J"];
-  const ECONOMYSheat = ["A", "B", , "C", "D", "E"];
+  const ECONOMYSheat = ["A", "B", "C", "D", "E"];
   function handleSelected() {
     if (seatType === "EXECUTIVE" && EXECUTIVEsheat.includes(row)) {
       if (available) {
@@ -36,11 +36,10 @@ export default function SingleSeat({
         updateSelected(`${row}${seatNumber}`);
       }
     } else {
-      
       return toast.error(
         `Please Select   ${seatType
           .toLowerCase()
-          .replace("_", " ")} Sheats Only `,
+          .replace("_", " ")} Seats Only `,
         {
           position: "top-right",
           autoClose: 5000,
@@ -51,8 +50,6 @@ export default function SingleSeat({
           progress: undefined,
           theme: "light",
         }
-         
-        
       );
     }
   }
@@ -67,6 +64,17 @@ export default function SingleSeat({
           <PaginationLink
             onClick={handleSelected}
             className={available ? activeClass : "not-available"}
+            style={{
+              cursor:
+                seatType === "EXECUTIVE" && EXECUTIVEsheat.includes(row)
+                  ? "pointer"
+                  : seatType === "ECONOMY" && ECONOMYSheat.includes(row)
+                  ? "pointer"
+                  : seatType === "PREMUIM_ECONOMY" &&
+                    PREMUIM_ECONOMYsheat.includes(row)
+                  ? "pointer"
+                  : "not-allowed",
+            }}
           >
             {`${row}${seatNumber}`}
           </PaginationLink>

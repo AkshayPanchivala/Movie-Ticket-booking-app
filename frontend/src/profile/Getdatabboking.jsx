@@ -73,8 +73,8 @@ function Getdatabboking() {
       const x = 40;
       let y = 100;
       doc.text(x, y - 50, "Movie: " + bookingdata[0].movie.title);
-      doc.text(x + 150, y - 50, " Show Time: " + bookingdata[0].ShowTime);
-      doc.text(x + 350, y - 50, " Date: " + bookingdata[0].date);
+      doc.text(x + 350, y - 50, " Show Time: " + bookingdata[0].ShowTime);
+      doc.text(x + 550, y - 50, " Date: " + new Date(bookingdata[0].date).toLocaleString().split(",")[0]);
       doc.text(x, y, "Name");
       doc.text(x + 150, y, "Email");
       doc.text(x + 400, y, "Seat Type");

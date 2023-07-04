@@ -287,7 +287,7 @@ const deletetheater = asynchandler(async (req, res, next) => {
     movie: id,
     date: { $gte: today },
   });
-  console.log(bookingsavailable);
+  
   if (bookingsavailable.length > 0) {
     return res.status(400).json({
       message: "Movie not deleted",

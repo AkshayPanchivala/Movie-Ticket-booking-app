@@ -1,6 +1,6 @@
 import * as React from "react";
 import AspectRatio from "@mui/joy/AspectRatio";
-// import Link from "@mui/joy/Link";
+
 import Card from "@mui/joy/Card";
 
 import Typography from "@mui/joy/Typography";
@@ -13,9 +13,7 @@ function Theatrecard(props) {
   const id = useParams();
   const navigate = useNavigate();
   const movieid = id.id;
-  console.log(props.city);
-  console.log(props.state);
-  console.log(props.pincode);
+
   const handleBookNow = () => {
     navigate(`/booking/seatbooking/${movieid}/${props.id}`);
   };
@@ -92,13 +90,4 @@ function Theatrecard(props) {
 }
 
 export default Theatrecard;
-{
-  /* <Button
-          variant="contained"
-          color="inherit"
-          sx={{ marginLeft: "280px", marginTop: "50px" }}
-          onClick={handleBookNow}
-        >
-          Book Now
-        </Button> */
-}
+

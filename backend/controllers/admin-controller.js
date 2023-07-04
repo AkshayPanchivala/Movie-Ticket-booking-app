@@ -30,7 +30,7 @@ const signupAdmin = asynchandler(async (req, res, next) => {
   const token = jwt.sign({ id: admin._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
-  admin.password=undefined
+  admin.password = undefined;
   res.status(201).json({
     admin: admin,
     message: "successfully created account",
@@ -55,7 +55,9 @@ const loginAdmin = asynchandler(async (req, res, next) => {
       )
     );
   }
-  const existingadmin = await Admin.findOne({ email: req.body.email }).select("+password");
+  const existingadmin = await Admin.findOne({ email: req.body.email }).select(
+    "+password"
+  );
 
   if (!existingadmin) {
     res.status(404).json({
@@ -68,7 +70,7 @@ const loginAdmin = asynchandler(async (req, res, next) => {
       req.body.password,
       existingadmin.password
     );
-existingadmin.password=undefined
+    existingadmin.password = undefined;
     if (!verifypassword) {
       return res.status(404).json({
         message: "Admin Email id or Password Wrong",
@@ -90,8 +92,6 @@ existingadmin.password=undefined
     }
   }
 });
-
-
 
 module.exports = {
   signupAdmin,

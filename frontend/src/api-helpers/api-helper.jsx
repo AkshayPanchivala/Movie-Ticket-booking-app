@@ -225,7 +225,6 @@ export const sendTheaterRequest = async (
 //////////Add Movie//////////////
 
 export const addMovie = async (data, images, language, Category) => {
- 
   const res = await axios
     .post(
       "http://localhost:5000/movie",
@@ -825,6 +824,7 @@ export const getTheaterbypagination = async (page) => {
 };
 
 export const getTheaterbycity = async (city, page) => {
+  console.log(page);
   const res = await axios.post(`http://localhost:5000/theater?page=${page}`, {
     city: city,
   });
@@ -1046,7 +1046,19 @@ export const Theaterdelete = async (id) => {
       theme: "light",
     });
   }
-
+  console.log("kkljlkj")
+  if (res.status !== 200) {
+   return toast.error(`something Went wrong`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
   return res;
 };
 
@@ -1082,4 +1094,3 @@ export const getUpcommingmovie = async () => {
   return array;
 };
 
-///https://image.tmdb.org/t/p/w500${posterPath}

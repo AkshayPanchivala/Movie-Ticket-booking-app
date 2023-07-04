@@ -6,7 +6,7 @@ import { deleteBooking } from "../api-helpers/api-helper";
 import { Link, useNavigate } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Box } from "@mui/system";
-// import { toast } from "react-toastify";
+
 
 export default function BookingCard(props) {
   const [isHovered, setIsHovered] = useState(false);
@@ -69,7 +69,7 @@ export default function BookingCard(props) {
             <Link
               overlay
               underline="none"
-              href={`https://www.google.com/maps/search/?api=1&query=123+${props.Address}%2C+${props.city}%2C+India`}
+              to={`https://www.google.com/maps/search/?api=1&query=123+${props.Address}%2C+${props.city}%2C+India`}
               target="_blank"
               style={{ color: "text.tertiary", textDecoration: "none" }}
             >

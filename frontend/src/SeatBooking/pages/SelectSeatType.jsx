@@ -80,6 +80,9 @@ export default function SelectSeatType({ onNext }) {
 
       const availableseat = 226 - +res.notavailable.length;
       const Executive = 16 - +executive.length;
+   
+   
+
       const Premium = 105 - +premium.length;
       const Economy = 105 - +economy.length;
       setExecutiveavailablesheat(Executive);
@@ -88,13 +91,14 @@ export default function SelectSeatType({ onNext }) {
       setAvailableSeat(availableseat);
     });
   }, [ShowDate, Showtime, movieid, theatreid]);
-  // onClick={() => setSeatCount(i)
+
   const [isNextDisable, setNextDisable] = useState(true);
 
   const seathandler = (i) => {
     if (Executiveavailablesheat < i && seatType === "EXECUTIVE") {
       return 1;
-    } else if (Premiumavailablesheat < i && seatType === "PREMUIM_ECONOMY") {
+    } else 
+    if (Premiumavailablesheat < i && seatType === "PREMUIM_ECONOMY") {
       return 1;
     } else if (ECONOMYvailablesheat < i && seatType === "ECONOMY") {
       return 1;
@@ -159,7 +163,8 @@ export default function SelectSeatType({ onNext }) {
   const SeattypeSelection = (type) => {
     if (Executiveavailablesheat === 0 && type === "EXECUTIVE") {
       return 1;
-    } else if (Premiumavailablesheat === 0 && type === "PREMUIM_ECONOMY") {
+    } else 
+    if (Premiumavailablesheat === 0 && type === "PREMUIM_ECONOMY") {
       return 1;
     } else if (ECONOMYvailablesheat === 0 && type === "ECONOMY") {
       return 1;
@@ -167,6 +172,7 @@ export default function SelectSeatType({ onNext }) {
       setSeatType(type);
     }
   };
+
   return (
     <Grid container spacing={2} marginTop={5}>
       <Grid item xs={6}>
@@ -198,8 +204,8 @@ export default function SelectSeatType({ onNext }) {
                 {getLanguage.map((item, index) => (
                   <ListGroupItem
                     key={index}
-                    // arrow={true}
-                    class="pointer"
+                    style={{cursor:"pointer"}}
+                   
                     active={Language === item ? true : false}
                     tag="b"
                     onClick={() => setLanguage(item)}
@@ -220,6 +226,7 @@ export default function SelectSeatType({ onNext }) {
                       active={Showtime === item.Time ? true : false}
                       tag="b"
                       onClick={() => setShowTime(item.Time)}
+                      style={{cursor:"pointer"}}
                     >
                       {item.Time}
                     </ListGroupItem>
@@ -233,6 +240,7 @@ export default function SelectSeatType({ onNext }) {
                       disabled={currentTime >= item.Time.split(" ")[2]}
                       tag="b"
                       onClick={() => setShowTime(item.Time)}
+                      style={{cursor:Showtime === item.Time ? "not-allowed":"pointer"}}
                     >
                       {item.Time}
                     </ListGroupItem>
@@ -248,15 +256,16 @@ export default function SelectSeatType({ onNext }) {
                     active={seatType === item.type ? true : false}
                     tag="a"
                     arrow
-                    // onClick={() => setSeatType(item.type)}
+                    style={{cursor:"pointer"}}
                     onClick={() => SeattypeSelection(item.type)}
                   >
                     {item.title} (₹{SEAT.SEAT_PRICE[item.type]}.00/seat)
-                    {console.log(item.title)}
+                  
                     {item.title === "Executive" && (
                       <Typography
                         sx={{
                           color: seatType === "EXECUTIVE" ? "white" : "green",
+                          cursor:Executiveavailablesheat===0?"not-allowed":"pointer",
                           marginTop: "5px",
                         }}
                       >
@@ -268,6 +277,7 @@ export default function SelectSeatType({ onNext }) {
                         sx={{
                           color:
                             seatType === "PREMUIM_ECONOMY" ? "white" : "green",
+                            cursor:Premiumavailablesheat===0?"not-allowed":"pointer",
                           marginTop: "5px",
                         }}
                       >
@@ -278,6 +288,7 @@ export default function SelectSeatType({ onNext }) {
                       <Typography
                         sx={{
                           color: seatType === "ECONOMY" ? "white" : "green",
+                          cursor:ECONOMYvailablesheat===0?"not-allowed":"pointer",
                         }}
                       >
                         Available Seat is: {ECONOMYvailablesheat}

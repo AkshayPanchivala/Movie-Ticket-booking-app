@@ -3,8 +3,10 @@ import { Container, Stack, Box, Typography, Button } from "@mui/material";
 import { Link as NavLink } from "react-router-dom";
 import Movies from "../Movies/Movies";
 import ImageSlider from "./Theater/Imageslider";
+import { useSelector } from "react-redux";
 
 export default function Homepage() {
+  const isadminLoggedIn = useSelector((state) => state.admin.isLoggedIn);
   const slides = [
     {
       url: "https://images.lifestyleasia.com/wp-content/uploads/sites/2/2023/06/14115719/MIDR1_US_2023_SA_16x9_1920x1080_NB_2215190_1920x1080.jpeg",
@@ -26,17 +28,19 @@ export default function Homepage() {
   const containerstyles = {
     marginTop: "25px",
     marginBottom: "25px",
-    // marginRight:"100px",
-    marginLeft:"5px",
+
+    marginLeft: "5px",
     width: "1150px",
     height: "560px",
   };
   return (
     <>
       <Container>
-        <div style={containerstyles}>
-          <ImageSlider slides={slides} />
-        </div>
+        {/* {!isadminLoggedIn && ( */}
+          <div style={containerstyles}>
+            <ImageSlider slides={slides} />
+          </div>
+        {/* )} */}
         <Movies />
       </Container>
     </>

@@ -10,7 +10,7 @@ import { movieDelete } from "../api-helpers/api-helper";
 export const MovieCard = (props) => {
   const { Movie } = props;
 
-  // console.log(rootProps);, rootProps
+
   const { language, posterUrl, rating, title, likescount } = Movie;
 
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);

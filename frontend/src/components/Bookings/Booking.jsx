@@ -76,8 +76,8 @@ function Booking() {
       .catch((err) => console.log(err));
     getAlladminCity()
       .then((res) => {
-        console.log(res);
-        // console.log(res);
+    
+      
         setCity(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -85,7 +85,7 @@ function Booking() {
       Settheaterbycity(res.data.theater);
       setcitytotalPages(res.data.totalPages);
     });
-    // setLoader(true);
+
   }, [id, currentPage, searchedCity, createComment, Commenthandler]);
 
   const handlePageChange = (event, page) => {

@@ -55,7 +55,7 @@ const activeDotStyle = {
 };
 const ImageSlider = ({ slides }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentdot, setdot] = useState(0);
+
   const isuserLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const goToPrevious = () => {
     const isFirstSlide = currentIndex === 0;
@@ -78,7 +78,7 @@ const ImageSlider = ({ slides }) => {
 
   const interval = setTimeout(() => {
     goToNext();
-  }, 10000);
+  }, 3000);
 
   return (
     <div style={sliderStyles}>

@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Index from "./Index";
-import AspectRatio from "@mui/joy/AspectRatio";
-import { Card, CircularProgress, Typography } from "@mui/material";
-import { Box } from "@mui/system";
+import React from "react";
 
-import { getMovieDetails } from "../api-helpers/api-helper";
-import CardOverflow from "@mui/joy/CardOverflow";
+import Index from "./Index";
+
 
 function SeatSelection() {
   return (

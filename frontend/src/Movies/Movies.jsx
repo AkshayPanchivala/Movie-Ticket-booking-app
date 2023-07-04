@@ -34,9 +34,7 @@ export default function Movies() {
   const state = useLocation();
   console.log(state);
   let path = state.pathname === "/movies";
-  // const navigator = useNavigate();
 
-  // console.log(path);
   useEffect(() => {
     getUpcommingmovie();
     getAllMovies(currentPage)
@@ -50,7 +48,7 @@ export default function Movies() {
         }
       })
       .catch((err) => console.log(err));
-  }, [currentPage, searchlanguage, path,SearchCategory]);
+  }, [currentPage, searchlanguage, path, SearchCategory]);
 
   useEffect(() => {
     gettopMovies()
@@ -68,7 +66,7 @@ export default function Movies() {
   const handlechange = (e, val) => {
     setsearchlanguage(true);
     SetsearchLanguagevalue(val);
-    
+
     if (val === null) {
       setsearchlanguage(false);
     }
@@ -83,7 +81,7 @@ export default function Movies() {
 
   const handlecatogarychange = (e, val) => {
     setsearchCategory(true);
-    SetsearchCatagaryvalue(val)
+    SetsearchCatagaryvalue(val);
     if (searchlanguage === true) {
       const filteredMovies = movies.filter((movie) =>
         movie.language.includes(searchLanguagevalue)
@@ -97,7 +95,6 @@ export default function Movies() {
       if (val === null) {
         setsearchCategory(false);
       }
-
     } else {
       if (val === null) {
         setsearchCategory(false);
@@ -145,18 +142,18 @@ export default function Movies() {
                 freeSolo
                 options={language.map((option) => option)}
                 renderInput={(params) => (
-                  <TextField {...params} label="LanguageSelect" />
+                  <TextField {...params} label="Select Language" />
                 )}
                 onChange={handlechange}
               />
             </Box>
-            <Box width={"20%"} marginRight={17}>
+            <Box width={"20%"} marginRight={19}>
               <Autocomplete
                 id="free-solo-demo"
                 freeSolo
                 options={[...new Set(movies.map((option) => option.category))]}
                 renderInput={(params) => (
-                  <TextField {...params} label="CategorySelect" />
+                  <TextField {...params} label="Select Category" />
                 )}
                 onChange={handlecatogarychange}
               />

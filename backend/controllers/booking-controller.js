@@ -109,8 +109,7 @@ const newBooking = asynchandler(async (req, res, next) => {
     ShowTime,
     paymentId,
   });
-  const session = await mongoose.startSession();
-  session.startTransaction();
+
   existingUser.bookings.push(booking._id);
   existingMovie.bookings.push(booking._id);
 
@@ -123,8 +122,8 @@ const newBooking = asynchandler(async (req, res, next) => {
     runValidators: true,
   });
 
-  await booking.save({ session });
-  session.commitTransaction();
+  await booking.save();
+
 
   if (!booking) {
     return res.status(500).json({ message: "Unable to create a booking" });
@@ -150,7 +149,7 @@ Your SeatNumber: ${booking.seatNumber + ","}
 
 Please note the following information:
 
-- Show up at the theater at least [Arrival Time] minutes before the showtime.
+- Show up at the theater at least 10 minutes before the showtime.
 - Kindly carry a valid ID proof for verification at the theater.
 - In case of any queries or changes, feel free to contact our customer support team at 9328899248.
 
@@ -200,31 +199,31 @@ const getBookingById = asynchandler(async (req, res, next) => {
 const deleteBooking = asynchandler(async (req, res, next) => {
   const id = req.params.id;
 
-  // const booking = await Booking.findById(id);
-  // if (!booking) {
-  //   throw new AppError("Booking not found", 404);
-  // }
+  const booking = await Booking.findById(id);
+  if (!booking) {
+    throw new AppError("Booking not found", 404);
+  }
 
-  // const movie = booking.movie;
-  // const userid = booking.user;
+  const movie = booking.movie;
+  const userid = booking.user;
 
-  // const user = await User.findByIdAndUpdate(
-  //   userid,
-  //   { $pull: { bookings: id } },
-  //   { new: true }
-  // );
-  // if (!user) {
-  //   throw new AppError("User not found", 404);
-  // }
+  const user = await User.findByIdAndUpdate(
+    userid,
+    { $pull: { bookings: id } },
+    { new: true }
+  );
+  if (!user) {
+    throw new AppError("User not found", 404);
+  }
 
-  // const movieDeletion = await Movie.findByIdAndUpdate(
-  //   movie,
-  //   { $pull: { bookings: id } },
-  //   { new: true }
-  // );
-  // if (!movieDeletion) {
-  //   throw new AppError("Movie not found", 404);
-  // }
+  const movieDeletion = await Movie.findByIdAndUpdate(
+    movie,
+    { $pull: { bookings: id } },
+    { new: true }
+  );
+  if (!movieDeletion) {
+    throw new AppError("Movie not found", 404);
+  }
   const bookingDeletion = await Booking.findByIdAndDelete(id);
   if (!bookingDeletion) {
     throw new AppError("Failed to delete booking", 500);

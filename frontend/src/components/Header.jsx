@@ -327,11 +327,7 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 2, ml: 2 }}>
-                {/* <Avatar
-                  sx={{ p: 2 }}
-                  alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
-                /> */}
+               
                 <Avatar sx={{ p: 2 }}>
                   {name ? (
                     name.slice(0, 1).toUpperCase()

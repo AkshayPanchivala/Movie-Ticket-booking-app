@@ -16,7 +16,7 @@ function Authlogin() {
       localStorage.setItem("userId", data.user._id);
       localStorage.setItem("Name", data.user.name);
 
-      // localStorage.setItem("userId", data.user.N);
+  
       localStorage.setItem("token", data.token);
 
       navigate("/");

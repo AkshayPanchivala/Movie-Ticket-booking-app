@@ -72,7 +72,7 @@ const signup = asynchandler(async (req, res, next) => {
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JWT_EXPIRES,
   });
-  user.password=undefined
+  user.password = undefined;
 
   res.status(201).json({
     user: user,
@@ -207,14 +207,12 @@ const forgotpassword = asynchandler(async (req, res, next) => {
   }
 
   const resetToken = user.createpaswordresettoken();
-
-  await user.save({validateBeforeSave: false});
-
-
-
+  console.log(resetToken);
+  
   const resetUrl = `${req.protocol}://localhost:3000/resetpassword/${resetToken}`;
   const message = `Forgot your password? submit a patch request with your new password and password confirm to: ${resetUrl}  . \n if you didn't forgot your password,please ignore this email!`;
   try {
+    await user.save();
     await sendEmail({
       email: user.email,
       subject: "reset token",
@@ -226,6 +224,7 @@ const forgotpassword = asynchandler(async (req, res, next) => {
       message,
     });
   } catch (err) {
+    console.log(err)
     user.passwordResetToken = undefined;
   }
 });

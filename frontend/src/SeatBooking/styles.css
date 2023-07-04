@@ -4,6 +4,7 @@
 }
 .single-seat {
   margin-right: 10px !important;
+  cursor: pointer;
   margin-left: 10px !important;
   border-radius: 10px !important;
   background: #e0e0e0 !important;
@@ -17,6 +18,7 @@
   margin-left: 10px !important;
   border-radius: 10px !important;
   background: #2926ff !important;
+  cursor: pointer;
   color: #ffffff !important;
   max-width: 30px !important;
   min-width: 30px !important;
@@ -26,6 +28,7 @@
 .not-available {
   margin-right: 10px !important;
   margin-left: 10px !important;
+  cursor: not-allowed;
   border-radius: 10px !important;
   background: #313131 !important;
   color: #ffffff !important;
@@ -38,6 +41,7 @@
 .blank-seat {
   border: none !important;
   cursor: default !important;
+  cursor: pointer;
   margin-right: 10px !important;
   margin-left: 10px !important;
   border-radius: 10px !important;
