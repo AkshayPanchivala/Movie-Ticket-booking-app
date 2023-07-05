@@ -16,15 +16,15 @@ const Adminprotect = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, "MOVIETICKETBOOKING");
-   
+
     const freshadmin = await Admin.findById(decoded.id);
     if (!freshadmin) {
       next(new AppError("you are not log in", 401));
     }
-  
+
     req.admin = freshadmin;
 
-    return next();
+    next();
   } catch (err) {
     next(new AppError("you are not log in", 401));
   }

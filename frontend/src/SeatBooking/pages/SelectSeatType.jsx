@@ -80,8 +80,6 @@ export default function SelectSeatType({ onNext }) {
 
       const availableseat = 226 - +res.notavailable.length;
       const Executive = 16 - +executive.length;
-   
-   
 
       const Premium = 105 - +premium.length;
       const Economy = 105 - +economy.length;
@@ -97,8 +95,7 @@ export default function SelectSeatType({ onNext }) {
   const seathandler = (i) => {
     if (Executiveavailablesheat < i && seatType === "EXECUTIVE") {
       return 1;
-    } else 
-    if (Premiumavailablesheat < i && seatType === "PREMUIM_ECONOMY") {
+    } else if (Premiumavailablesheat < i && seatType === "PREMUIM_ECONOMY") {
       return 1;
     } else if (ECONOMYvailablesheat < i && seatType === "ECONOMY") {
       return 1;
@@ -125,9 +122,7 @@ export default function SelectSeatType({ onNext }) {
     getMoviesbyid(params.movieid)
       .then((res) => setgetLanguage(res.movie.language))
       .catch((err) => console.log(err));
-  }, []);
-
-  
+  }, [params.movieid]);
 
   const selecteddate = new Date(ShowDate).toLocaleString().split(",")[0];
   const reselecteddate = selecteddate.split("/")[0];
@@ -156,15 +151,12 @@ export default function SelectSeatType({ onNext }) {
   const currentdate = date.split("/")[0];
 
   const timerendered = currentdate !== reselecteddate;
-  useEffect(() => {
-    console.log("first")
-  }, [ ShowTime,timerendered]);
+
   const todaytimerendered = currentdate === reselecteddate;
   const SeattypeSelection = (type) => {
     if (Executiveavailablesheat === 0 && type === "EXECUTIVE") {
       return 1;
-    } else 
-    if (Premiumavailablesheat === 0 && type === "PREMUIM_ECONOMY") {
+    } else if (Premiumavailablesheat === 0 && type === "PREMUIM_ECONOMY") {
       return 1;
     } else if (ECONOMYvailablesheat === 0 && type === "ECONOMY") {
       return 1;
@@ -188,6 +180,7 @@ export default function SelectSeatType({ onNext }) {
             minDate={new Date()}
             maxDate={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)}
             onChange={onChange}
+            style={{ cursor: "pointer" }}
             value={ShowDate}
           />
         </Box>
@@ -200,12 +193,10 @@ export default function SelectSeatType({ onNext }) {
                 <strong>Select Language</strong>
               </Label>
               <ListGroup horizontal>
-                
                 {getLanguage.map((item, index) => (
                   <ListGroupItem
                     key={index}
-                    style={{cursor:"pointer"}}
-                   
+                    style={{ cursor: "pointer" }}
                     active={Language === item ? true : false}
                     tag="b"
                     onClick={() => setLanguage(item)}
@@ -226,7 +217,7 @@ export default function SelectSeatType({ onNext }) {
                       active={Showtime === item.Time ? true : false}
                       tag="b"
                       onClick={() => setShowTime(item.Time)}
-                      style={{cursor:"pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
                       {item.Time}
                     </ListGroupItem>
@@ -236,11 +227,15 @@ export default function SelectSeatType({ onNext }) {
                     <ListGroupItem
                       key={item.Id}
                       active={Showtime === item.Time ? true : false}
-                      arrow
                       disabled={currentTime >= item.Time.split(" ")[2]}
                       tag="b"
                       onClick={() => setShowTime(item.Time)}
-                      style={{cursor:Showtime === item.Time ? "not-allowed":"pointer"}}
+                      style={{
+                        cursor:
+                          currentTime >= item.Time.split(" ")[2]
+                            ? "not-allowed"
+                            : "pointer",
+                      }}
                     >
                       {item.Time}
                     </ListGroupItem>
@@ -256,16 +251,18 @@ export default function SelectSeatType({ onNext }) {
                     active={seatType === item.type ? true : false}
                     tag="a"
                     arrow
-                    style={{cursor:"pointer"}}
+                    style={{ cursor: "pointer" }}
                     onClick={() => SeattypeSelection(item.type)}
                   >
                     {item.title} (₹{SEAT.SEAT_PRICE[item.type]}.00/seat)
-                  
                     {item.title === "Executive" && (
                       <Typography
                         sx={{
                           color: seatType === "EXECUTIVE" ? "white" : "green",
-                          cursor:Executiveavailablesheat===0?"not-allowed":"pointer",
+                          cursor:
+                            Executiveavailablesheat === 0
+                              ? "not-allowed"
+                              : "pointer",
                           marginTop: "5px",
                         }}
                       >
@@ -277,7 +274,10 @@ export default function SelectSeatType({ onNext }) {
                         sx={{
                           color:
                             seatType === "PREMUIM_ECONOMY" ? "white" : "green",
-                            cursor:Premiumavailablesheat===0?"not-allowed":"pointer",
+                          cursor:
+                            Premiumavailablesheat === 0
+                              ? "not-allowed"
+                              : "pointer",
                           marginTop: "5px",
                         }}
                       >
@@ -288,7 +288,10 @@ export default function SelectSeatType({ onNext }) {
                       <Typography
                         sx={{
                           color: seatType === "ECONOMY" ? "white" : "green",
-                          cursor:ECONOMYvailablesheat===0?"not-allowed":"pointer",
+                          cursor:
+                            ECONOMYvailablesheat === 0
+                              ? "not-allowed"
+                              : "pointer",
                         }}
                       >
                         Available Seat is: {ECONOMYvailablesheat}

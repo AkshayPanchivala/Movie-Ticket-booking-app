@@ -160,9 +160,10 @@ const getallTheater = asynchandler(async (req, res, next) => {
 const getTheaterbypagination = asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 4;
-
+  console.log(req.headers);
   const user = await User.findOne({ _id: req.body.id });
-
+  console.log("sdddddsds" + user);
+  console.log("lklklklvckl");
   const totalBookingsCount = await Theater.countDocuments({
     pincode: user.pincode,
   });
@@ -172,6 +173,7 @@ const getTheaterbypagination = asynchandler(async (req, res, next) => {
   const theater = await Theater.find({ pincode: user.pincode })
     .skip((page - 1) * limit)
     .limit(limit);
+
   res.status(200).json({ theater: theater, totalPages: totalPages });
 });
 
@@ -287,7 +289,7 @@ const deletetheater = asynchandler(async (req, res, next) => {
     movie: id,
     date: { $gte: today },
   });
-  
+
   if (bookingsavailable.length > 0) {
     return res.status(400).json({
       message: "Movie not deleted",

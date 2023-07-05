@@ -22,8 +22,7 @@ const Theaterprotect = async (req, res, next) => {
     }
    
     req.theater = freshTheater;
-
-    return next();
+ next();
   } catch (err) {
     next(new AppError("you are not log in", 401));
   }

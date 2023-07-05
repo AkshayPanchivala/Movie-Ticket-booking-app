@@ -5,7 +5,8 @@ const {
   addMovies,
   getMovies,
   getById,
-  deleteMovie,updatemovie 
+  deleteMovie,
+  updatemovie,
 } = require("../controllers/movie-controller");
 const {
   like,
@@ -14,19 +15,14 @@ const {
 } = require("../controllers/like-controller");
 const comment = require("./../controllers/comment-controller");
 
-
-
 const movieRouter = express.Router();
 const Userprotect = require("../Auth/Userprotect");
-const Adminprotect=require("./../Auth/Adminprotect")
-movieRouter
-  .route("/")
-  .post(Adminprotect, addMovies)
-  .get(getMovies);
+const Adminprotect = require("./../Auth/Adminprotect");
+movieRouter.route("/").post(Adminprotect, addMovies).get(getMovies);
 movieRouter.route("/like").post(Userprotect, like);
 movieRouter.route("/MostLiked").get(MostLiked);
 movieRouter.route("/getlike/:movieid").get(Userprotect, getlikebyuser);
-movieRouter.route("/delete/:id").delete(Adminprotect,deleteMovie );
+movieRouter.route("/delete/:id").delete(Adminprotect, deleteMovie);
 movieRouter.route("/comment/:id").post(Userprotect, comment);
 movieRouter.route("/:id").get(getById).patch(updatemovie);
 

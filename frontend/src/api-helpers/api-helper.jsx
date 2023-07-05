@@ -716,7 +716,7 @@ export const updateprofile = async (inputs, state, city, pincode) => {
   const id = localStorage.getItem("adminId");
 
   const data = inputs;
-  console.log(data);
+ 
   const res = await axios
     .put(`http://localhost:5000/theater/${id}`, {
       name: data.name,
@@ -727,6 +727,10 @@ export const updateprofile = async (inputs, state, city, pincode) => {
       state: state,
       city: city,
       pincode: pincode,
+    },{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
     .then(console.log("account is updated"))
     .catch((err) => console.log(err));
@@ -818,6 +822,11 @@ export const getTheaterbypagination = async (page) => {
     `http://localhost:5000/theater/getTheaterbypagination?page=${page}`,
     {
       id: userId,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     }
   );
   return res;
@@ -1046,9 +1055,9 @@ export const Theaterdelete = async (id) => {
       theme: "light",
     });
   }
-  console.log("kkljlkj")
+  console.log("kkljlkj");
   if (res.status !== 200) {
-   return toast.error(`something Went wrong`, {
+    return toast.error(`something Went wrong`, {
       position: "top-right",
       autoClose: 5000,
       hideProgressBar: false,
@@ -1093,4 +1102,3 @@ export const getUpcommingmovie = async () => {
   console.log(array);
   return array;
 };
-

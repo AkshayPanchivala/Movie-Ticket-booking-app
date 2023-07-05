@@ -4,7 +4,7 @@ const Like = require("./../models/Like");
 const Movie = require("./../models/Movie");
 
 ///////////////////////////////////////////
-/////create like
+/////create like////////////////////
 
 const like = asyncHandler(async (req, res, next) => {
   const id = req.body.user;
@@ -35,7 +35,7 @@ const like = asyncHandler(async (req, res, next) => {
     msg: "successfully liked this movie",
   });
 });
-
+/////////////////get like by user////////
 const getlikebyuser = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
   const moid = req.params.movieid;
@@ -56,7 +56,7 @@ const getlikebyuser = asyncHandler(async (req, res, next) => {
   });
 });
 
-// //////////////////////////////////////////////////
+
 // ///get most liked Movie//////////////
 const MostLiked = asyncHandler(async (req, res, next) => {
   const likedmovie = await Like.aggregate([

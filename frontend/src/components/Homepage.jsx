@@ -14,9 +14,9 @@ export default function Homepage() {
       id: "649fe84ac4057601f6e028f6",
     },
     {
-      url: "https://akm-img-a-in.tosshub.com/aajtak/images/story/202305/satyaprem_ki_katha_kartik_aaryan_and_kiara_advani-sixteen_nine.jpg?size=948:533",
-      title: "Satya Prem ki Katha",
-      id: "649fdbe5c4057601f6e021c0",
+      url: "https://wallpapercave.com/wp/wp7490481.jpg",
+      title: "Star Wars",
+      id: "649fdf70c4057601f6e02443",
     },
 
     {
@@ -36,11 +36,11 @@ export default function Homepage() {
   return (
     <>
       <Container>
-        {/* {!isadminLoggedIn && ( */}
+     
           <div style={containerstyles}>
             <ImageSlider slides={slides} />
           </div>
-        {/* )} */}
+
         <Movies />
       </Container>
     </>

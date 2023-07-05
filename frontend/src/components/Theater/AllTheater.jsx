@@ -21,6 +21,7 @@ import {
   Theaterdelete,
 } from "../../api-helpers/api-helper";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 function AllTheater() {
   const [Theater, SetTheater] = useState("");
@@ -34,10 +35,10 @@ function AllTheater() {
   const [searchcity, setsearchcity] = useState(false);
   const [currentPagebycity, setcurrentPagebycity] = useState(1);
   const [city, setCity] = useState();
+  const navigate = useNavigate();
   useEffect(() => {
     getAlladmin(currentPage)
       .then((res) => {
-        console.log(res);
         settotalPages(res.data.totalPages);
         SetTheater(res.data.data);
         setLoader(false);
@@ -53,12 +54,12 @@ function AllTheater() {
   };
 
   const Theaterdeletehandler = (id) => {
-    Theaterdelete(id).then(
-      setDelete(!Delete)
-    );
- 
+    Theaterdelete(id).then(() => {
+      setDelete(!Delete);
+      navigate("/");
+    });
 
-    console.log(Delete)
+    console.log(Delete);
   };
 
   useEffect(() => {
@@ -74,11 +75,10 @@ function AllTheater() {
         settotalPages(res.data.totalPages);
       }
     });
-
   }, [currentPagebycity, searchedCity, searchcity, Delete]);
   const handlechange = (e, val) => {
     setsearchcity(true);
-  
+
     setCurrentPage(1);
     if (val === null) {
       setsearchcity(false);

@@ -6,7 +6,7 @@ import Index from "./Index";
 function SeatSelection() {
   return (
     <>
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1 ,marginTop:30}}>
         <Index />
       </div>
     </>
