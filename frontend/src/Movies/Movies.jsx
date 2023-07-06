@@ -32,14 +32,14 @@ export default function Movies() {
   const [searchCatagaryvalue, SetsearchCatagaryvalue] = useState();
 
   const state = useLocation();
-  console.log(state);
+
   let path = state.pathname === "/movies";
 
   useEffect(() => {
     getUpcommingmovie();
     getAllMovies(currentPage)
       .then((data) => {
-        console.log(data.movies);
+     
         setMovies(data.movies);
 
         settotalPages(data.totalpages);
@@ -53,7 +53,7 @@ export default function Movies() {
   useEffect(() => {
     gettopMovies()
       .then((res) => {
-        console.log(res);
+     
         settop8Movies(res);
 
         if (path === false) {
@@ -114,7 +114,7 @@ export default function Movies() {
 
   return (
     <>
-      {console.log(movies)}
+    
       {Loader && (
         <Box
           style={{

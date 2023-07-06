@@ -269,6 +269,7 @@ function Booking() {
                               <Link
                                 onClick={viewmorehandler}
                                 color="text.primary"
+                              style={{textDecoration:"none"}}
                               >
                                 View More
                               </Link>
@@ -294,6 +295,7 @@ function Booking() {
                               <Link
                                 onClick={viewmorehandler}
                                 color="text.primary"
+                                style={{textDecoration:"none"}}
                               >
                                 Less comment
                               </Link>
@@ -339,7 +341,7 @@ function Booking() {
                           marginLeft: "20px",
                         }}
                       >
-                        <Link disabled role="button" onClick={commenthandler}>
+                        <Link role="button" onClick={commenthandler} style={{textDecoration:"none",paddingTop:"12px"}}>
                           Post
                         </Link>
                       </div>

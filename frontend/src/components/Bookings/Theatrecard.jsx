@@ -35,7 +35,8 @@ function Theatrecard(props) {
       <Box>
         <Typography
           level="h2"
-          fontSize="lg"
+          // fontSize="lg"
+          fontSize="25px"
           id="card-description"
           mb={0.5}
           ml={2}

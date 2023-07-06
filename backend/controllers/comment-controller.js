@@ -2,9 +2,9 @@ const asyncHandler = require("express-async-handler");
 const Movie = require("../models/Movie");
 const Comments = require("../models/Comment");
 const AppError=require('./../arrorhandler/Apperror');
-
+const User=require("./../models/User")
 ////////////////////////////////////////////////////
-//create comment
+//create comment////////
 const comment=asyncHandler(async(req,res,next) => {
     
     
@@ -13,6 +13,10 @@ const comment=asyncHandler(async(req,res,next) => {
            
             if (!movies) {
               return next(new AppError("Movie does not exists", 404));
+            }
+            const user = await User.findById(req.body.user);
+            if (!user) {
+              return next(new AppError("User does not exists", 404));
             }
           if(!req.body.comment||typeof(req.body.comment)=='number'){
             return next(new AppError("please add a comment", 404));

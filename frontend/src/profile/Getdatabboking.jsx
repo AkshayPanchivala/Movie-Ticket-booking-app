@@ -43,7 +43,6 @@ function Getdatabboking() {
   function generatePdf() {
     getpdf(selectedDate, Showtime, id)
       .then((res) => {
-        console.log(res);
         showbookingdata(res.data.booking);
 
         if (res.data.message === "any booking not found") {
@@ -61,11 +60,9 @@ function Getdatabboking() {
         setPdfGenerated(true);
       })
       .catch((err) => console.log(err));
-
   }
 
   const pdfconvert = () => {
-   
     if (bookingdata && bookingdata.length > 0) {
       var doc = new jsPDF("p", "pt", "a3");
       doc.setFont("courier");
@@ -74,7 +71,11 @@ function Getdatabboking() {
       let y = 100;
       doc.text(x, y - 50, "Movie: " + bookingdata[0].movie.title);
       doc.text(x + 350, y - 50, " Show Time: " + bookingdata[0].ShowTime);
-      doc.text(x + 550, y - 50, " Date: " + new Date(bookingdata[0].date).toLocaleString().split(",")[0]);
+      doc.text(
+        x + 550,
+        y - 50,
+        " Date: " + new Date(bookingdata[0].date).toLocaleString().split(",")[0]
+      );
       doc.text(x, y, "Name");
       doc.text(x + 150, y, "Email");
       doc.text(x + 400, y, "Seat Type");
@@ -94,6 +95,7 @@ function Getdatabboking() {
       });
       doc.save(`${bookingdata[0].movie.title}.pdf`);
     }
+ 
   };
   pdfconvert();
   const handleBackdropClick = () => {

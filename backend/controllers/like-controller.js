@@ -7,7 +7,7 @@ const Movie = require("./../models/Movie");
 /////create like////////////////////
 
 const like = asyncHandler(async (req, res, next) => {
-  const id = req.body.user;
+  const id = req.user._id;
   const movieid = req.body.movie.movieid;
 
   const movie = await Movie.findById(movieid);
@@ -35,6 +35,7 @@ const like = asyncHandler(async (req, res, next) => {
     msg: "successfully liked this movie",
   });
 });
+
 /////////////////get like by user////////
 const getlikebyuser = asyncHandler(async (req, res, next) => {
   const id = req.user._id;
@@ -56,51 +57,45 @@ const getlikebyuser = asyncHandler(async (req, res, next) => {
   });
 });
 
-
-// ///get most liked Movie//////////////
+//////get avrage rating  Movie//////////////
 const MostLiked = asyncHandler(async (req, res, next) => {
   const likedmovie = await Like.aggregate([
     {
       $group: {
         _id: "$movie",
         count: { $sum: 1 },
+        totalRating: { $sum: "$rating" },
+        avgRating: { $avg: "$rating" },
       },
     },
     {
-      $sort: { count: -1 },
+      $sort: { avgRating: -1 },
     },
     {
       $limit: 8,
     },
   ]).exec();
- 
+
   if (likedmovie.length == 0) {
-    return next(new AppError("Not found any like onmovie", 404));
+    return next(new AppError("Not found any avrage rating  movie", 404));
   }
 
   const movie = [];
   for (let i = 0; i < likedmovie.length; i++) {
-    let rating = 0;
-    const mostlikedmovie = await Movie.findById(likedmovie[i]).populate({
+    const mostlikedmovie = await Movie.findById(likedmovie[i]._id).populate({
       path: "likescount",
     });
 
-    mostlikedmovie.likescount.forEach((mov) => {
-      rating += mov.rating;
-    });
-
-    const avg = rating / mostlikedmovie.likescount.length;
+    const avg = likedmovie[i].avgRating;
     const movieObj = {
       ...mostlikedmovie.toObject(),
-      likescount: mostlikedmovie.likescount.length,
+      likescount: likedmovie[i].count,
       rating: avg.toFixed(2),
     };
 
     movie.push(movieObj);
   }
 
-  movie.sort((a, b) => b.rating - a.rating);
-  
   if (movie) {
     res.json({
       mostlikedmovie: movie,

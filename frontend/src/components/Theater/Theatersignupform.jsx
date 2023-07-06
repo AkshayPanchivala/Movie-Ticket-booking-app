@@ -36,7 +36,7 @@ function Theatersignupform({ onSubmit }) {
   const [city, setcity] = useState("");
   const photoupload = (event) => {
     let file = event.target.files;
-    console.log(file);
+ 
     if (!file) {
       alert("Please upload an image first!");
     }
@@ -99,13 +99,13 @@ function Theatersignupform({ onSubmit }) {
   useEffect(() => {
     pincodefetch(pincode)
       .then((res) => {
-        console.log(res);
+       
         setcity(res[0].PostOffice[0].Block);
         setstate(res[0].PostOffice[0].Circle);
       })
       .catch((err) => console.log(err));
   }, [pincode]);
-  console.log(state, city);
+
 
   const handleBackdropClick = () => {
     navigate("/");

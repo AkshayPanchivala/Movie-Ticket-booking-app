@@ -35,7 +35,7 @@ movieSchema.virtual("likescount", {
   ref: "Like",
   localField: "_id",
   foreignField: "movie",
-  // count: true,
+
 });
 movieSchema.virtual("comment", {
   ref: "Comment",

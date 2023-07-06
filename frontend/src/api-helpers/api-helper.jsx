@@ -307,7 +307,7 @@ export const sendtheaterlogin = async (data) => {
     .catch((err) => {
       return err.response;
     });
-  console.log(res);
+ 
   if (res.status === 400) {
     return toast.error(`${res.data.message}`, {
       position: "top-right",
@@ -369,7 +369,7 @@ export const sendAdminlogin = async (data) => {
     .catch((err) => {
       return err.response;
     });
-  console.log(res);
+  
   if (res.status === 400) {
     return toast.error(`${res.data.message}`, {
       position: "top-right",
@@ -513,7 +513,7 @@ export const getMovieDetails = async (id) => {
   const resData = await res.data;
   return resData;
 };
-
+///////////create booking///////////////
 export const newBooking = async (data, id) => {
   const res = await axios
     .post(
@@ -576,7 +576,7 @@ export const newBooking = async (data, id) => {
   }
   return res;
 };
-// get User Booking
+// get User Booking by user id/////////////////
 export const getUserBooking = async (currentPage) => {
   const id = localStorage.getItem("userId");
 
@@ -605,7 +605,7 @@ export const getUserBooking = async (currentPage) => {
 
   return resData;
 };
-
+///////////get theater by Id///////////////////
 export const getAdminById = async () => {
   const adminId = localStorage.getItem("adminId");
 
@@ -631,7 +631,7 @@ export const getAdminById = async () => {
   const resData = await res.data;
   return resData;
 };
-
+////////////////////Get userby user id/////////////////////
 export const getUserbyid = async (id) => {
   const userId = localStorage.getItem("userId");
 
@@ -711,32 +711,36 @@ export const pincodefetch = async (data) => {
   return resData;
 };
 
-//////////////////////////
+//////////////////////////Theater update profile/////////////////////
 export const updateprofile = async (inputs, state, city, pincode) => {
   const id = localStorage.getItem("adminId");
 
   const data = inputs;
- 
+
   const res = await axios
-    .put(`http://localhost:5000/theater/${id}`, {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      phonenumber: data.phonenumber,
-      address: data.address,
-      state: state,
-      city: city,
-      pincode: pincode,
-    },{
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+    .put(
+      `http://localhost:5000/theater/${id}`,
+      {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        phonenumber: data.phonenumber,
+        address: data.address,
+        state: state,
+        city: city,
+        pincode: pincode,
       },
-    })
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
     .then(console.log("account is updated"))
     .catch((err) => console.log(err));
   return res;
 };
-
+/////////////////////theater get all booking on their theater///////////////////////
 export const getpdf = async (selectedDate, Showtime, id) => {
   const adminId = localStorage.getItem("adminId");
 
@@ -815,14 +819,11 @@ export const deleteBooking = async (id) => {
 
   return resData;
 };
-
+////////////////////////////get theater by user city/////////////////
 export const getTheaterbypagination = async (page) => {
-  const userId = localStorage.getItem("userId");
-  const res = await axios.post(
+  const res = await axios.get(
     `http://localhost:5000/theater/getTheaterbypagination?page=${page}`,
-    {
-      id: userId,
-    },
+
     {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -831,23 +832,20 @@ export const getTheaterbypagination = async (page) => {
   );
   return res;
 };
-
+/////////////////////////get theater by search city///////////////////////
 export const getTheaterbycity = async (city, page) => {
-  console.log(page);
   const res = await axios.post(`http://localhost:5000/theater?page=${page}`, {
     city: city,
   });
 
   return res;
 };
-
+//////////////////create a rating////////////////////////
 export const createlike = async (movieid, rating) => {
-  const userId = localStorage.getItem("userId");
   await axios
     .post(
       `http://localhost:5000/movie/like`,
       {
-        user: userId,
         movie: movieid,
         rating: rating,
       },
@@ -859,6 +857,7 @@ export const createlike = async (movieid, rating) => {
     )
     .catch((err) => console.log(err));
 };
+///////////////////////get users rating////////////////////////
 export const getlikebyuser = async (id) => {
   const movieid = id;
 
@@ -872,7 +871,7 @@ export const getlikebyuser = async (id) => {
 
   return res;
 };
-
+////////////////////////////////get top movies by avaragerating/////////////////////////
 export const gettopMovies = async () => {
   const res = await axios
     .get(`http://localhost:5000/movie/MostLiked`)
@@ -881,11 +880,21 @@ export const gettopMovies = async () => {
     });
   if (res.status !== 200) {
     console.log(res);
+    // toast.error(`Something Went wrong`, {
+    //   position: "top-right",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
   }
 
   return res.data.mostlikedmovie;
 };
-
+/////////////////////////////////craeate a comment on movie//////////////////////////////
 export const createcomment = async (comment, id) => {
   const userId = localStorage.getItem("userId");
   await axios
@@ -903,6 +912,8 @@ export const createcomment = async (comment, id) => {
     )
     .catch((err) => console.log(err));
 };
+
+///////////////////////////////////////////movie delete///////////////////////////////
 export const movieDelete = async (id) => {
   const res = await axios
     .delete(`http://localhost:5000/movie/delete/${id}`, {
@@ -926,7 +937,7 @@ export const movieDelete = async (id) => {
   return res;
 };
 
-// export const
+////////////////////////// get a all city present theater///////////////////////
 export const getAlladminCity = async () => {
   const res = await axios
     .get(`http://localhost:5000/theater/theatercity`)
@@ -949,7 +960,7 @@ export const getAlladminCity = async () => {
 
   return resData;
 };
-
+///////////////////////////////forgot password/////////////////////////
 export const SendForgotpasswordLink = async (data) => {
   const email = data.inputs.email;
 
@@ -985,7 +996,7 @@ export const SendForgotpasswordLink = async (data) => {
 
   return res;
 };
-
+/////////////////////////reset password/////////////////////////
 export const Resetpassword = async (data, token) => {
   const password = data.inputs.password;
 
@@ -1022,7 +1033,7 @@ export const Resetpassword = async (data, token) => {
       });
     });
 };
-
+////////////////////////////////get theater booking of today////////////////////
 export const getTodaybooking = async () => {
   const theaterId = localStorage.getItem("adminId");
   const res = await axios.get(
@@ -1036,7 +1047,7 @@ export const getTodaybooking = async () => {
   console.log(res);
   return res;
 };
-
+///////////////theater delete///////////////////////////////
 export const Theaterdelete = async (id) => {
   const res = await axios.delete(`http://localhost:5000/theater/${id}`, {
     headers: {
@@ -1055,7 +1066,7 @@ export const Theaterdelete = async (id) => {
       theme: "light",
     });
   }
-  console.log("kkljlkj");
+
   if (res.status !== 200) {
     return toast.error(`something Went wrong`, {
       position: "top-right",
@@ -1070,7 +1081,7 @@ export const Theaterdelete = async (id) => {
   }
   return res;
 };
-
+//////////////////////////////get upcomming movie//////////////////////////////////////
 export const getUpcommingmovie = async () => {
   const array = [];
   for (let i = 1; i < 17; i++) {
@@ -1099,6 +1110,51 @@ export const getUpcommingmovie = async () => {
       )
       .catch((err) => console.error("error:" + err));
   }
-  console.log(array);
+
   return array;
+};
+////////////////////////////////////create bookmark/////////////////////////
+export const createbookmark = async (movieId, movietitle) => {
+  const userId = localStorage.getItem("userId");
+  const res = await axios
+    .post(
+      `http://localhost:5000/movie/bookmark`,
+      {
+        user: userId,
+        movie: movietitle,
+        imdbmovieID: movieId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+    .catch((err) => console.log(err));
+
+  if (res.status === 201) {
+    toast.success(`Bookmark successfully`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+};
+
+////////////////////////////////get bookmarkbyuser////////////////////////////
+export const getbookmarkbyuser = async () => {
+  const res = await axios
+    .get(`http://localhost:5000/movie/getbookmark`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .catch((err) => console.log(err));
+
+  return res;
 };

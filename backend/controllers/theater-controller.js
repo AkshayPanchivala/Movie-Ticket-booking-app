@@ -157,13 +157,12 @@ const getallTheater = asynchandler(async (req, res, next) => {
 });
 
 //////////////////////////get Theater by user register city//////////////////////
-const getTheaterbypagination = asynchandler(async (req, res, next) => {
+const getTheaterbyuserCity= asynchandler(async (req, res, next) => {
   const page = req.query.page || 1;
   const limit = req.query.limit || 4;
-  console.log(req.headers);
-  const user = await User.findOne({ _id: req.body.id });
-  console.log("sdddddsds" + user);
-  console.log("lklklklvckl");
+
+  const user = await User.findOne({ _id: req.user._id });
+
   const totalBookingsCount = await Theater.countDocuments({
     pincode: user.pincode,
   });
@@ -326,7 +325,7 @@ module.exports = {
   TheaterLogin,
   getTheater,
   getTheaterById,
-  getTheaterbypagination,
+  getTheaterbyuserCity,
   gettheaterbyCity,
   getallTheater,
   updateprofile,

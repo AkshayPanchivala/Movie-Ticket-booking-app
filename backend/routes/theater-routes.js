@@ -6,7 +6,7 @@ const {
   TheaterLogin,
   getTheater,
   getTheaterById,
-  getTheaterbypagination,
+  getTheaterbyuserCity,
   gettheaterbyCity,
   getallTheater,
   updateprofile,
@@ -15,6 +15,7 @@ const {
 } = require("./../controllers/theater-controller");
 const Adminprotect = require("./../Auth/Adminprotect");
 const Theaterprotect = require("./../Auth/Theaterprotect");
+const Userprotect=require("./../Auth/Userprotect")
 
 theaterRouter.route("/signup").post(Adminprotect, TheaterSignup);
 theaterRouter.route("/login").post(TheaterLogin);
@@ -23,7 +24,7 @@ theaterRouter.route("/todaybooking/:id").get(Theaterprotect, gettodaybooking);
 
 theaterRouter.route("/theatercity").get(getallTheater);
 theaterRouter.route("/").get(getTheater).post(gettheaterbyCity);
-theaterRouter.route("/getTheaterbypagination").post(getTheaterbypagination);
+theaterRouter.route("/getTheaterbypagination").get(Userprotect,getTheaterbyuserCity);
 theaterRouter
   .route("/:id")
   .get(getTheaterById)

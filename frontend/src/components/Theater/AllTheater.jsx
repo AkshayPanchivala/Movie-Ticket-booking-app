@@ -59,7 +59,7 @@ function AllTheater() {
       navigate("/");
     });
 
-    console.log(Delete);
+
   };
 
   useEffect(() => {
@@ -153,7 +153,7 @@ function AllTheater() {
                       />
 
                       <Stack sx={{ flex: 1 }}>
-                        {console.log(theater._id)}
+                      
                         <CardContent>
                           <Typography variant="h10" component="div">
                             <strong>Theater Name:</strong> {theater.name}

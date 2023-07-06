@@ -25,7 +25,7 @@ const theaterSchema = new mongoose.Schema(
 
     profilephoto: {
       type: String,
-      required: [true, "A product must have a image"],
+      required: [true, "A Theater must have a image"],
     },
     state: {
       type: String,

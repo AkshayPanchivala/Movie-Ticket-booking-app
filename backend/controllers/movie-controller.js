@@ -2,12 +2,14 @@ const asynchandler = require("express-async-handler");
 
 const AppError = require("../arrorhandler/Apperror");
 const Booking = require("../models/Booking");
+const Bookmark = require("../models/Bookmark");
 const Comment = require("../models/Comment");
 
 const Like = require("../models/Like");
 
 const Movie = require("../models/Movie");
 const User = require("../models/User");
+const sendEmail = require("../utill/email");
 
 /////////////////////add Movies ////////////////////////////
 const addMovies = asynchandler(async (req, res, next) => {
@@ -44,7 +46,24 @@ const addMovies = asynchandler(async (req, res, next) => {
       title: req.body.title,
       category: req.body.Category,
     });
+    let Interesteduser = await Bookmark.find({ movie: req.body.title });
 
+    const message = `
+I hope this email finds you well. I wanted to inform you that we have added a new movie to your favorites list. The details of the movie are as follows:
+
+Movie Title: ${movie.title}
+
+
+We thought you might be interested in this movie based on your previous interactions with our platform.
+`;
+
+    for (let i = 0; i < Interesteduser.length; i++) {
+    await sendEmail({
+        email: Interesteduser[i].email,
+        subject: `your Favorites movie released Today `,
+        message,
+      });
+    }
     return res.status(201).json({ message: "Movie added" });
   }
 });

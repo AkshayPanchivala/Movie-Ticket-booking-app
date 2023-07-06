@@ -10,7 +10,7 @@ const sendEmail = require("../utill/email");
 const Theater = require("../models/Theater");
 const AppError = require("../arrorhandler/Apperror");
 
-///////Payment Process
+///////Payment Process///////////////////
 const order = asynchandler(async (req, res) => {
   const instance = new Razorpay({
     key_id: process.env.KEY_ID,
@@ -41,13 +41,14 @@ const verify = asynchandler(async (req, res) => {
     .digest("hex");
 
   if (razorpay_signature === expectedSign) {
+    // newBooking();
     return res.status(200).json({ message: "Payment verified successfully" });
   } else {
     return res.status(400).json({ message: "Invalid signature sent!" });
   }
 });
 
-////create a Booking
+////create a Booking/////////////////////
 const newBooking = asynchandler(async (req, res, next) => {
   const {
     movie,
@@ -123,7 +124,6 @@ const newBooking = asynchandler(async (req, res, next) => {
   });
 
   await booking.save();
-
 
   if (!booking) {
     return res.status(500).json({ message: "Unable to create a booking" });

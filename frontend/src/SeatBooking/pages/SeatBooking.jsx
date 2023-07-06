@@ -1,7 +1,4 @@
-////////////////////
-/////////////////////////////////////////////////////////////
 
-//////////////////////////////////////
 
 import { useEffect, useState } from "react";
 import SEATS from "../constants/SeatOptions";
@@ -21,14 +18,14 @@ export default function SeatBooking({ onNext, seatSelection }) {
 
   const movieid = params.movieid;
   const theatreid = params.theaterId;
-  console.log(seatSelection);
+  
   const [setPrice, Price] = useState();
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
   const [notAvailableSeat, setnotAvailableSeat] = useState([]);
   const [Loader, setLoader] = useState(false);
   const [type, setType] = useState(seatSelection.seatType);
-  // const [Book,setBook]=useState(false)
+ 
   const navigate = useNavigate();
   useEffect(() => {
     const data = {
@@ -40,11 +37,11 @@ export default function SeatBooking({ onNext, seatSelection }) {
     notAvailable(data).then((res) => setnotAvailableSeat(res.notavailable));
   }, []);
 
-  console.log(seatSelection.seatType);
+
   function handleUpdateSelection(seatKey) {
     if (seatSelection.seatCount <= selectedSeats.length) {
       const ssss = [...selectedSeats, seatKey];
-      console.log(seatKey);
+     
 
       ssss.shift();
       setSelectedSeats(ssss);

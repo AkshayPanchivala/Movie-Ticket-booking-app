@@ -51,7 +51,7 @@ export default function BookingCard(props) {
   const shouldRenderDeleteIcon =
     currentDate === formattedDate && time > t[1] && p === "pm";
   const renderdate = new Date(currentDate) < new Date(formattedDate);
-  console.log(shouldRenderDeleteIcon);
+
 
   return (
     <div

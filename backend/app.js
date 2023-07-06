@@ -17,6 +17,7 @@ const theaterRouter = require("./routes/theater-routes");
 const AdminRouter = require("./routes/admin-routes");
 
 
+
 const app = express();
 
 //middle ware
