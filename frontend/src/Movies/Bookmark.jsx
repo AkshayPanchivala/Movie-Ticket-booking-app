@@ -13,9 +13,6 @@ function Bookmark(props) {
     <>
       {!bookmark ? (
         <IconButton
-          // variant="plain"
-          // color="neutral"
-          style={{ color: bookmark ? "black" : "neutral", marginBottom: "0px" }}
           size="sm"
           onClick={() => handleBookmarkClick(props.id, props.name)}
         >

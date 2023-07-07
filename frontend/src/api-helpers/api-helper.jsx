@@ -307,7 +307,7 @@ export const sendtheaterlogin = async (data) => {
     .catch((err) => {
       return err.response;
     });
- 
+
   if (res.status === 400) {
     return toast.error(`${res.data.message}`, {
       position: "top-right",
@@ -369,7 +369,7 @@ export const sendAdminlogin = async (data) => {
     .catch((err) => {
       return err.response;
     });
-  
+
   if (res.status === 400) {
     return toast.error(`${res.data.message}`, {
       position: "top-right",
@@ -880,16 +880,6 @@ export const gettopMovies = async () => {
     });
   if (res.status !== 200) {
     console.log(res);
-    // toast.error(`Something Went wrong`, {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    // });
   }
 
   return res.data.mostlikedmovie;

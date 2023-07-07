@@ -1,13 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const Movie = require("../models/Movie");
-const Comments = require("../models/Comment");
+const Comment = require("../models/Comment");
 const AppError=require('./../arrorhandler/Apperror');
 const User=require("./../models/User")
 ////////////////////////////////////////////////////
 //create comment////////
-const comment=asyncHandler(async(req,res,next) => {
+const createcomment=asyncHandler(async(req,res,next) => {
     
-    
+
             const id = req.params.id;
             const movies = await Movie.findById(id);
            
@@ -18,14 +18,14 @@ const comment=asyncHandler(async(req,res,next) => {
             if (!user) {
               return next(new AppError("User does not exists", 404));
             }
-          if(!req.body.comment||typeof(req.body.comment)=='number'){
+          if(!req.body.comment||typeof(req.body.comment)=='number'||req.body.comment.trim().length<=0){
             return next(new AppError("please add a comment", 404));
           }
          
-            const created = await Comments.create({
+            const created = await Comment.create({
                 user: req.body.user,
                 movie: req.params.id,
-                comment: req.body.comment,
+                comment: req.body.comment.trim(),
               });
               
             if (created) {
@@ -37,4 +37,4 @@ const comment=asyncHandler(async(req,res,next) => {
     
     
 })
-module.exports=comment
+module.exports=createcomment

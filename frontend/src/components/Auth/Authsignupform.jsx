@@ -188,7 +188,7 @@ function Authsignupform({ onSubmit }) {
             </Row>
             <Row className="mb-3">
               <Form.Group as={Col} md="3" controlId="validationCustom04">
-                <Form.Label>pincode</Form.Label>
+                <Form.Label>Pincode</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Pincode"

@@ -76,8 +76,6 @@ function Booking() {
       .catch((err) => console.log(err));
     getAlladminCity()
       .then((res) => {
-    
-      
         setCity(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -85,7 +83,6 @@ function Booking() {
       Settheaterbycity(res.data.theater);
       setcitytotalPages(res.data.totalPages);
     });
-
   }, [id, currentPage, searchedCity, createComment, Commenthandler]);
 
   const handlePageChange = (event, page) => {
@@ -114,9 +111,9 @@ function Booking() {
   const viewmorehandler = () => {
     setshowComent(!showComent);
   };
+
   return (
     <>
-    
       {!Loader && (
         <div
           style={{
@@ -176,7 +173,6 @@ function Booking() {
                             sx={{
                               fontSize: "24px",
 
-                              
                               fontWeight: "550",
                             }}
                             mb={0.5}
@@ -187,7 +183,6 @@ function Booking() {
                       </div>
                     </Box>
                     <Card
-                    
                       variant="outlined"
                       sx={{
                         width: 400,
@@ -250,52 +245,122 @@ function Booking() {
                           <>
                             {!showComent &&
                               resComment.slice(0, 3).map((commen) => (
-                                <Card
-                                  sx={{ maxWidth: 520, marginBottom: "15px" }}
-                                >
-                                  <CardHeader
-                                    avatar={
-                                      <Avatar
-                                        src={commen.user.profilephoto}
-                                        sx={{ bgcolor: red[500] }}
-                                      ></Avatar>
-                                    }
-                                    title={commen.user.name}
-                                    subheader={commen.comment}
-                                  />
-                                </Card>
+                                <>
+                                  <Card
+                                    sx={{ maxWidth: 520, marginBottom: "15px" }}
+                                  >
+                                    <CardHeader
+                                      avatar={
+                                        <Avatar
+                                          src={commen.user.profilephoto}
+                                          sx={{ bgcolor: red[500] }}
+                                        ></Avatar>
+                                      }
+                                      title={commen.user.name}
+                                      subheader={
+                                        <>
+                                          <Box
+                                            display="flex"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                          >
+                                            <Typography
+                                              variant="subtitle1"
+                                              component="div"
+                                            >
+                                              {commen.comment}
+                                            </Typography>
+                                            <Typography
+                                              variant="body2"
+                                              color="text.secondary"
+                                            >
+                                              {(new Date().setHours(
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                              ) -
+                                                Math.abs(
+                                                  new Date(
+                                                    commen.createdAt
+                                                  ).setHours(0, 0, 0, 0)
+                                                )) /
+                                                (1000 * 60 * 60 * 24)}{" "}
+                                              days ago
+                                            </Typography>
+                                          </Box>
+                                        </>
+                                      }
+                                    />
+                                  </Card>
+                                </>
                               ))}{" "}
                             {resComment.length > 3 && !showComent && (
                               <Link
                                 onClick={viewmorehandler}
                                 color="text.primary"
-                              style={{textDecoration:"none"}}
+                                style={{ textDecoration: "none" }}
                               >
                                 View More
                               </Link>
                             )}
                             {showComent &&
                               resComment.map((commen) => (
-                                <Card
-                                  sx={{ maxWidth: 520, marginBottom: "15px" }}
-                                >
-                                  <CardHeader
-                                    avatar={
-                                      <Avatar
-                                        src={commen.user.profilephoto}
-                                        sx={{ bgcolor: red[500] }}
-                                      ></Avatar>
-                                    }
-                                    title={commen.user.name}
-                                    subheader={commen.comment}
-                                  />
-                                </Card>
+                                <>
+                                  <Card
+                                    sx={{ maxWidth: 520, marginBottom: "15px" }}
+                                  >
+                                    <CardHeader
+                                      avatar={
+                                        <Avatar
+                                          src={commen.user.profilephoto}
+                                          sx={{ bgcolor: red[500] }}
+                                        ></Avatar>
+                                      }
+                                      title={commen.user.name}
+                                      subheader={
+                                        <>
+                                          <Box
+                                            display="flex"
+                                            justifyContent="space-between"
+                                            alignItems="center"
+                                          >
+                                            <Typography
+                                              variant="subtitle1"
+                                              component="div"
+                                            >
+                                              {commen.comment}
+                                            </Typography>
+                                            <Typography
+                                              variant="body2"
+                                              color="text.secondary"
+                                            >
+                                              {(new Date().setHours(
+                                                0,
+                                                0,
+                                                0,
+                                                0
+                                              ) -
+                                                Math.abs(
+                                                  new Date(
+                                                    commen.createdAt
+                                                  ).setHours(0, 0, 0, 0)
+                                                )) /
+                                                (1000 * 60 * 60 * 24)}{" "}
+                                              days ago
+                                            </Typography>
+                                          </Box>
+                                        </>
+                                      }
+                                    />
+                                  </Card>
+                                </>
                               ))}
                             {showComent && (
                               <Link
                                 onClick={viewmorehandler}
                                 color="text.primary"
-                                style={{textDecoration:"none"}}
+                                style={{ textDecoration: "none" }}
                               >
                                 Less comment
                               </Link>
@@ -341,7 +406,11 @@ function Booking() {
                           marginLeft: "20px",
                         }}
                       >
-                        <Link role="button" onClick={commenthandler} style={{textDecoration:"none",paddingTop:"12px"}}>
+                        <Link
+                          role="button"
+                          onClick={commenthandler}
+                          style={{ textDecoration: "none", paddingTop: "12px" }}
+                        >
                           Post
                         </Link>
                       </div>

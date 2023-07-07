@@ -16,8 +16,6 @@ import {
 import { pincodefetch } from "../../api-helpers/api-helper";
 import { toast } from "react-toastify";
 
-
-
 function Theatersignupform({ onSubmit }) {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
@@ -36,7 +34,7 @@ function Theatersignupform({ onSubmit }) {
   const [city, setcity] = useState("");
   const photoupload = (event) => {
     let file = event.target.files;
- 
+
     if (!file) {
       alert("Please upload an image first!");
     }
@@ -64,9 +62,7 @@ function Theatersignupform({ onSubmit }) {
     }));
   };
 
-
   const handleSubmit = (event) => {
-   
     event.preventDefault();
     if (inputs.password !== inputs.confirmpassword) {
       return toast.error("Password and confirm password not match", {
@@ -80,9 +76,8 @@ function Theatersignupform({ onSubmit }) {
         theme: "light",
       });
     }
-  
-    setValidated(true);
 
+    setValidated(true);
 
     event.preventDefault();
     onSubmit({ inputs }, images, state, city, pincode);
@@ -94,18 +89,15 @@ function Theatersignupform({ onSubmit }) {
       setstate("");
       setcity("");
     }
- 
   };
   useEffect(() => {
     pincodefetch(pincode)
       .then((res) => {
-       
         setcity(res[0].PostOffice[0].Block);
         setstate(res[0].PostOffice[0].Circle);
       })
       .catch((err) => console.log(err));
   }, [pincode]);
-
 
   const handleBackdropClick = () => {
     navigate("/");
@@ -211,7 +203,7 @@ function Theatersignupform({ onSubmit }) {
             </Form.Group>
             <Row className="mb-3">
               <Form.Group as={Col} md="3" controlId="validationCustom04">
-                <Form.Label>pincode</Form.Label>
+                <Form.Label>Pincode</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Pincode"
@@ -256,7 +248,7 @@ function Theatersignupform({ onSubmit }) {
             <Form.Group md="6" controlId="validationCustom03">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                    type="password"
+                type="password"
                 placeholder="password"
                 pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$"
                 minLength={6}
@@ -273,7 +265,7 @@ function Theatersignupform({ onSubmit }) {
             <Form.Group md="6" controlId="validationCustom03">
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
-                  type="password"
+                type="password"
                 placeholder="confirmpassword"
                 minLength={6}
                 maxLength={8}

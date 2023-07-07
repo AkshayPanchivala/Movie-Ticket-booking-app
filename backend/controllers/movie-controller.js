@@ -58,7 +58,7 @@ We thought you might be interested in this movie based on your previous interact
 `;
 
     for (let i = 0; i < Interesteduser.length; i++) {
-    await sendEmail({
+      await sendEmail({
         email: Interesteduser[i].email,
         subject: `your Favorites movie released Today `,
         message,
@@ -128,7 +128,7 @@ const getById = asynchandler(async (req, res, next) => {
         sort: { createdAt: -1 },
       },
     });
-
+  
   movie.likescount.map((movie) => {
     ratings.push(movie.user);
   });

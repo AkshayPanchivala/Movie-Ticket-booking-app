@@ -1,8 +1,7 @@
-const { default: mongoose } = require("mongoose");
 const asynchandler = require("express-async-handler");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
-
+const mongoose = require("mongoose");
 const Booking = require("../models/Booking");
 const Movie = require("../models/Movie");
 const User = require("../models/User");
@@ -110,7 +109,8 @@ const newBooking = asynchandler(async (req, res, next) => {
     ShowTime,
     paymentId,
   });
-
+  const session = await mongoose.startSession();
+  session.startTransaction();
   existingUser.bookings.push(booking._id);
   existingMovie.bookings.push(booking._id);
 
@@ -123,7 +123,8 @@ const newBooking = asynchandler(async (req, res, next) => {
     runValidators: true,
   });
 
-  await booking.save();
+  await booking.save({ session });
+  session.commitTransaction();
 
   if (!booking) {
     return res.status(500).json({ message: "Unable to create a booking" });
