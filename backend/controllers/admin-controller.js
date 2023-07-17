@@ -5,6 +5,7 @@ const asynchandler = require("express-async-handler");
 const AppError = require("../arrorhandler/Apperror");
 
 /////////////// Admin Signup//////////////////////////////
+
 const signupAdmin = asynchandler(async (req, res, next) => {
   const { name, email, password } = req.body;
 

@@ -7,7 +7,7 @@ const AppError = require("../arrorhandler/Apperror");
 const Booking = require("../models/Booking");
 const Movie = require("../models/Movie");
 
-///////////Theater SignUp///////////////////////////////
+///////////////////////////Theater SignUp///////////////////////////////
 const TheaterSignup = asynchandler(async (req, res, next) => {
   const {
     email,
@@ -75,7 +75,7 @@ const TheaterSignup = asynchandler(async (req, res, next) => {
   });
 });
 
-////////////////////////Theater Login//////////////////////////////////////
+////////////////////////Theater Login//////////////////////////////////
 
 const TheaterLogin = asynchandler(async (req, res, next) => {
   const { email, password } = req.body;
@@ -126,7 +126,7 @@ const TheaterLogin = asynchandler(async (req, res, next) => {
   }
 });
 
-/////////////////Get all theater//////////////////////
+///////////////////////Get all theater//////////////////////
 const getTheater = asynchandler(async (req, res, next) => {
   let admins;
 
