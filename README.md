@@ -27,9 +27,9 @@ The **Movie Ticket Booking System** is a responsive web application that allows 
 **Backend:**
 - Node.js
 - Express.js
-- MongoDB (or any other DB you used)
+- MongoDB
 - JWT for Authentication
-- Stripe / Razorpay / PayPal (or your payment gateway of choice)
+- Razorpay
 
 ---
 
